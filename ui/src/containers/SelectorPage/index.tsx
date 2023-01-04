@@ -17,8 +17,6 @@ const SelectorPage: React.FC<any> = function ({
 }) {
   // state of isError flag
   const [isErrorPresent, setIsErrorPresent] = React.useState<boolean>(false);
-  // set configuration if needed
-  const [config, setConfig] = useState<any>({});
   // state for warning text to be used when error
   const [warningText, setWarningText] = useState<string>(
     localeTexts.Warnings.incorrectConfig
@@ -45,35 +43,36 @@ const SelectorPage: React.FC<any> = function ({
     if (errorText) setWarningText(errorText);
   };
 
+  const successFn = (assets: any[]) => {
+    if (componentType !== "modal") {
+      window.opener.postMessage(
+        {
+          message: "add",
+          selectedAssets: assets,
+          type: rootConfig?.damEnv?.DAM_APP_NAME,
+        },
+        process.env.REACT_APP_UI_URL || "*"
+      );
+      window.close();
+    } else {
+      handleAssets(assets);
+      closeModal();
+    }
+  };
+
+  const closeFn = () => {
+    if (componentType !== "modal") {
+      window.close();
+    } else {
+      closeModal();
+    }
+  };
+
   // function to load dam script and mount component
   const compactViewImplementation = async (
     configParams: any,
     selectedIds: string[]
   ) => {
-    let successFn;
-    let closeFn;
-
-    if (componentType !== "modal") {
-      successFn = (assets: any[]) => {
-        window.opener.postMessage(
-          {
-            message: "add",
-            selectedAssets: assets,
-            type: rootConfig?.damEnv?.DAM_APP_NAME,
-          },
-          process.env.REACT_APP_UI_URL || "*"
-        );
-        window.close();
-      };
-      closeFn = () => window.close();
-    } else {
-      successFn = (assets: any[]) => {
-        handleAssets(assets);
-        closeModal();
-      };
-      closeFn = () => closeModal();
-    }
-
     if (rootConfig?.damEnv?.IS_DAM_SCRIPT) {
       isScriptLoaded = await utils.loadDAMScript(
         rootConfig?.damEnv?.DAM_SCRIPT_URL as string
@@ -108,7 +107,6 @@ const SelectorPage: React.FC<any> = function ({
         data?.message === "init" &&
         data?.type === rootConfig?.damEnv?.DAM_APP_NAME
       ) {
-        setConfig(data?.config); // set configuration if needed
         compactViewImplementation(data?.config, data?.selectedIds);
       }
     }
@@ -120,7 +118,6 @@ const SelectorPage: React.FC<any> = function ({
       Object.keys(customFieldConfig)?.length &&
       selectedAssetIds
     ) {
-      setConfig(customFieldConfig); // set configuration if needed
       compactViewImplementation(customFieldConfig, selectedAssetIds);
     } else {
       const { opener: windowOpener } = window;
@@ -195,7 +192,12 @@ const SelectorPage: React.FC<any> = function ({
               <></>
             ) : (
               // If there is no script custom component will be added
-              rootConfig?.customComponent?.(config, setError)
+              rootConfig?.customComponent?.(
+                customFieldConfig,
+                setError,
+                successFn,
+                closeFn
+              )
             )}
           </>
         )}

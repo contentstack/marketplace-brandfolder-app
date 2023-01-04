@@ -1,22 +1,22 @@
-/* eslint-disable */
 import React from "react";
-import { TypeAsset, TypeSelectorContainer } from "../common/types";
+import { TypeAsset } from "../common/types";
 import CustomComponent from "./CustomComponent";
 import Logo from "../common/asset/logo.svg";
 import utils from "./utils";
 
-// ####### ENVIRONMENT VALUES #######
 const damEnv = {
-  IS_DAM_SCRIPT: true,
-  DAM_APP_NAME: "DAM",
-  CONFIG_FIELDS: [],
+  IS_DAM_SCRIPT: false,
+  DAM_APP_NAME: "BrandFolder",
+  CONFIG_FIELDS: ["apiKey"],
   ASSET_UNIQUE_ID: "id",
-  DAM_SCRIPT_URL: "",
   SELECTOR_PAGE_LOGO: Logo,
   DIRECT_SELECTOR_PAGE: "novalue", // possible values "url", "window", default => "novalue"
+  BRANDFOLDER_API_BASE_URL: "https://brandfolder.com/api",
+  INCORRECT_CONFIG_ERR: `The credentials you entered for the "BrandFolder App" are invalid or missing. Please update the configuration details and try again.`,
+  PANEL_LOADING_ERR: "An unexpected error occurred! Please try again.",
 };
 
-const configureConfigScreen = () => {
+const configureConfigScreen = () =>
   /* IMPORTANT: 
   1. All sensitive information must be saved in serverConfig
   2. serverConfig is used when webhooks are implemented
@@ -24,87 +24,32 @@ const configureConfigScreen = () => {
   4. either saveInConfig or saveInServerConfig should be true for your field data to be saved in contentstack
   5. If values are stored in serverConfig then those values will not be available to other UI locations
   6. Supported type options are textInputFields, radioInputFields, selectInputFields */
-
-  return {
-    configField1: {
+  ({
+    apiKey: {
       type: "textInputFields",
-      labelText: "DAM URL",
-      helpText: "DAM domain URL",
-      placeholderText: "Enter Your DAM URL",
-      instructionText: "Your DAM domain URL",
-      saveInConfig: false,
-      saveInServerConfig: true,
-    },
-    configField2: {
-      type: "textInputFields",
-      labelText: "DAM API KEY",
-      helpText: "DAM API KEY",
-      placeholderText: "Enter Your DAM API KEY",
-      instructionText: "Your DAM Api Key",
+      labelText: "BrandFolder API Key",
+      helpText:
+        "Find your BrandFolder API key at https://brandfolder.com/profile#integrations",
+      placeholderText: "Enter Your BrandFolder API Key",
+      instructionText: "Your BrandFolder API Key",
       saveInConfig: true,
       saveInServerConfig: false,
     },
-    selectField1: {
-      type: "selectInputFields",
-      labelText: "DAM Select Input Option 1",
-      helpText: "DAM Select Input Option 1",
-      placeholderText: "DAM Select Input Option 1",
-      instructionText: "DAM Select Input Instruction Text",
-      options: [
-        { label: "option 1", value: "option1" },
-        { label: "option 2", value: "option2" },
-        { label: "option 3", value: "option3" },
-        { label: "option 4", value: "option4" },
-        { label: "option 5", value: "option5" },
-      ],
-      defaultSelectedOption: "option5",
-      saveInConfig: true,
-      saveInServerConfig: false,
-    },
-    radioInput1: {
-      type: "radioInputFields",
-      labelText: "DAM Radio Input Option 1",
-      helpText: "DAM Radio Input Option 1",
-      instructionText: "DAM Radio Input Instruction Text",
-      options: [
-        {
-          label: "Single Select",
-          value: "SingleSelect",
-        },
-        {
-          label: "Multi Select",
-          value: "MultiSelect",
-        },
-      ],
-      defaultSelectedOption: "MultiSelect",
-      saveInConfig: true,
-      saveInServerConfig: false,
-    },
-  };
-};
-
-const customConfig = (
-  config: any,
-  serverConfig: any,
-  handleCustomConfigUpdate: Function
-) => {
-  return <CustomComponent />;
-};
-
-// ####### CUSTOM FIELD #######
+  });
 const filterAssetData = (assets: any[]) => {
   const filterAssetArray: TypeAsset[] = assets?.map((asset) => {
     // Enter your code for filteration of assets to the specified format
+    const { id, dimensions, sizeInBytes, url, name, extension } = asset;
+
     return {
-      id: "",
-      type: "",
-      name: "",
-      width: "",
-      height: "",
-      size: "", // add size in bytes as string eg.'416246'
-      thumbnailUrl: "",
-      previewUrl: "", // add this parameter if you want "Preview" in tooltip action items
-      platformUrl: "", // add this parameter if you want "Open In DAM" in tooltip action items
+      id,
+      type: utils.getAssetType(extension),
+      name,
+      width: dimensions?.width,
+      height: dimensions?.height,
+      size: sizeInBytes, // add size in bytes as string eg.'416246'
+      thumbnailUrl: url,
+      previewUrl: url, // add this parameter if you want "Preview" in tooltip action items
     };
   });
   return filterAssetArray;
@@ -114,67 +59,33 @@ const handleConfigtoSelectorPage = (
   config: any,
   contentTypeConfig: any,
   currentLocale: string
-) => {
-  return utils.getSelectorConfig({
+) =>
+  utils.getSelectorConfig({
     keyArr: damEnv?.CONFIG_FIELDS,
     appConfig: config,
     customConfig: contentTypeConfig,
     currentLocale,
   });
-};
 
-const getSelectorWindowUrl = (config: any, contentTypeConfig: any) => {
-  return ""; // return url to be opened as selector page
-};
-
-const handleSelectorPageData = (event: any) => {
-  // "event" is the event object which is received from your opened selector page
-  return []; // return array of asset objects which are selected
-};
-
-const handleSelectorWindow = (
+const customComponent = (
   config: any,
-  contentTypeConfig: any,
-  setError: Function
-) => {
-  /* code logic to open the DAM selector page */
-};
-
-// ####### SELECTOR PAGE #######
-/* These variables are to be used in openCompactView function. The developer should change these variables according to the DAM platform that is being implemented */
-declare global {
-  interface Window {
-    CompactView: any; // chnage according to DAM application
-  }
-}
-
-const openComptactView = (
-  config: any,
-  selectedIds: string[],
-  onSuccess: Function,
-  onCancel: Function,
-  { containerRef, containerClass, containerId }: TypeSelectorContainer,
-  setError: Function
-) => {
-  /* Implement your DAM compact view implementation here
-  declare your selected DAM variable in the above scope and call the open function from DAM compact view on that variable
-  use onSuccess function to send your data to custom field [onSuccess accepts an array of asset objects]  */
-};
-
-// If there is no script then provide a custom component here
-const customComponent = (config: any, setError: Function) => (
-  <CustomComponent />
+  setError: Function,
+  successFn: Function,
+  closeFn: Function
+) => (
+  <CustomComponent
+    config={config}
+    setError={setError}
+    successFn={successFn}
+    closeFn={closeFn}
+    damEnv={damEnv}
+  />
 );
 
 const rootConfig: any = {
   damEnv,
   configureConfigScreen,
-  customConfig,
   filterAssetData,
-  getSelectorWindowUrl,
-  handleSelectorPageData,
-  handleSelectorWindow,
-  openComptactView,
   customComponent,
   handleConfigtoSelectorPage,
 };
