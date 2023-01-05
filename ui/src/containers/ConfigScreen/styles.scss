@@ -12,6 +12,10 @@
     line-height: 16.2px !important;
   }
 
+  .FieldLabel + div {
+    display: inline-block;
+  }
+
   .tippy-wrapper {
     margin-right: 10px;
   }
