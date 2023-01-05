@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react/pure";
+import { fireEvent, render, screen } from "@testing-library/react/pure";
 import ConfigScreen from "./index";
 
 jest.mock("../../root_config/index.tsx", () => ({
@@ -90,5 +90,11 @@ describe(`UI Elements of Config Screen`, () => {
       `[data-test-id=cs-select]`
     );
     expect(selectElement).toBeTruthy();
+  });
+
+  test(`Input Change: FireEvent Functionality`, async () => {
+    const textInput = screen.getByTestId(`text_input`) as HTMLInputElement;
+    fireEvent.change(textInput, { target: { value: "sample-input" } });
+    expect(textInput.value).toBe("sample-input");
   });
 });

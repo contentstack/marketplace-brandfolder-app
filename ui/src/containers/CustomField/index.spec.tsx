@@ -154,13 +154,21 @@ describe(`*UI Elements of CustomField without Assets`, () => {
   });
 
   test(`Add Button Functionality: window`, async () => {
-    fireEvent.click(screen.getByTestId(`add-btn`));
+    const addBtn = screen.getByTestId(`add-btn`);
+    expect(addBtn).toHaveTextContent(`Choose Asset(s)`);
+    fireEvent.click(addBtn);
     expect(window.open).toHaveBeenCalled();
   });
 
   test(`Add Button Functionality: url`, async () => {
-    fireEvent.click(screen.getByTestId(`add-btn`));
+    const addBtn = screen.getByTestId(`add-btn`);
+    expect(addBtn).toHaveTextContent(`Choose Asset(s)`);
+    fireEvent.click(addBtn);
     expect(window.open).toHaveBeenCalled();
+  });
+
+  test(`Rendering text element`, async () => {
+    expect(screen.getByText("No assets have been added")).toBeInTheDocument();
   });
 
   test(`Receive Post Message on custom field`, async () => {
