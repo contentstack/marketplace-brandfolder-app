@@ -65,3 +65,10 @@ export interface TypeConfigComponent {
 export type Props = {
   [key: string]: any;
 };
+
+export interface TrackProps {
+  apiKey: string;
+  orgUid: string;
+  name: string;
+  userUid: string;
+}

@@ -2,6 +2,7 @@
 import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 /* Import other node modules */
+import { TrackJS } from "trackjs";
 /* Import our modules */
 import ErrorBoundary from "../../components/ErrorBoundary";
 import ConfigScreen from "../ConfigScreen";
@@ -11,6 +12,15 @@ import SelectorPage from "../SelectorPage";
 import "@contentstack/venus-components/build/main.css";
 /* Import our CSS */
 import "./styles.scss";
+
+TrackJS.install({
+  token: `${process.env.REACT_APP_TRACKER_TOKEN}`,
+  application: process.env.REACT_APP_TRACKER_ENV,
+  console: { display: true },
+});
+
+TrackJS.addMetadata("application_type", "marketplace");
+TrackJS.addMetadata("application_name", "BrandFolder App");
 
 const App: React.FC = function () {
   return (

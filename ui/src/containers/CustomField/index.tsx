@@ -13,6 +13,10 @@ import AssetCardContainer from "./AssetCardContainer";
 import rootConfig from "../../root_config/index";
 import SelectorPage from "../SelectorPage";
 import WarningMessage from "../../components/WarningMessage";
+import {
+  setTrackJsMetaData,
+  useJsErrorTracker,
+} from "../../common/trackJs/setTrackJsMetaData";
 
 /* To add any labels / captions for fields or any inputs, use common/local/en-us/index.ts */
 
@@ -24,6 +28,8 @@ declare global {
 }
 
 const CustomField: React.FC = function () {
+  // error tracking hooks
+  const { trackError } = useJsErrorTracker();
   const ref = useRef(null);
   // state for configuration
   const [state, setState] = React.useState<TypeSDKData>({
@@ -54,6 +60,10 @@ const CustomField: React.FC = function () {
   React.useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk: any) => {
+        // eslint-disable-next-line
+        const { api_key: apiKey, name, org_uid: orgUid } = appSdk?.stack?._data;
+        const { uid } = appSdk?.currentUser;
+
         const config = await appSdk?.getConfig();
         const customFieldLocation = appSdk?.location?.CustomField;
 
@@ -71,6 +81,14 @@ const CustomField: React.FC = function () {
         setCurrentLocale(customFieldLocation?.entry?.locale);
 
         appSdk.location?.CustomField?.frame?.enableAutoResizing();
+
+        setTrackJsMetaData({
+          apiKey,
+          name,
+          orgUid,
+          userUid: uid,
+        });
+
         setState({
           config,
           contentTypeConfig: contenttypeConfig,
@@ -79,6 +97,7 @@ const CustomField: React.FC = function () {
         });
       })
       .catch((error) => {
+        trackError(error);
         console.error("appSdk initialization error", error);
       });
   }, []);
@@ -128,7 +147,10 @@ const CustomField: React.FC = function () {
     errorText: string = localeTexts.Warnings.incorrectConfig
   ) => {
     setIsError(isErrorPresent);
-    if (errorText) setWarningText(errorText);
+    if (errorText) {
+      setWarningText(errorText);
+      trackError(errorText);
+    }
   };
 
   const damComponent = (props: any) => (

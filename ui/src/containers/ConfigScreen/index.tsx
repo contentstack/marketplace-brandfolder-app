@@ -14,10 +14,16 @@ import {
 import rootConfig from "../../root_config";
 import utils from "../../common/utils";
 import { TypeAppSdkConfigState, TypeOption } from "../../common/types";
+import {
+  setTrackJsMetaData,
+  useJsErrorTracker,
+} from "../../common/trackJs/setTrackJsMetaData";
 /* Import our CSS */
 import "./styles.scss";
 
 const ConfigScreen: React.FC = function () {
+  // error tracking hooks
+  const { trackError } = useJsErrorTracker();
   // entire configuration object returned from configureConfigScreen
   const configInputFields = rootConfig?.configureConfigScreen?.();
   // config objs to be saved in configuration
@@ -121,6 +127,9 @@ const ConfigScreen: React.FC = function () {
   React.useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
+        // eslint-disable-next-line
+        const { api_key: apiKey, name, org_uid: orgUid } = appSdk?.stack?._data;
+        const { uid } = appSdk?.currentUser;
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
         if (sdkConfigData) {
           const installationDataFromSDK =
@@ -181,10 +190,17 @@ const ConfigScreen: React.FC = function () {
 
           setRadioInputValues(radioValuesObj);
           setSelectInputValues(selectValuesObj);
+          setTrackJsMetaData({
+            apiKey,
+            name,
+            orgUid,
+            userUid: uid,
+          });
         }
       })
-      .catch(() => {
-        console.error("Something Went Wrong While Loading App SDK");
+      .catch((error) => {
+        trackError(error);
+        console.error("Something Went Wrong While Loading App SDK", error);
       });
   }, []);
 

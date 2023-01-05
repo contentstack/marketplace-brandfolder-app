@@ -5,6 +5,7 @@ import "./style.scss";
 import localeTexts from "../../common/locale/en-us/index";
 import rootConfig from "../../root_config";
 import WarningMessage from "../../components/WarningMessage";
+import { useJsErrorTracker } from "../../common/trackJs/setTrackJsMetaData";
 
 let isScriptLoaded: any = false;
 
@@ -15,6 +16,8 @@ const SelectorPage: React.FC<any> = function ({
   selectedAssetIds,
   componentType,
 }) {
+  // error tracking hooks
+  const { trackError } = useJsErrorTracker();
   // state of isError flag
   const [isErrorPresent, setIsErrorPresent] = React.useState<boolean>(false);
   // state for warning text to be used when error
@@ -40,7 +43,10 @@ const SelectorPage: React.FC<any> = function ({
     errorText: string = localeTexts.Warnings.incorrectConfig
   ) => {
     setIsErrorPresent(isError);
-    if (errorText) setWarningText(errorText);
+    if (errorText) {
+      setWarningText(errorText);
+      trackError(errorText);
+    }
   };
 
   const successFn = (assets: any[]) => {
