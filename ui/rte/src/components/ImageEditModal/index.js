@@ -159,7 +159,11 @@ const ImageEditModal = function (props) {
         },
       }));
     }
-
+    if (state?.inline) {
+      const stateStyleCopy = { ...state?.style };
+      delete stateStyleCopy.float;
+      await setState({ ...state, style: stateStyleCopy });
+    }
     await setState((prevState) => ({
       ...prevState,
       [fieldName]: isCheckd
