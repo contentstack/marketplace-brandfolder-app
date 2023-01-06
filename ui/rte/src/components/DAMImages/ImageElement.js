@@ -37,10 +37,10 @@ const ImageElement = function ({
 
   useEffect(() => {
     let newAttrs = cloneDeep(element?.attrs);
-    const imagePath = rte.getPath(element);
+    const imagePath = rte?.getPath(element);
 
     if (element?.attrs?.position) {
-      rte.updateNode(
+      rte?.updateNode(
         rteConfig?.damEnv?.DAM_APP_NAME,
         {
           ...newAttrs,
@@ -50,7 +50,7 @@ const ImageElement = function ({
     }
     if (!element?.attrs?.["asset-caption"]) {
       newAttrs["asset-caption"] = "";
-      rte.updateNode(
+      rte?.updateNode(
         rteConfig?.damEnv?.DAM_APP_NAME,
         {
           ...newAttrs,
@@ -61,53 +61,53 @@ const ImageElement = function ({
   }, [element?.attrs?.["asset-caption"]]);
 
   useEffect(() => {
-    const DOMVal = document.querySelectorAll(
+    const DOMVal = document?.querySelectorAll(
       `div[classname='${rteConfig?.damEnv?.DAM_APP_NAME}']`
     );
     const DOMValLength = DOMVal?.length;
     if (DOMValLength) {
       for (let i = 0; i < DOMValLength; i++) {
         const divDOM = DOMVal[i];
-        let descrip = divDOM.getElementsByTagName("span")[0];
-        let p = divDOM.getElementsByTagName("p")[0];
+        let descrip = divDOM?.getElementsByTagName("span")?.[0];
+        let p = divDOM?.getElementsByTagName("p")?.[0];
         if (
           element?.attrs?.position == "left" &&
-          divDOM.getAttribute("id") ==
+          divDOM?.getAttribute("id") ==
             `left${btoa(element?.attrs?.rte_display_url)}`
         ) {
-          p.setAttribute("style", "display: flex !important");
+          p?.setAttribute("style", "display: flex !important");
         } else if (
           element?.attrs?.position == "right" &&
           divDOM.getAttribute("id") ==
             `right${btoa(element?.attrs?.rte_display_url)}`
         ) {
-          p.setAttribute("style", "border: 1px transparent");
-          descrip.setAttribute("style", "float: left");
+          p?.setAttribute("style", "border: 1px transparent");
+          descrip?.setAttribute("style", "float: left");
         } else if (
           element?.attrs?.position == "right" &&
-          divDOM.getAttribute("id") ==
+          divDOM?.getAttribute("id") ==
             `left${btoa(element?.attrs?.rte_display_url)}`
         ) {
-          let idRight = divDOM.getElementsByTagName("p")[0]?.parentNode;
-          idRight.setAttribute("style", "overflow : hidden");
-          p.setAttribute("style", "border: 1px transparent");
-          descrip.setAttribute("style", "float: left");
+          let idRight = divDOM?.getElementsByTagName("p")?.[0]?.parentNode;
+          idRight?.setAttribute("style", "overflow : hidden");
+          p?.setAttribute("style", "border: 1px transparent");
+          descrip?.setAttribute("style", "float: left");
         } else if (
           element?.attrs?.position == "left" &&
-          divDOM.getAttribute("id") ==
+          divDOM?.getAttribute("id") ==
             `right${btoa(element?.attrs?.rte_display_url)}`
         ) {
-          let idLeft = divDOM.getElementsByTagName("p")[0]?.parentNode;
-          idLeft.setAttribute(
+          let idLeft = divDOM?.getElementsByTagName("p")?.[0]?.parentNode;
+          idLeft?.setAttribute(
             "style",
             "display: inline-block",
             "overflow : hidden"
           );
-          p.setAttribute("style", "display: flex !important");
+          p?.setAttribute("style", "display: flex !important");
         }
       }
     }
-  }, [element?.attrs?.position, rte.getPath(element)]);
+  }, [element?.attrs?.position, rte?.getPath(element)]);
 
   const handleView = () => {
     window.open(element?.attrs?.rte_display_url, "_blank");
@@ -121,7 +121,7 @@ const ImageElement = function ({
           rte={rte}
           {...compProps}
           icon={icon}
-          path={rte.getPath(element)}
+          path={rte?.getPath(element)}
         />
       ),
     });
@@ -132,7 +132,7 @@ const ImageElement = function ({
       component: (props) => (
         <DeleteModal
           type="Asset"
-          remove={() => rte.removeNode(element)}
+          remove={() => rte?.removeNode(element)}
           name={element?.attrs?.name}
           {...props}
         />
@@ -195,8 +195,8 @@ const ImageElement = function ({
     newAttrs.style["max-width"] = `${width}px`;
     newAttrs.width = `${width}`;
     newAttrs.height = `${height}`;
-    const imagePath = rte.getPath(element);
-    rte.updateNode(
+    const imagePath = rte?.getPath(element);
+    rte?.updateNode(
       rteConfig?.damEnv?.DAM_APP_NAME,
       {
         ...newAttrs,
@@ -246,7 +246,7 @@ const ImageElement = function ({
                         width: "100%",
                         height: "auto",
                       }}
-                      alt={element?.attrs["asset-alt"]}
+                      alt={element?.attrs?.["asset-alt"]}
                     />
                   )}
                   {!isInline && (

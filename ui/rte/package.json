@@ -1,7 +1,7 @@
 {
-  "name": "marketplace-dam-rte-app",
+  "name": "marketplace-brandfolder-rte-app",
   "version": "1.0.0",
-  "description": "RTE Plugin for the DAM App",
+  "description": "RTE Plugin for the Brandfolder App",
   "entry": "plugin",
   "output": "dam.js",
   "main": "../build/dist/plugin.system.js",

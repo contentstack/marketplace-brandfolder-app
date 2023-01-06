@@ -63,19 +63,19 @@ const ImageEditModal = function (props) {
 
   const handleSave = () => {
     closeModal();
-    let node = rte.getNode(rte.getPath(element));
+    let node = rte?.getNode(rte?.getPath(element));
     let newNode = cloneDeep(node[0]);
     newNode.attrs = { ...(state || {}) };
     if (state?.inline) {
-      if (rte._adv.editor.isInline(element)) {
-        rte._adv.Transforms.setNodes(
-          rte._adv.editor,
+      if (rte?._adv?.editor?.isInline(element)) {
+        rte?._adv?.Transforms?.setNodes(
+          rte?._adv?.editor,
           { attrs: state },
           { at: path }
         );
       } else {
-        rte._adv.Transforms.removeNodes(rte._adv.editor, {
-          at: rte.getPath(element),
+        rte?._adv?.Transforms?.removeNodes(rte?._adv?.editor, {
+          at: rte?.getPath(element),
         });
         const inlineReference = {
           type: "p",
@@ -83,22 +83,22 @@ const ImageEditModal = function (props) {
           uid: v4().split("-").join(""),
           children: [{ text: "" }, newNode, { text: "" }],
         };
-        rte._adv.Transforms.insertNodes(rte._adv.editor, inlineReference, {
-          at: rte.getPath(element),
+        rte?._adv?.Transforms?.insertNodes(rte?._adv?.editor, inlineReference, {
+          at: rte?.getPath(element),
         });
       }
     } else {
-      if (rte._adv.editor.isInline(element)) {
-        rte._adv.Transforms.removeNodes(rte._adv.editor, { at: path });
+      if (rte?._adv?.editor?.isInline(element)) {
+        rte?._adv?.Transforms?.removeNodes(rte?._adv?.editor, { at: path });
         let blockPath = [path[0], path[1] + 1];
-        rte._adv.Transforms.insertNodes(rte._adv.editor, newNode, {
+        rte?._adv?.Transforms?.insertNodes(rte?._adv?.editor, newNode, {
           at: blockPath,
         });
       } else {
-        rte._adv.Transforms.setNodes(
-          rte._adv.editor,
+        rte?._adv?.Transforms?.setNodes(
+          rte?._adv?.editor,
           { attrs: state },
-          { at: rte.getPath(element) }
+          { at: rte?.getPath(element) }
         );
       }
     }
@@ -228,7 +228,7 @@ const ImageEditModal = function (props) {
               <img
                 src={element?.attrs?.rte_display_url}
                 className="modal"
-                alt={element?.attrs["asset-alt"]}
+                alt={element?.attrs?.["asset-alt"]}
               />
             ) : (
               <Icon className="modal-icon" icon={icon} />

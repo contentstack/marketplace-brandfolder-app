@@ -67,8 +67,8 @@ const CustomField: React.FC = function () {
         const config = await appSdk?.getConfig();
         const customFieldLocation = appSdk?.location?.CustomField;
 
-        window.iframeRef = ref.current;
-        window.postRobot = appSdk.postRobot;
+        window.iframeRef = ref?.current;
+        window.postRobot = appSdk?.postRobot;
 
         const contenttypeConfig = appSdk?.location?.CustomField?.fieldConfig;
 
@@ -80,7 +80,7 @@ const CustomField: React.FC = function () {
 
         setCurrentLocale(customFieldLocation?.entry?.locale);
 
-        appSdk.location?.CustomField?.frame?.enableAutoResizing();
+        appSdk?.location?.CustomField?.frame?.enableAutoResizing();
 
         setTrackJsMetaData({
           apiKey,

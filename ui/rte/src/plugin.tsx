@@ -22,17 +22,17 @@ export default ContentstackSDK.init()
   .then(async (sdk) => {
     const { api_key: apiKey, name, org_uid: orgUid } = sdk?.stack?._data;
     const { uid } = sdk?.currentUser;
-    const extensionObj = await sdk.location;
-    const RTE = await extensionObj.RTEPlugin;
+    const extensionObj = await sdk?.location;
+    const RTE = await extensionObj?.RTEPlugin;
 
     if (!RTE) return;
 
     const DAM = RTE(rteConfig?.damEnv?.DAM_APP_NAME, (rte: any) => {
-      const inline = rte._adv.editor.isInline;
+      const inline = rte?._adv?.editor?.isInline;
       rte._adv.editor.isInline = (element: any) => {
         if (
-          element.type === rteConfig?.damEnv?.DAM_APP_NAME &&
-          element.attrs.inline
+          element?.type === rteConfig?.damEnv?.DAM_APP_NAME &&
+          element?.attrs?.inline
         ) {
           return true;
         }
@@ -66,8 +66,8 @@ export default ContentstackSDK.init()
 
     // @ts-ignore
     DAM.on("exec", async (rte: RTE) => {
-      const config = await rte.getConfig();
-      const savedSelection = rte.selection.get();
+      const config = await rte?.getConfig();
+      const savedSelection = rte?.selection?.get();
       onClickHandler({ extension: sdk, rte, savedSelection, config });
     });
 

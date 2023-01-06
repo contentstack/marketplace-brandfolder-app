@@ -31,7 +31,7 @@ const ConfigScreen: React.FC = function () {
   // config objs to be saved in serverConfiguration
   const saveInServerConfig: any = {};
 
-  Object.keys(configInputFields).forEach((field: string) => {
+  Object.keys(configInputFields)?.forEach((field: string) => {
     if (configInputFields[field]?.saveInConfig)
       saveInConfig[field] = configInputFields[field];
     if (configInputFields[field]?.saveInServerConfig)
@@ -210,7 +210,7 @@ const ConfigScreen: React.FC = function () {
   const updateConfig = useCallback(
     async (e: any, inConfig?: boolean, inServerConfig?: boolean) => {
       // eslint-disable-next-line prefer-const
-      let { name: fieldName, value: fieldValue } = e.target;
+      let { name: fieldName, value: fieldValue } = e?.target;
       if (typeof fieldValue === "string") {
         fieldValue = fieldValue?.trim();
       }
@@ -286,7 +286,7 @@ const ConfigScreen: React.FC = function () {
 
   // return render jsx for the config object provided
   const renderConfig = () =>
-    Object.entries(configInputFields).map(([objKey, objValue, index]: any) => {
+    Object.entries(configInputFields)?.map(([objKey, objValue, index]: any) => {
       switch (objValue?.type) {
         case "textInputFields":
           return (
