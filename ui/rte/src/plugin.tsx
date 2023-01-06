@@ -16,7 +16,7 @@ TrackJS.install({
 });
 
 TrackJS.addMetadata("application_type", "marketplace");
-TrackJS.addMetadata("application_name", "BrandFolder RTE App");
+TrackJS.addMetadata("application_name", "Brandfolder RTE App");
 
 export default ContentstackSDK.init()
   .then(async (sdk) => {

@@ -9,7 +9,7 @@ const ASSET_AUDIO_TYPE = "Audio";
 const PREVIEW_ICON = "Eye";
 
 const damEnv = {
-  DAM_APP_NAME: "BrandFolder",
+  DAM_APP_NAME: "Brandfolder",
   ASSET_NAME_PARAM: "name",
   RTE_DAM_ICON: (
     <svg

@@ -20,7 +20,7 @@ TrackJS.install({
 });
 
 TrackJS.addMetadata("application_type", "marketplace");
-TrackJS.addMetadata("application_name", "BrandFolder App");
+TrackJS.addMetadata("application_name", "Brandfolder App");
 
 const App: React.FC = function () {
   return (

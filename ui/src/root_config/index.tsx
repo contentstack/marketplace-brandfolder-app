@@ -6,13 +6,13 @@ import utils from "./utils";
 
 const damEnv = {
   IS_DAM_SCRIPT: false,
-  DAM_APP_NAME: "BrandFolder",
+  DAM_APP_NAME: "Brandfolder",
   CONFIG_FIELDS: ["apiKey"],
   ASSET_UNIQUE_ID: "id",
   SELECTOR_PAGE_LOGO: Logo,
   DIRECT_SELECTOR_PAGE: "novalue", // possible values "url", "window", default => "novalue"
   BRANDFOLDER_API_BASE_URL: "https://brandfolder.com/api",
-  INCORRECT_CONFIG_ERR: `The credentials you entered for the "BrandFolder App" are invalid or missing. Please update the configuration details and try again.`,
+  INCORRECT_CONFIG_ERR: `The credentials you entered for the "Brandfolder App" are invalid or missing. Please update the configuration details and try again.`,
   PANEL_LOADING_ERR: "An unexpected error occurred! Please try again.",
 };
 
@@ -27,11 +27,11 @@ const configureConfigScreen = () =>
   ({
     apiKey: {
       type: "textInputFields",
-      labelText: "BrandFolder API Key",
+      labelText: "Brandfolder API Key",
       helpText:
-        "Find your BrandFolder API key at https://brandfolder.com/profile#integrations",
-      placeholderText: "Enter Your BrandFolder API Key",
-      instructionText: "Your BrandFolder API Key",
+        "Find your Brandfolder API key at https://brandfolder.com/profile#integrations",
+      placeholderText: "Enter Your Brandfolder API Key",
+      instructionText: "Your Brandfolder API Key",
       saveInConfig: true,
       saveInServerConfig: false,
     },
