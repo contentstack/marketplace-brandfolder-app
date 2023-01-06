@@ -5,7 +5,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@contentstack/venus-components";
-import React from "react";
+import React, { useCallback } from "react";
 import localeTexts from "../../common/locale/en-us";
 import { Props } from "../../common/types";
 
@@ -37,10 +37,10 @@ const DeleteModal: React.FC<Props> = function ({
           <Button
             buttonType="delete"
             icon="TrashMini"
-            onClick={() => {
+            onClick={useCallback(() => {
               remove(id);
               props.closeModal();
-            }}
+            }, [id, props])}
           >
             {localeTexts.DeleteModal.confirmButton}
           </Button>

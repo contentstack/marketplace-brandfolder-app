@@ -72,3 +72,11 @@ export interface TrackProps {
   name: string;
   userUid: string;
 }
+
+export interface TypeRadioOption {
+  fieldName: string;
+  mode: TypeOption;
+  index: number;
+  radioOption: TypeOption;
+  updateRadioOptions: Function;
+}

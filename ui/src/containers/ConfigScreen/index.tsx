@@ -1,5 +1,5 @@
 /* Import React modules */
-import React from "react";
+import React, { useCallback } from "react";
 /* ContentStack Modules */
 // For all the available venus components, please refer below doc
 // https://venus-storybook.contentstack.com/?path=/docs/components-textinput--default
@@ -207,38 +207,45 @@ const ConfigScreen: React.FC = function () {
   /** updateConfig - Function where you should update the State variable
    * Call this function whenever any field value is changed in the DOM
    * */
-  const updateConfig = async (
-    e: any,
-    inConfig?: boolean,
-    inServerConfig?: boolean
-  ) => {
-    // eslint-disable-next-line prefer-const
-    let { name: fieldName, value: fieldValue } = e.target;
-    if (typeof fieldValue === "string") {
-      fieldValue = fieldValue?.trim();
-    }
+  const updateConfig = useCallback(
+    async (e: any, inConfig?: boolean, inServerConfig?: boolean) => {
+      // eslint-disable-next-line prefer-const
+      let { name: fieldName, value: fieldValue } = e.target;
+      if (typeof fieldValue === "string") {
+        fieldValue = fieldValue?.trim();
+      }
 
-    const updatedConfig = state?.installationData?.configuration || {};
-    const updatedServerConfig =
-      state?.installationData?.serverConfiguration || {};
+      const updatedConfig = state?.installationData?.configuration || {};
+      const updatedServerConfig =
+        state?.installationData?.serverConfiguration || {};
 
-    if (inConfig || configInputFields?.[fieldName]?.saveInConfig) {
-      updatedConfig[fieldName] = fieldValue;
-    }
-    /* Use ServerConfiguration Only When Webhook is Enbaled */
-    if (inServerConfig || configInputFields?.[fieldName]?.saveInServerConfig) {
-      updatedServerConfig[fieldName] = fieldValue;
-    }
+      if (inConfig || configInputFields?.[fieldName]?.saveInConfig) {
+        updatedConfig[fieldName] = fieldValue;
+      }
+      /* Use ServerConfiguration Only When Webhook is Enbaled */
+      if (
+        inServerConfig ||
+        configInputFields?.[fieldName]?.saveInServerConfig
+      ) {
+        updatedServerConfig[fieldName] = fieldValue;
+      }
 
-    if (state?.setInstallationData) {
-      await state.setInstallationData({
-        ...state.installationData,
-        configuration: updatedConfig,
-        serverConfiguration: updatedServerConfig,
-      });
-    }
-    return true;
-  };
+      if (state?.setInstallationData) {
+        await state?.setInstallationData({
+          ...state?.installationData,
+          configuration: updatedConfig,
+          serverConfiguration: updatedServerConfig,
+        });
+      }
+      return true;
+    },
+    [
+      state?.setInstallationData,
+      state?.installationData,
+      state?.installationData?.configuration,
+      state?.installationData?.serverConfiguration,
+    ]
+  );
 
   // converting the config in proper format for updateConfig
   const updateValueFunc = (configName: string, configValue: string) => {
@@ -248,16 +255,22 @@ const ConfigScreen: React.FC = function () {
   };
 
   // updating the select option state
-  const updateSelectConfig = async (e: TypeOption, fieldName: string) => {
-    setSelectInputValues({ ...selectInputValues, [fieldName]: e });
-    updateValueFunc(fieldName, e?.value);
-  };
+  const updateSelectConfig = useCallback(
+    async (e: TypeOption, fieldName: string) => {
+      setSelectInputValues({ ...selectInputValues, [fieldName]: e });
+      updateValueFunc(fieldName, e?.value);
+    },
+    [selectInputValues]
+  );
 
   // updating the radio option state
-  const updateRadioOptions = (fieldName: string, option: TypeOption) => {
-    setRadioInputValues({ ...radioInputValues, [fieldName]: option });
-    updateValueFunc(fieldName, option?.value);
-  };
+  const updateRadioOptions = useCallback(
+    (fieldName: string, option: TypeOption) => {
+      setRadioInputValues({ ...radioInputValues, [fieldName]: option });
+      updateValueFunc(fieldName, option?.value);
+    },
+    [radioInputValues]
+  );
 
   // updating the custom config state
   const handleCustomConfigUpdate = (

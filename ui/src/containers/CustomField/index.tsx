@@ -1,5 +1,5 @@
 /* Import React modules */
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 /* Import ContentStack modules */
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import { Button, cbModal } from "@contentstack/venus-components";
@@ -137,9 +137,12 @@ const CustomField: React.FC = function () {
   };
 
   // handle assets received from selectorpage component
-  const handleAssets = (assets: any[]) => {
-    setSelectedAssets(utils.uniqBy([...selectedAssets, ...assets], uniqueID));
-  };
+  const handleAssets = useCallback(
+    (assets: any[]) => {
+      setSelectedAssets(utils.uniqBy([...selectedAssets, ...assets], uniqueID));
+    },
+    [selectedAssets]
+  );
 
   // function to set error
   const setError = (
@@ -164,7 +167,7 @@ const CustomField: React.FC = function () {
   );
 
   // function called onClick of "add asset" button. Handles opening of modal and selector window
-  const openDAMSelectorPage = async () => {
+  const openDAMSelectorPage = useCallback(() => {
     if (state?.appSdkInitialized) {
       if (rootConfig?.damEnv?.DIRECT_SELECTOR_PAGE === "novalue") {
         cbModal({
@@ -196,26 +199,37 @@ const CustomField: React.FC = function () {
         window.addEventListener("message", handleMessage, false);
       }
     } else selectorPageWindow.focus();
-  };
+  }, [
+    state?.appSdkInitialized,
+    state?.config,
+    state?.contentTypeConfig,
+    damComponent,
+  ]);
 
   // function to remove the assets when "delete" action is triggered
-  const removeAsset = (removedId: string) => {
-    setSelectedAssets(
-      selectedAssets.filter((asset) => asset[uniqueID] !== removedId)
-    );
-  };
+  const removeAsset = useCallback(
+    (removedId: string) => {
+      setSelectedAssets(
+        selectedAssets.filter((asset) => asset[uniqueID] !== removedId)
+      );
+    },
+    [selectedAssets]
+  );
 
   // rearrange the order of assets
-  const setRearrangedAssets = (assets: any[]) => {
-    setSelectedAssets(
-      assets?.map(
-        (asset: any) =>
-          selectedAssets?.filter(
-            (item: any) => item?.[uniqueID] === asset?.id
-          )?.[0]
-      )
-    );
-  };
+  const setRearrangedAssets = useCallback(
+    (assets: any[]) => {
+      setSelectedAssets(
+        assets?.map(
+          (asset: any) =>
+            selectedAssets?.filter(
+              (item: any) => item?.[uniqueID] === asset?.id
+            )?.[0]
+        )
+      );
+    },
+    [selectedAssets]
+  );
 
   return (
     <div className="field-extension-wrapper" ref={ref}>

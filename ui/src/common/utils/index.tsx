@@ -1,7 +1,7 @@
 import React from "react";
-import { cbModal, Icon, Radio } from "@contentstack/venus-components";
+import { cbModal, Icon } from "@contentstack/venus-components";
 import localeTexts from "../locale/en-us";
-import { TypeOption, TypePopupWindowDetails } from "../types";
+import { TypePopupWindowDetails } from "../types";
 import DeleteModal from "../../containers/CustomField/DeleteModal";
 
 // function to open a popup window
@@ -153,25 +153,6 @@ function findAsset(assets: any[], id: any) {
   return assets?.find((asset: any) => asset?.id === id) || {};
 }
 
-// function to get each radio option
-const getRadioOption = (
-  fieldName: string,
-  mode: TypeOption,
-  index: number,
-  radioOption: TypeOption,
-  updateRadioOptions: Function
-) => (
-  <Radio
-    key={`${fieldName}_${index}_option`}
-    id={mode?.value}
-    checked={mode?.value === radioOption?.value}
-    required
-    label={mode?.label}
-    name={`${fieldName}_options`}
-    onChange={() => updateRadioOptions(fieldName, mode)}
-  />
-);
-
 const utils = {
   popupWindow,
   mergeObjects,
@@ -180,7 +161,6 @@ const utils = {
   uniqBy,
   findAssetIndex,
   findAsset,
-  getRadioOption,
 };
 
 export default utils;

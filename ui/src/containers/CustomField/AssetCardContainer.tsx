@@ -1,5 +1,5 @@
 /* Import React modules */
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 /* Import other node modules */
 import {
   DndContext,
@@ -28,28 +28,31 @@ const AssetCardContainer: React.FC<TypeSelectedItems> = function ({
     useSensor(PointerSensor, { activationConstraint: { distance: 0.1 } })
   );
 
-  const onDragStart = ({ active }: any) => {
+  const onDragStart = useCallback(({ active }: any) => {
     if (!active) {
       return;
     }
-    setActiveId(active.id);
-  };
+    setActiveId(active?.id);
+  }, []);
 
-  const onDragCancel = () => {
+  const onDragCancel = useCallback(() => {
     setActiveId(null);
-  };
+  }, []);
 
-  const onDragEnd = (event: any) => {
-    const { active, over } = event;
-    setActiveId(null);
-    if (active?.id !== over?.id) {
-      const oldIndex = utils.findAssetIndex(assets, active?.id);
-      const newIndex = utils.findAssetIndex(assets, over?.id);
+  const onDragEnd = useCallback(
+    (event: any) => {
+      const { active, over } = event;
+      setActiveId(null);
+      if (active?.id !== over?.id) {
+        const oldIndex = utils.findAssetIndex(assets, active?.id);
+        const newIndex = utils.findAssetIndex(assets, over?.id);
 
-      const updated = arrayMove(assets, oldIndex, newIndex);
-      setRearrangedAssets(updated);
-    }
-  };
+        const updated = arrayMove(assets, oldIndex, newIndex);
+        setRearrangedAssets(updated);
+      }
+    },
+    [assets]
+  );
 
   return (
     <div className="asset-box" data-testid="assetBox">

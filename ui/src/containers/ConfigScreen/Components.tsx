@@ -1,5 +1,5 @@
 /* Import React modules */
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Field,
   FieldLabel,
@@ -8,10 +8,14 @@ import {
   InstructionText,
   Help,
   Select,
+  Radio,
 } from "@contentstack/venus-components";
 /* Import other node modules */
-import utils from "../../common/utils";
-import { TypeConfigComponent, TypeOption } from "../../common/types";
+import {
+  TypeConfigComponent,
+  TypeOption,
+  TypeRadioOption,
+} from "../../common/types";
 /* Import our modules */
 /* Import node module CSS */
 /* Import our CSS */
@@ -53,7 +57,33 @@ export const TextInputField = function ({
   );
 };
 
-// component for Radio Options
+// component for single radio option
+export const RadioOption = function ({
+  fieldName,
+  mode,
+  index,
+  radioOption,
+  updateRadioOptions,
+}: TypeRadioOption) {
+  const updateRadio = useCallback(
+    () => updateRadioOptions(fieldName, mode),
+    [fieldName, mode]
+  );
+
+  return (
+    <Radio
+      key={`${fieldName}_${index}_option`}
+      id={mode?.value}
+      checked={mode?.value === radioOption?.value}
+      required
+      label={mode?.label}
+      name={`${fieldName}_options`}
+      onChange={updateRadio}
+    />
+  );
+};
+
+// component for Radio Options Field
 export const RadioInputField = function ({
   objKey,
   objValue,
@@ -74,15 +104,16 @@ export const RadioInputField = function ({
           <Help text={objValue?.helpText} data-testid="radio_help" />
         )}
         <div className="Radio-wrapper" data-testid="radio_wrapper">
-          {objValue?.options?.map((option: TypeOption, index: number) =>
-            utils.getRadioOption(
-              objKey,
-              option,
-              index,
-              currentValue,
-              updateConfig
-            )
-          )}
+          {objValue?.options?.map((option: TypeOption, index: number) => (
+            <RadioOption
+              key={option?.value}
+              fieldName={objKey}
+              mode={option}
+              index={index}
+              radioOption={currentValue}
+              updateRadioOptions={updateConfig}
+            />
+          ))}
         </div>
         <InstructionText data-testid="radio_instruction">
           {objValue?.instructionText}
@@ -114,7 +145,10 @@ export const SelectInputField = function ({
           <Help text={objValue?.helpText} data-testid="select_help" />
         )}
         <Select
-          onChange={(e: TypeOption) => updateConfig(e, objKey)}
+          onChange={useCallback(
+            (e: TypeOption) => updateConfig(e, objKey),
+            [objKey]
+          )}
           options={objValue?.options}
           placeholder={objValue?.placeholderText}
           value={currentValue}
