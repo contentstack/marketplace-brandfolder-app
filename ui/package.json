@@ -31,7 +31,7 @@
     "prettify": "prettier --write .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx . --ignore-pattern './node_modules/' --ignore-pattern './buid/'",
     "precommit": "npm run prettify && npm run lint:fix",
-    "build": "npm run precommit && export CI=false && react-scripts build && npx gulp"
+    "build": "export CI=false && GENERATE_SOURCEMAP=false react-scripts build && npx gulp"
   },
   "eslintConfig": {
     "extends": [
