@@ -13,7 +13,8 @@ const damEnv = {
   DIRECT_SELECTOR_PAGE: "novalue", // possible values "url", "window", default => "novalue"
   BRANDFOLDER_API_BASE_URL: "https://brandfolder.com/api",
   INCORRECT_CONFIG_ERR: `The credentials you entered for the "Brandfolder App" are invalid or missing. Please update the configuration details and try again.`,
-  PANEL_LOADING_ERR: "An unexpected error occurred! Please try again.",
+  PANEL_LOADING_ERR:
+    "An error occurred while fetching the data from your Brandfolder account. Please try again.",
 };
 
 const configureConfigScreen = () =>
@@ -29,8 +30,8 @@ const configureConfigScreen = () =>
       type: "textInputFields",
       labelText: "Brandfolder API Key",
       helpText:
-        "Find your Brandfolder API key at https://brandfolder.com/profile#integrations",
-      placeholderText: "Enter Your Brandfolder API Key",
+        "The API key can be found under Profile > Integrations when you are logged into Brandfolder.",
+      placeholderText: "Enter your Brandfolder API Key",
       instructionText: "Your Brandfolder API Key",
       saveInConfig: true,
       saveInServerConfig: false,
