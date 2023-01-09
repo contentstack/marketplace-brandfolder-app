@@ -21,6 +21,12 @@ const localeTexts = {
     cancelButton: "Cancel",
     confirmButton: "Delete",
   },
+  ModalTitle: {
+    video: "Edit Video",
+    audio: "Edit Audio",
+    image: "Edit Image",
+    default: "Edit Asset",
+  },
 };
 
 export default localeTexts;

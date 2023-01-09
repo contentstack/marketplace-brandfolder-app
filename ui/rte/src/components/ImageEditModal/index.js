@@ -28,16 +28,16 @@ const ImageEditModal = function (props) {
   let modalTitle;
   switch (icon) {
     case "Video":
-      modalTitle = "Edit Video";
+      modalTitle = localeTexts.ModalTitle.video;
       break;
     case "Audio":
-      modalTitle = "Edit Audio";
+      modalTitle = localeTexts.ModalTitle.audio;
       break;
     case null:
-      modalTitle = "Edit Image";
+      modalTitle = localeTexts.ModalTitle.image;
       break;
     default:
-      modalTitle = "Edit Asset";
+      modalTitle = localeTexts.ModalTitle.default;
   }
 
   useEffect(() => {
@@ -200,13 +200,9 @@ const ImageEditModal = function (props) {
   const updateData = async (e) => {
     if (e?.type === "select") {
       await updateSelect(e);
-    }
-
-    if (e?.target?.type === "checkbox") {
+    } else if (e?.target?.type === "checkbox") {
       await updateCheckbox(e);
-    }
-
-    if (e?.target?.type === "text") {
+    } else if (e?.target?.type === "text") {
       await updateText(e);
     }
   };
