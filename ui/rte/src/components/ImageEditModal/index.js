@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import {
   ModalFooter,
@@ -61,7 +61,7 @@ const ImageEditModal = function (props) {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     closeModal();
     let node = rte?.getNode(rte?.getPath(element));
     let newNode = cloneDeep(node[0]);
@@ -89,7 +89,9 @@ const ImageEditModal = function (props) {
       }
     } else {
       if (rte?._adv?.editor?.isInline(element)) {
-        rte?._adv?.Transforms?.removeNodes(rte?._adv?.editor, { at: path });
+        rte?._adv?.Transforms?.removeNodes(rte?._adv?.editor, {
+          at: path,
+        });
         let blockPath = [path[0], path[1] + 1];
         rte?._adv?.Transforms?.insertNodes(rte?._adv?.editor, newNode, {
           at: blockPath,
@@ -102,7 +104,21 @@ const ImageEditModal = function (props) {
         );
       }
     }
-  };
+  }, [
+    path,
+    state,
+    element,
+    closeModal,
+    state?.position,
+    state?.inline,
+    rte?.getNode,
+    rte?.getPath,
+    rte?._adv?.editor,
+    rte?._adv?.editor?.isInline,
+    rte?._adv?.Transforms?.setNodes,
+    rte?._adv?.Transforms?.removeNodes,
+    rte?._adv?.Transforms?.insertNodes,
+  ]);
 
   const updateSelect = async (e) => {
     const fieldValue = e?.value;
@@ -197,15 +213,18 @@ const ImageEditModal = function (props) {
     }));
   };
 
-  const updateData = async (e) => {
-    if (e?.type === "select") {
-      await updateSelect(e);
-    } else if (e?.target?.type === "checkbox") {
-      await updateCheckbox(e);
-    } else if (e?.target?.type === "text") {
-      await updateText(e);
-    }
-  };
+  const updateData = useCallback(
+    async (e) => {
+      if (e?.type === "select") {
+        await updateSelect(e);
+      } else if (e?.target?.type === "checkbox") {
+        await updateCheckbox(e);
+      } else if (e?.target?.type === "text") {
+        await updateText(e);
+      }
+    },
+    [updateSelect, updateCheckbox, updateText]
+  );
 
   let dropdownList = constantValues.dropdownList;
 
