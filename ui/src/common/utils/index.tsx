@@ -38,11 +38,11 @@ const mergeObjects = (target: any, source: any) => {
 const loadDAMScript = (url: string) =>
   new Promise((resolve) => {
     const DAMScript: any = document.createElement("script");
-    const bodyTag = document.getElementsByTagName("body")[0];
+    const bodyTag = document.getElementsByTagName("body")?.[0];
     DAMScript.src = url;
     DAMScript.id = "DAMScript";
     DAMScript.type = "text/javascript";
-    if (DAMScript.readyState) {
+    if (DAMScript?.readyState) {
       DAMScript.onreadystatechange = function () {
         if (
           DAMScript.readyState === "loaded" ||
