@@ -1,4 +1,5 @@
 /* eslint-disable */
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import {
   Button,
@@ -7,7 +8,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@contentstack/venus-components";
-import React from "react";
 import localeTexts from "../../common/locale/en-us";
 
 const DeleteModal = function (props) {
@@ -33,10 +33,10 @@ const DeleteModal = function (props) {
           <Button
             buttonType="delete"
             icon="TrashMini"
-            onClick={() => {
+            onClick={useCallback(() => {
               remove();
               closeModal();
-            }}
+            }, [remove, closeModal])}
           >
             {localeTexts.DeleteModal.confirmButton}
           </Button>

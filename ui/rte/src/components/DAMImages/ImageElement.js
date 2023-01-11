@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { Tooltip, Icon, cbModal } from "@contentstack/venus-components";
 import PropTypes from "prop-types";
 import { Resizable } from "re-resizable";
@@ -109,39 +109,42 @@ const ImageElement = function ({
     }
   }, [element?.attrs?.position, rte?.getPath(element)]);
 
-  const handleView = () => {
+  const handleView = useCallback(() => {
     window.open(element?.attrs?.rte_display_url, "_blank");
-  };
+  }, [element?.attrs?.rte_display_url]);
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     cbModal({
-      component: (compProps) => (
-        <ImageEditModal
-          element={element}
-          rte={rte}
-          {...compProps}
-          icon={icon}
-          path={rte?.getPath(element)}
-        />
-      ),
+      component: (compProps) =>
+        ImageEditModal({
+          element,
+          rte,
+          icon,
+          path: rte?.getPath(element),
+          ...compProps,
+        }),
     });
-  };
+  }, [element, rte, icon, rte?.getPath]);
 
-  const handleDelete = () => {
+  const useRemoveHook = useCallback(
+    () => rte?.removeNode(element),
+    [rte?.removeNode, element]
+  );
+
+  const handleDelete = useCallback(() => {
     cbModal({
-      component: (props) => (
-        <DeleteModal
-          type="Asset"
-          remove={() => rte?.removeNode(element)}
-          name={element?.attrs?.name}
-          {...props}
-        />
-      ),
+      component: (props) =>
+        DeleteModal({
+          type: "Asset",
+          remove: useRemoveHook,
+          name: element?.attrs?.name,
+          ...props,
+        }),
       modalProps: {
         size: "xsmall",
       },
     });
-  };
+  }, [rte?.removeNode, element, element?.attrs?.name, props]);
 
   const alignmentStyle = utils.getAlignmentStyle(alignment, attrs, isInline);
 
@@ -155,14 +158,13 @@ const ImageElement = function ({
     ? `embed-asset--inline ${highlightclass}`
     : `embed-asset ${highlightclass} ${downloadTypeclass}`;
 
-  const CustomComponent = function () {
-    const possibleIconValue = ["Eye", "NewTab"];
+  const CustomComponent = () => {
     const iconType = rteConfig?.getViewIconforTooltip?.(
       element?.attrs?.rte_resource_type
     );
     return (
       <div contentEditable={false} className="embed--btn-group">
-        {iconType && possibleIconValue.includes(iconType) && (
+        {iconType && ["Eye", "NewTab"]?.includes(iconType) && (
           <EmbedBtn
             title="view"
             content={utils.getToolTipIconContent(iconType)}
@@ -183,7 +185,7 @@ const ImageElement = function ({
     );
   };
 
-  const onResizeStop = () => {
+  const onResizeStop = useCallback(() => {
     const { attrs: elementAttrs } = element;
     const width = imgRef?.current?.offsetWidth;
     const height = imgRef?.current?.offsetHeight;
@@ -203,7 +205,14 @@ const ImageElement = function ({
       },
       { at: imagePath }
     );
-  };
+  }, [
+    element,
+    imgRef?.current?.offsetWidth,
+    imgRef?.current?.offsetHeight,
+    rte?.getPath,
+    rte?.updateNode,
+  ]);
+
   return (
     <div style={{ ...alignmentStyle, ...attrs?.style }}>
       <Tooltip
