@@ -63,7 +63,6 @@
 }
 
 .scrte-image-resizer-feedback {
-  opacity: 0;
   transition: opacity 300ms ease-in 0s;
   border-radius: 20px;
   background: rgba(15, 15, 15, 0.6);
@@ -200,7 +199,7 @@
 }
 
 .deleteModalBody {
-  font-family: Inter;
+  font-family: Inter, Serif, Sans-serif;
   p {
     color: #222;
     font-size: 14px;
