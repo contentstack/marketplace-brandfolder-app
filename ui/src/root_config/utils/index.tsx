@@ -43,7 +43,7 @@ const getFilteredConfigObj = (
 };
 
 const checkArrEqual = (arr1: string[], arr2: string[]) =>
-  arr1?.sort()?.join(",") === arr2?.sort()?.join(",");
+  [...arr1]?.sort()?.join(",") === [...arr2]?.sort()?.join(",");
 
 const handleLocaleConfig = (data: TypeLocaleConfigData) => {
   const {
