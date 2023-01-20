@@ -18,6 +18,8 @@ const SelectorPage: React.FC<any> = function ({
 }) {
   // error tracking hooks
   const { trackError } = useJsErrorTracker();
+  // config in selector page
+  const [config, setConfig] = useState<any>();
   // state of isError flag
   const [isErrorPresent, setIsErrorPresent] = React.useState<boolean>(false);
   // state for warning text to be used when error
@@ -113,6 +115,7 @@ const SelectorPage: React.FC<any> = function ({
         data?.message === "init" &&
         data?.type === rootConfig?.damEnv?.DAM_APP_NAME
       ) {
+        setConfig(data?.config);
         compactViewImplementation(data?.config, data?.selectedIds);
       }
     }
@@ -199,7 +202,7 @@ const SelectorPage: React.FC<any> = function ({
             ) : (
               // If there is no script custom component will be added
               rootConfig?.customComponent?.(
-                customFieldConfig,
+                config,
                 setError,
                 successFn,
                 closeFn
