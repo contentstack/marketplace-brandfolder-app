@@ -82,7 +82,10 @@ const getAssetType = (asset: any) => {
 };
 
 // eslint-disable-next-line
-const getViewIconforTooltip = (type: string) => PREVIEW_ICON;
+const getViewIconforTooltip = (type: string) => {
+  type = type?.toLowerCase();
+  if (type === "image" || type === "video") return PREVIEW_ICON;
+};
 
 const rteConfig: any = {
   damEnv,
