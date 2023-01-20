@@ -127,6 +127,7 @@ const SelectorPage: React.FC<any> = function ({
       Object.keys(customFieldConfig)?.length &&
       selectedAssetIds
     ) {
+      setConfig(customFieldConfig);
       compactViewImplementation(customFieldConfig, selectedAssetIds);
     } else {
       const { opener: windowOpener } = window;
