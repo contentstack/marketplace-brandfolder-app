@@ -40,13 +40,17 @@ const CustomComponent: React.FC<TypeCustomComponent> = function ({
         });
 
         panel?.selectAttachments({
-          onSelect: (attachment: any) => successFn([attachment]),
+          onSelect: (attachment: any) => {
+            successFn([attachment]);
+            panel?.closePanel();
+          },
         });
       } else {
         setError(true, damEnv.PANEL_LOADING_ERR);
       }
     } catch (error) {
       setError(true, damEnv.INCORRECT_CONFIG_ERR);
+      console.error("Error while loading custom component", error);
     }
   }, []);
 
