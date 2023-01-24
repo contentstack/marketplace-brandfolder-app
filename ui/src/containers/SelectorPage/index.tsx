@@ -59,7 +59,10 @@ const SelectorPage: React.FC<any> = function ({
           selectedAssets: assets,
           type: rootConfig?.damEnv?.DAM_APP_NAME,
         },
-        process.env.REACT_APP_UI_URL || "*"
+        process.env.REACT_APP_UI_URL_NA ||
+          process.env.REACT_APP_UI_URL_EU ||
+          process.env.REACT_APP_UI_URL_AZURE ||
+          "*"
       );
       window.close();
     } else {
@@ -135,12 +138,18 @@ const SelectorPage: React.FC<any> = function ({
         window.addEventListener("message", handleMessage, false);
         windowOpener.postMessage(
           { message: "openedReady" },
-          process.env.REACT_APP_UI_URL || "*"
+          process.env.REACT_APP_UI_URL_NA ||
+            process.env.REACT_APP_UI_URL_EU ||
+            process.env.REACT_APP_UI_URL_AZURE ||
+            "*"
         );
         window.addEventListener("beforeunload", () => {
           windowOpener.postMessage(
             { message: "close" },
-            process.env.REACT_APP_UI_URL || "*"
+            process.env.REACT_APP_UI_URL_NA ||
+              process.env.REACT_APP_UI_URL_EU ||
+              process.env.REACT_APP_UI_URL_AZURE ||
+              "*"
           );
         });
       }
