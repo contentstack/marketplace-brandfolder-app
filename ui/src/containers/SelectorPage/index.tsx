@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Icon } from "@contentstack/venus-components";
 import utils from "../../common/utils";
 import "./style.scss";
@@ -27,6 +28,18 @@ const SelectorPage: React.FC<any> = function ({
     localeTexts.Warnings.incorrectConfig
   );
   const damContainer = useRef(null);
+  const [searchParams] = useSearchParams();
+  let originUrl = "";
+  useEffect(() => {
+    const location = searchParams.get("location");
+    if (location === "NA") {
+      originUrl = process.env.REACT_APP_UI_URL_NA || "";
+    } else if (location === "EU") {
+      originUrl = process.env.REACT_APP_UI_URL_EU || "";
+    } else {
+      originUrl = process.env.REACT_APP_UI_URL_AZURE || "";
+    }
+  }, [searchParams]);
 
   // function to check null or missing values of config
   const checkConfigValues = (configParams: any) => {
@@ -59,10 +72,7 @@ const SelectorPage: React.FC<any> = function ({
           selectedAssets: assets,
           type: rootConfig?.damEnv?.DAM_APP_NAME,
         },
-        process.env.REACT_APP_UI_URL_NA ||
-          process.env.REACT_APP_UI_URL_EU ||
-          process.env.REACT_APP_UI_URL_AZURE ||
-          "*"
+        originUrl
       );
       window.close();
     } else {
@@ -134,23 +144,13 @@ const SelectorPage: React.FC<any> = function ({
       compactViewImplementation(customFieldConfig, selectedAssetIds);
     } else {
       const { opener: windowOpener } = window;
+
+      console.info("url query", originUrl);
       if (windowOpener) {
         window.addEventListener("message", handleMessage, false);
-        windowOpener.postMessage(
-          { message: "openedReady" },
-          process.env.REACT_APP_UI_URL_NA ||
-            process.env.REACT_APP_UI_URL_EU ||
-            process.env.REACT_APP_UI_URL_AZURE ||
-            "*"
-        );
+        windowOpener.postMessage({ message: "openedReady" }, originUrl);
         window.addEventListener("beforeunload", () => {
-          windowOpener.postMessage(
-            { message: "close" },
-            process.env.REACT_APP_UI_URL_NA ||
-              process.env.REACT_APP_UI_URL_EU ||
-              process.env.REACT_APP_UI_URL_AZURE ||
-              "*"
-          );
+          windowOpener.postMessage({ message: "close" }, originUrl);
         });
       }
     }
