@@ -144,8 +144,6 @@ const SelectorPage: React.FC<any> = function ({
       compactViewImplementation(customFieldConfig, selectedAssetIds);
     } else {
       const { opener: windowOpener } = window;
-
-      console.info("url query", originUrl);
       if (windowOpener) {
         window.addEventListener("message", handleMessage, false);
         windowOpener.postMessage({ message: "openedReady" }, originUrl);
