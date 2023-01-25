@@ -26,8 +26,8 @@ const SelectorPage: React.FC<any> = function ({
   const [warningText, setWarningText] = useState<string>(
     localeTexts.Warnings.incorrectConfig
   );
+  const [originUrl, setOriginUrl] = useState<string>("");
   const damContainer = useRef(null);
-  let originUrl = "";
 
   // function to check null or missing values of config
   const checkConfigValues = (configParams: any) => {
@@ -136,23 +136,24 @@ const SelectorPage: React.FC<any> = function ({
         const queryString = window.location.href
           ?.split("?")?.[1]
           ?.split("=")?.[1];
-
+        let postMessageUrl: string;
         switch (queryString) {
           case "NA":
-            originUrl = process.env.REACT_APP_UI_URL_NA || "";
+            postMessageUrl = process.env.REACT_APP_UI_URL_NA || "";
             break;
           case "EU":
-            originUrl = process.env.REACT_APP_UI_URL_EU || "";
+            postMessageUrl = process.env.REACT_APP_UI_URL_EU || "";
             break;
           default:
-            originUrl = process.env.REACT_APP_UI_URL_AZURE || "";
+            postMessageUrl = process.env.REACT_APP_UI_URL_AZURE || "";
         }
 
         window.addEventListener("message", handleMessage, false);
-        windowOpener.postMessage({ message: "openedReady" }, originUrl);
+        windowOpener.postMessage({ message: "openedReady" }, postMessageUrl);
         window.addEventListener("beforeunload", () => {
-          windowOpener.postMessage({ message: "close" }, originUrl);
+          windowOpener.postMessage({ message: "close" }, postMessageUrl);
         });
+        setOriginUrl(postMessageUrl);
       }
     }
   }, []);
