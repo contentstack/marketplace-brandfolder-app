@@ -137,12 +137,15 @@ const SelectorPage: React.FC<any> = function ({
           ?.split("?")?.[1]
           ?.split("=")?.[1];
 
-        if (queryString === "NA") {
-          originUrl = process.env.REACT_APP_UI_URL_NA || "";
-        } else if (queryString === "EU") {
-          originUrl = process.env.REACT_APP_UI_URL_EU || "";
-        } else {
-          originUrl = process.env.REACT_APP_UI_URL_AZURE || "";
+        switch (queryString) {
+          case "NA":
+            originUrl = process.env.REACT_APP_UI_URL_NA || "";
+            break;
+          case "EU":
+            originUrl = process.env.REACT_APP_UI_URL_EU || "";
+            break;
+          default:
+            originUrl = process.env.REACT_APP_UI_URL_AZURE || "";
         }
 
         window.addEventListener("message", handleMessage, false);
