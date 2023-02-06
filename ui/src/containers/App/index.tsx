@@ -34,7 +34,6 @@ const App: React.FC = function () {
               Keep only the paths that are required for your app and
               remove the remaining paths and their source code also. */}
           <Routes>
-            <Route path="/config" element={<ConfigScreen />} />
             <Route path="/custom-field" element={<CustomField />} />
             <Route path="/selector-page" element={<SelectorPage />} />
           </Routes>
