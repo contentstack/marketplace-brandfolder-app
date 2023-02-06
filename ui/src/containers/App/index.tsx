@@ -5,7 +5,6 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { TrackJS } from "trackjs";
 /* Import our modules */
 import ErrorBoundary from "../../components/ErrorBoundary";
-import ConfigScreen from "../ConfigScreen";
 import CustomField from "../CustomField";
 import SelectorPage from "../SelectorPage";
 /* Import node module CSS */
