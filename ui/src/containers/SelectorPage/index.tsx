@@ -144,10 +144,12 @@ const SelectorPage: React.FC<any> = function ({
           case "EU":
             postMessageUrl = process.env.REACT_APP_UI_URL_EU || "";
             break;
+          case "AZURE_NA":
+            postMessageUrl = process.env.REACT_APP_UI_URL_AZURE_NA || "";
+            break;
           default:
-            postMessageUrl = process.env.REACT_APP_UI_URL_AZURE || "";
+            postMessageUrl = process.env.REACT_APP_UI_URL_AZURE_EU || "";
         }
-
         window.addEventListener("message", handleMessage, false);
         windowOpener.postMessage({ message: "openedReady" }, postMessageUrl);
         window.addEventListener("beforeunload", () => {
@@ -195,7 +197,7 @@ const SelectorPage: React.FC<any> = function ({
         )}
       </div>
       <div
-        className={`selector_container mt-30 mr-20 ml-20 mb-20 ${componentType}_selector_container`}
+        className={`selector_container ${componentType}_selector_container`}
         id="selector_container"
         data-testid="selector-container"
         ref={damContainer}

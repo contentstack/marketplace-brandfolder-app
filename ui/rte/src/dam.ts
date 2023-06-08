@@ -18,7 +18,7 @@ const saveData = (event: any) => {
         config,
         type: rteConfig?.damEnv?.DAM_APP_NAME,
       },
-      "*"
+      process.env.REACT_APP_UI_URL
     );
   } else {
     let dataArr;
@@ -65,8 +65,10 @@ export const onClickHandler = async (props) => {
       queryLocation = "NA";
     } else if (windowLocation === process.env.REACT_APP_UI_URL_EU) {
       queryLocation = "EU";
+    } else if (windowLocation === process.env.REACT_APP_UI_URL_AZURE_NA) {
+      queryLocation = "AZURE_NA";
     } else {
-      queryLocation = "AZURE";
+      queryLocation = "AZURE_EU";
     }
     let url;
     if (rteConfig?.damEnv?.DIRECT_SELECTOR_PAGE === "url") {
