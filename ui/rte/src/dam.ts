@@ -18,7 +18,7 @@ const saveData = (event: any) => {
         config,
         type: rteConfig?.damEnv?.DAM_APP_NAME,
       },
-      "*"
+      process.env.REACT_APP_UI_URL
     );
   } else {
     let dataArr;
@@ -61,12 +61,18 @@ export const onClickHandler = async (props) => {
   } else {
     const windowLocation = window.location.origin;
     let queryLocation = "";
-    if (windowLocation === process.env.REACT_APP_UI_URL_NA) {
-      queryLocation = "NA";
-    } else if (windowLocation === process.env.REACT_APP_UI_URL_EU) {
-      queryLocation = "EU";
-    } else {
-      queryLocation = "AZURE";
+    switch (windowLocation) {
+      case process.env.REACT_APP_UI_URL_NA:
+        queryLocation = "NA";
+        break;
+      case process.env.REACT_APP_UI_URL_EU:
+        queryLocation = "EU";
+        break;
+      case process.env.REACT_APP_UI_URL_AZURE_NA:
+        queryLocation = "AZURE_NA";
+        break;
+      default:
+        queryLocation = "AZURE_EU";
     }
     let url;
     if (rteConfig?.damEnv?.DIRECT_SELECTOR_PAGE === "url") {
