@@ -4,16 +4,25 @@
 /* Import node module CSS */
 /* Import our CSS */
 
-/* Below is just an example function which can be called
-from any of the app container pages. */
-const getDataFromAPI: Function = (data?: any): Promise<any> =>
-  fetch(`${process.env.REACT_APP_API_URL || ""}?${data?.queryParams}`, {
-    headers: {
-      ...data?.headers,
-      "x-api-key": process.env.REACT_APP_API_KEY || "",
-    },
-    method: data?.method,
-    body: JSON.stringify(data?.body),
-  });
+const checkConfigValidity = async (apiKey: any) => {
+  let response: any = await fetch(
+    "https://brandfolder.com/api/v4/brandfolders",
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+    }
+  );
+  response = await response.json();
+  // eslint-disable-next-line
+  return response?.data?.length ? true : false;
+};
 
-export default getDataFromAPI;
+const services = {
+  checkConfigValidity,
+};
+
+export default services;
