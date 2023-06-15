@@ -1,10 +1,11 @@
 /* Import React modules */
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 /* ContentStack Modules */
 // For all the available venus components, please refer below doc
 // https://venus-storybook.contentstack.com/?path=/docs/components-textinput--default
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import "@contentstack/venus-components/build/main.css";
+import debounce from "lodash/debounce";
 /* Import our modules */
 import {
   RadioInputField,
@@ -13,6 +14,8 @@ import {
 } from "./Components";
 import rootConfig from "../../root_config";
 import utils from "../../common/utils";
+import localeTexts from "../../common/locale/en-us";
+import services from "../../services";
 import { TypeAppSdkConfigState, TypeOption } from "../../common/types";
 import {
   setTrackJsMetaData,
@@ -22,6 +25,7 @@ import {
 import "./styles.scss";
 
 const ConfigScreen: React.FC = function () {
+  const appConfig = useRef<any>();
   // error tracking hooks
   const { trackError } = useJsErrorTracker();
   // entire configuration object returned from configureConfigScreen
@@ -131,6 +135,10 @@ const ConfigScreen: React.FC = function () {
         const { api_key: apiKey, name, org_uid: orgUid } = appSdk?.stack?._data;
         const { uid } = appSdk?.currentUser;
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
+        appConfig.current = sdkConfigData;
+        sdkConfigData?.current?.setValidity(false, {
+          message: localeTexts.ConfigFields.invalidCredentials,
+        });
         if (sdkConfigData) {
           const installationDataFromSDK =
             await sdkConfigData?.getInstallationData();
@@ -208,7 +216,7 @@ const ConfigScreen: React.FC = function () {
    * Call this function whenever any field value is changed in the DOM
    * */
   const updateConfig = useCallback(
-    async (e: any, inConfig?: boolean, inServerConfig?: boolean) => {
+    debounce(async (e: any, inConfig?: boolean, inServerConfig?: boolean) => {
       // eslint-disable-next-line prefer-const
       let { name: fieldName, value: fieldValue } = e?.target;
       if (typeof fieldValue === "string") {
@@ -230,15 +238,21 @@ const ConfigScreen: React.FC = function () {
         updatedServerConfig[fieldName] = fieldValue;
       }
 
+      const newInstallationData = {
+        ...state?.installationData,
+        configuration: updatedConfig,
+        serverConfiguration: updatedServerConfig,
+      };
+
       if (state?.setInstallationData) {
-        await state?.setInstallationData({
-          ...state?.installationData,
-          configuration: updatedConfig,
-          serverConfiguration: updatedServerConfig,
+        setState({
+          ...state,
+          installationData: newInstallationData,
         });
+        await state?.setInstallationData(newInstallationData);
       }
       return true;
-    },
+    }, 300),
     [
       state?.setInstallationData,
       state?.installationData,
@@ -246,6 +260,12 @@ const ConfigScreen: React.FC = function () {
       state?.installationData?.serverConfiguration,
     ]
   );
+
+  useEffect(() => {
+    services
+      .checkConfigValidity(state?.installationData?.configuration?.apiKey)
+      .then((isValid: boolean) => appConfig?.current?.setValidity(isValid));
+  }, [state?.installationData?.configuration?.apiKey]);
 
   // converting the config in proper format for updateConfig
   const updateValueFunc = (configName: string, configValue: string) => {
@@ -334,11 +354,6 @@ const ConfigScreen: React.FC = function () {
           return <></>;
       }
     });
-
-  /* If need to get any data from API then use,
-  getDataFromAPI({queryParams, headers, method, body}) function.
-  Refer services/index.ts for more details and update the API
-  call there as per requirement. */
 
   return (
     <div className="layout-container">
