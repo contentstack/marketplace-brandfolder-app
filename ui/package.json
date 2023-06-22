@@ -24,7 +24,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.43.4",
     "trackjs": "^3.10.1",
-    "typescript": "^4.5.2",
+    "typescript": "^5.1.3",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
