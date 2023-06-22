@@ -17,6 +17,7 @@ const localeTexts = {
       placeholder: "Select keys",
       instruction: "Select the keys you want to save",
     },
+    invalidCredentials: "Invalid Configuration",
   },
   CustomFields: {
     button: {
