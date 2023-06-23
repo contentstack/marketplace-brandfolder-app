@@ -7,8 +7,8 @@ const constantStyles = {
 const brandfolderUrl = "https://brandfolder.com/api/v4/users/whoami";
 
 const constants = {
-  constantStyles,
   brandfolderUrl,
+  constantStyles,
 };
 
 export default constants;
