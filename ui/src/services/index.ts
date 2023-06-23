@@ -7,17 +7,21 @@
 import constants from "../common/constants";
 
 const checkConfigValidity = async (apiKey: any) => {
+  let authToken = "";
+  if (apiKey) {
+    authToken = `Bearer ${apiKey}`;
+  }
   let response: any = await fetch(constants.brandfolderUrl, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: authToken,
     },
   });
   response = await response.json();
   // eslint-disable-next-line
-  return response?.data?.length ? true : false;
+  return response?.errors ? false : true;
 };
 
 const services = {

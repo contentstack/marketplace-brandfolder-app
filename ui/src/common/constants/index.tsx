@@ -4,7 +4,7 @@ const constantStyles = {
   loaderColor: "#6C5CE7",
 };
 
-const brandfolderUrl = "https://brandfolder.com/api/v4/brandfolders";
+const brandfolderUrl = "https://brandfolder.com/api/v4/users/whoami";
 
 const constants = {
   constantStyles,
