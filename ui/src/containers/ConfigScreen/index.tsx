@@ -1,5 +1,5 @@
 /* Import React modules */
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 /* ContentStack Modules */
 // For all the available venus components, please refer below doc
 // https://venus-storybook.contentstack.com/?path=/docs/components-textinput--default
@@ -14,6 +14,8 @@ import {
 } from "./Components";
 import rootConfig from "../../root_config";
 import utils from "../../common/utils";
+import localeTexts from "../../common/locale/en-us";
+import services from "../../services";
 import { TypeAppSdkConfigState, TypeOption } from "../../common/types";
 import {
   setTrackJsMetaData,
@@ -23,6 +25,7 @@ import {
 import "./styles.scss";
 
 const ConfigScreen: React.FC = function () {
+  const appConfig = useRef<any>();
   // error tracking hooks
   const { trackError } = useJsErrorTracker();
   // entire configuration object returned from configureConfigScreen
@@ -132,6 +135,10 @@ const ConfigScreen: React.FC = function () {
         const { api_key: apiKey, name, org_uid: orgUid } = appSdk?.stack?._data;
         const { uid } = appSdk?.currentUser;
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
+        appConfig.current = sdkConfigData;
+        sdkConfigData?.current?.setValidity(false, {
+          message: localeTexts.ConfigFields.invalidCredentials,
+        });
         if (sdkConfigData) {
           const installationDataFromSDK =
             await sdkConfigData?.getInstallationData();
@@ -253,6 +260,18 @@ const ConfigScreen: React.FC = function () {
       state?.installationData?.serverConfiguration,
     ]
   );
+
+  useEffect(() => {
+    if (appConfig.current) {
+      if (state?.installationData?.configuration?.apiKey) {
+        services
+          .checkConfigValidity(state?.installationData?.configuration?.apiKey)
+          .then((isValid: boolean) => appConfig?.current?.setValidity(isValid));
+      } else {
+        appConfig?.current?.setValidity(true);
+      }
+    }
+  }, [state?.installationData?.configuration?.apiKey, appConfig.current]);
 
   // converting the config in proper format for updateConfig
   const updateValueFunc = (configName: string, configValue: string) => {
