@@ -4,11 +4,8 @@ const constantStyles = {
   loaderColor: "#6C5CE7",
 };
 
-const brandfolderUrl = "https://brandfolder.com/api/v4/brandfolders";
-
 const constants = {
   constantStyles,
-  brandfolderUrl,
 };
 
 export default constants;
