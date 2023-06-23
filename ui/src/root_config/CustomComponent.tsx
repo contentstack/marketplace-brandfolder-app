@@ -27,6 +27,9 @@ const CustomComponent: React.FC<TypeCustomComponent> = function ({
   useEffect(() => {
     try {
       const authToken = config?.apiKey ?? "";
+      if (!config?.apiKey) {
+        localStorage.removeItem("IDENTITY_STORE_KEY");
+      }
       const anchor = document?.getElementById("panel-anchor");
       if (anchor) {
         panel = new PanelUISdk({
