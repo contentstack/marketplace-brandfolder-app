@@ -11,7 +11,7 @@ const checkConfigValidity = async (apiKey: any) => {
   if (apiKey) {
     authToken = `Bearer ${apiKey}`;
   }
-  let response: any = await fetch(constants.brandfolderUrl, {
+  const response: any = await fetch(constants.brandfolderUrl, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -19,9 +19,7 @@ const checkConfigValidity = async (apiKey: any) => {
       Authorization: authToken,
     },
   });
-  response = await response.json();
-  // eslint-disable-next-line
-  return response?.errors ? false : true;
+  return response?.status === 200;
 };
 
 const services = {

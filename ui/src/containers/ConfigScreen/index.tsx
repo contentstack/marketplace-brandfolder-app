@@ -268,7 +268,7 @@ const ConfigScreen: React.FC = function () {
           .checkConfigValidity(state?.installationData?.configuration?.apiKey)
           .then((isValid: boolean) => appConfig?.current?.setValidity(isValid));
       } else {
-        appConfig?.current?.setValidity(false);
+        appConfig?.current?.setValidity(true);
       }
     }
   }, [state?.installationData?.configuration?.apiKey, appConfig.current]);
