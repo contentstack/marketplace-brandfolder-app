@@ -34,7 +34,7 @@ const localeTexts = {
     AssetNotAddedText: "No assets have been added",
   },
   SelectorPage: {
-    title: `${rootConfig?.damEnv?.DAM_APP_NAME} Extension`,
+    title: `${rootConfig?.damEnv?.DAM_APP_NAME}`,
   },
   Warnings: {
     incorrectConfig: `The credentials you entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} App" are invalid or missing. Please update the configuration details and try again.`,
