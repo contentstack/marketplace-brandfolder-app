@@ -2,7 +2,7 @@ import rteConfig from "../../../rte_config/index";
 
 const localeTexts = {
   SelectorPage: {
-    title: `${rteConfig?.damEnv?.DAM_APP_NAME} Extension`,
+    title: `${rteConfig?.damEnv?.DAM_APP_NAME}`,
   },
   RTE: {
     ToolTip: {

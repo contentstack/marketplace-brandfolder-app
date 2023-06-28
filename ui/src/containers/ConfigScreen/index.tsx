@@ -262,10 +262,16 @@ const ConfigScreen: React.FC = function () {
   );
 
   useEffect(() => {
-    services
-      .checkConfigValidity(state?.installationData?.configuration?.apiKey)
-      .then((isValid: boolean) => appConfig?.current?.setValidity(isValid));
-  }, [state?.installationData?.configuration?.apiKey]);
+    if (appConfig.current) {
+      if (state?.installationData?.configuration?.apiKey) {
+        services
+          .checkConfigValidity(state?.installationData?.configuration?.apiKey)
+          .then((isValid: boolean) => appConfig?.current?.setValidity(isValid));
+      } else {
+        appConfig?.current?.setValidity(true);
+      }
+    }
+  }, [state?.installationData?.configuration?.apiKey, appConfig.current]);
 
   // converting the config in proper format for updateConfig
   const updateValueFunc = (configName: string, configValue: string) => {
