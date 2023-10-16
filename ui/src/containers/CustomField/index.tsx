@@ -255,7 +255,7 @@ const CustomField: React.FC = function () {
                   onClick={openDAMSelectorPage}
                   data-testid="add-btn"
                   version="v2"
-                  size="regular"    
+                  size="regular"
                 >
                   {localeTexts.CustomFields.button.btnText}
                 </Button>
