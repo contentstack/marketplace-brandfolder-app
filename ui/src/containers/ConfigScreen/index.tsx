@@ -139,8 +139,12 @@ const ConfigScreen: React.FC = function () {
             message: localeTexts.ConfigFields.invalidCredentials,
           });
           /* eslint-disable */
-          const { api_key: apiKey, name, org_uid: orgUid } = appSdk?.stack?._data || {};
-        const { uid } = appSdk?.currentUser || {};
+          const {
+            api_key: apiKey,
+            name,
+            org_uid: orgUid,
+          } = appSdk?.stack?._data || {};
+          const { uid } = appSdk?.currentUser || {};
           const installationDataFromSDK =
             await sdkConfigData?.getInstallationData();
           const setInstallationDataOfSDK = sdkConfigData?.setInstallationData;
