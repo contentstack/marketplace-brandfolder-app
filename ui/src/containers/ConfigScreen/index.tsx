@@ -132,14 +132,19 @@ const ConfigScreen: React.FC = function () {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
         // eslint-disable-next-line
-        const { api_key: apiKey, name, org_uid: orgUid } = appSdk?.stack?._data;
-        const { uid } = appSdk?.currentUser;
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
-        appConfig.current = sdkConfigData;
-        sdkConfigData?.current?.setValidity(false, {
-          message: localeTexts.ConfigFields.invalidCredentials,
-        });
         if (sdkConfigData) {
+          appConfig.current = sdkConfigData;
+          appConfig?.current?.setValidity(false, {
+            message: localeTexts.ConfigFields.invalidCredentials,
+          });
+          /* eslint-disable */
+          const {
+            api_key: apiKey,
+            name,
+            org_uid: orgUid,
+          } = appSdk?.stack?._data || {};
+          const { uid } = appSdk?.currentUser || {};
           const installationDataFromSDK =
             await sdkConfigData?.getInstallationData();
           const setInstallationDataOfSDK = sdkConfigData?.setInstallationData;
