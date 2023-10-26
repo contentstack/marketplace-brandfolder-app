@@ -32,6 +32,6 @@
 		"errorMsg": "Please add valid branch name!"
 	},
 	"dependencies": {
-		"crypto-js": "^4.1.1"
+		"crypto-js": "^4.2.0"
 	}
 }
