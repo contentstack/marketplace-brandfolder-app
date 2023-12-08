@@ -2,7 +2,7 @@
   "name": "marketplace-brandfolder-ui",
   "version": "1.0.0",
   "dependencies": {
-    "@brandfolder-panel/sdk": "^0.9.19",
+    "@brandfolder-panel/sdk": "^0.9.20",
     "@contentstack/app-sdk": "^2.0.0",
     "@contentstack/venus-components": "^2.1.0",
     "@dnd-kit/core": "^6.0.5",
