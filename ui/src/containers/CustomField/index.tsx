@@ -104,9 +104,21 @@ const CustomField: React.FC = function () {
 
   // save data of "selectedAssets" state in contentstack when updated
   React.useEffect(() => {
-    setRenderAssets(rootConfig?.filterAssetData?.(selectedAssets));
-    setSelectedAssetsIds(selectedAssets?.map((item) => item?.[uniqueID]));
-    state?.location?.CustomField?.field?.setData(selectedAssets);
+    const latestDataMap: any = {};
+    selectedAssets.forEach((item) => {
+      const { id, name } = item;
+
+      if (latestDataMap?.[id] && latestDataMap?.[id]?.name !== name) {
+        latestDataMap[id] = { ...item, name };
+      } else if (!latestDataMap[id]) {
+        latestDataMap[id] = { ...item };
+      }
+    });
+    const result = Object?.values(latestDataMap);
+
+    setRenderAssets(rootConfig?.filterAssetData?.(result));
+    setSelectedAssetsIds(result?.map((item: any) => item?.[uniqueID]));
+    state?.location?.CustomField?.field?.setData(result);
   }, [
     selectedAssets, // Your Custom Field State Data
   ]);
@@ -139,7 +151,7 @@ const CustomField: React.FC = function () {
   // handle assets received from selectorpage component
   const handleAssets = useCallback(
     (assets: any[]) => {
-      setSelectedAssets(utils.uniqBy([...selectedAssets, ...assets], uniqueID));
+      setSelectedAssets([...selectedAssets, ...assets]);
     },
     [selectedAssets]
   );
