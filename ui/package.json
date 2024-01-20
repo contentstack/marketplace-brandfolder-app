@@ -2,7 +2,7 @@
   "name": "marketplace-brandfolder-ui",
   "version": "1.0.0",
   "dependencies": {
-    "@brandfolder-panel/sdk": "^0.9.16",
+    "@brandfolder-panel/sdk": "^0.9.24",
     "@contentstack/app-sdk": "^2.0.0",
     "@contentstack/venus-components": "^2.1.0",
     "@dnd-kit/core": "^6.0.5",
@@ -28,7 +28,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "export PORT=8180 && react-app-rewired start",
+    "start": "export PORT=4000 && react-app-rewired start",
     "test": "jest",
     "eject": "react-app-rewired eject",
     "prettify": "prettier --write .",
