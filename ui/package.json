@@ -28,7 +28,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "export PORT=4000 && react-app-rewired start",
+    "start": "export PORT=8180 && react-app-rewired start",
     "test": "jest",
     "eject": "react-app-rewired eject",
     "prettify": "prettier --write .",
