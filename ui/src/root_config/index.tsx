@@ -46,10 +46,10 @@ const filterAssetData = (assets: any[]) => {
     return {
       id,
       type: utils.getAssetType(extension),
-      name: asset.filename || name,
-      width: asset.width || dimensions?.width,
-      height: asset.height || dimensions?.height,
-      size: asset.size || sizeInBytes, // add size in bytes as string eg.'416246'
+      name: asset?.filename || name,
+      width: asset?.width || dimensions?.width,
+      height: asset?.height || dimensions?.height,
+      size: asset?.size || sizeInBytes, // add size in bytes as string eg.'416246'
       thumbnailUrl: url,
       previewUrl: url, // add this parameter if you want "Preview" in tooltip action items
     };
