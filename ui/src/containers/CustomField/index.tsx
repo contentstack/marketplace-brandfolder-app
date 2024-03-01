@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* Import React modules */
 import React, { useCallback, useRef, useState } from "react";
 /* Import ContentStack modules */
@@ -57,6 +58,25 @@ const CustomField: React.FC = function () {
   // unique param in the asset object
   const uniqueID = rootConfig?.damEnv?.ASSET_UNIQUE_ID || "id";
 
+  const extensionArrayPattern = ((receivedArray: any) => {
+    Object.values(receivedArray).map(
+      (item: any) => {
+
+        const attributes = item?.apiDto?.attributes || item?.attributes;
+        const relationships = item?.apiDto?.relationships || item?.relationships;
+
+        item.attributes = attributes;
+        item.relationships = relationships;
+        item.size = item?.apiDto?.attributes?.size || item?.attributes?.size;
+        item.width = item?.apiDto?.attributes?.width || item?.attributes?.width;
+        item.height = item?.apiDto?.attributes?.height  || item?.attributes?.height;
+        item.url = item?.apiDto?.attributes?.url || item?.attributes?.url;
+        item.cdn_url = item?.apiDto?.attributes?.cdn_url || item?.attributes?.cdn_url;
+        return item;
+      }
+    );
+  })
+
   React.useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk: any) => {
@@ -73,6 +93,7 @@ const CustomField: React.FC = function () {
         const contenttypeConfig = appSdk?.location?.CustomField?.fieldConfig;
 
         const initialData = customFieldLocation?.field?.getData();
+        extensionArrayPattern(initialData);
         if (initialData?.length) {
           // set App's Custom Field Data
           setSelectedAssets(initialData);
@@ -140,6 +161,7 @@ const CustomField: React.FC = function () {
   const handleMessage = (event: MessageEvent) => {
     if (selectorPageWindow) {
       const dataArr: Array<any> = rootConfig?.handleSelectorPageData?.(event);
+      extensionArrayPattern(dataArr);
       if (dataArr?.length) {
         setSelectedAssets(
           utils.uniqBy([...selectedAssets, ...dataArr], uniqueID)
@@ -151,6 +173,7 @@ const CustomField: React.FC = function () {
   // handle assets received from selectorpage component
   const handleAssets = useCallback(
     (assets: any[]) => {
+      extensionArrayPattern(assets);
       setSelectedAssets([...selectedAssets, ...assets]);
     },
     [selectedAssets]
