@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 // https://venus-storybook.contentstack.com/?path=/docs/components-textinput--default
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import "@contentstack/venus-components/build/main.css";
+import { Field, FieldLabel, InstructionText, ToggleSwitch } from "@contentstack/venus-components";
 import debounce from "lodash/debounce";
 /* Import our modules */
 import {
@@ -57,6 +58,7 @@ const ConfigScreen: React.FC = function () {
             [value]: saveInConfig?.[value]?.defaultSelectedOption || "",
           };
         }, {}),
+        is_extension: false,
       },
       /* Use ServerConfiguration Only When Webhook is Enbaled */
       serverConfiguration: {
@@ -127,6 +129,7 @@ const ConfigScreen: React.FC = function () {
       return acc;
     }, {}),
   });
+  const [isExtension, setIsExtension] = React.useState(false);
 
   React.useEffect(() => {
     ContentstackAppSdk.init()
@@ -203,6 +206,9 @@ const ConfigScreen: React.FC = function () {
 
           setRadioInputValues(radioValuesObj);
           setSelectInputValues(selectValuesObj);
+          setIsExtension(
+            state?.installationData?.configuration?.is_extension
+          );
           setTrackJsMetaData({
             apiKey,
             name,
@@ -250,10 +256,6 @@ const ConfigScreen: React.FC = function () {
       };
 
       if (state?.setInstallationData) {
-        setState({
-          ...state,
-          installationData: newInstallationData,
-        });
         await state?.setInstallationData(newInstallationData);
       }
       return true;
@@ -278,6 +280,12 @@ const ConfigScreen: React.FC = function () {
     }
   }, [state?.installationData?.configuration?.apiKey, appConfig.current]);
 
+  useEffect(() => {
+    const e: any = {};
+    e.target = { name: "is_extension", value: isExtension };
+    updateConfig(e, true);
+  }, [isExtension]);
+
   // converting the config in proper format for updateConfig
   const updateValueFunc = (configName: string, configValue: string) => {
     const value: any = {};
@@ -293,6 +301,9 @@ const ConfigScreen: React.FC = function () {
     },
     [selectInputValues]
   );
+  const updateIsExtension = (e: any) => {
+    setIsExtension(!isExtension);
+  };
 
   // updating the radio option state
   const updateRadioOptions = useCallback(
@@ -376,6 +387,24 @@ const ConfigScreen: React.FC = function () {
             state?.installationData?.serverConfiguration,
             handleCustomConfigUpdate
           )}
+          <Field>
+            <FieldLabel required htmlFor="is_extension">
+              {" "}
+              {localeTexts.ConfigFields.isExtension.label}
+            </FieldLabel>
+            <div className="is_extension_toggle">
+              <ToggleSwitch
+                checked={isExtension}
+                name="is_extension"
+                id="is_extension"
+                data-testid="is_extension-input"
+                onChange={updateIsExtension}
+              />
+            </div>
+            <InstructionText>
+              {localeTexts.ConfigFields.isExtension.instruction}
+            </InstructionText>
+          </Field>
         </div>
       </div>
     </div>

@@ -58,23 +58,45 @@ const CustomField: React.FC = function () {
   // unique param in the asset object
   const uniqueID = rootConfig?.damEnv?.ASSET_UNIQUE_ID || "id";
 
-  const extensionArrayPattern = ((receivedArray: any) => {
-    Object.values(receivedArray).map(
-      (item: any) => {
+  const extensionArrayPattern = ((receivedArray: any, isExtension: boolean) => {
+    if(isExtension) {
+      const modifiedArray = Object.values(receivedArray).map(
+        (item: any) => {
+          const attributes = item?.apiDto?.attributes || item?.attributes;
+          const relationships = item?.apiDto?.relationships || item?.relationships;
+          item.attributes = attributes;
+          item.relationships = relationships;
+          item.size = item?.apiDto?.attributes?.size || item?.attributes?.size;
+          item.width = item?.apiDto?.attributes?.width || item?.attributes?.width;
+          item.height = item?.apiDto?.attributes?.height  || item?.attributes?.height;
+          item.url = item?.apiDto?.attributes?.url || item?.attributes?.url;
+          item.cdn_url = item?.apiDto?.attributes?.cdn_url || item?.attributes?.cdn_url;
+          return item;
+        }
+      );
+      return modifiedArray;
+    } 
+    else {
+      const modifiedArray = Object.values(receivedArray).map((item: any) => {
+            const modifiedObject = {
+                ...item,
+                apiDto: {
+                    id: item?.id,
+                    type: item?.type,
+                    attributes: item?.attributes,
+                    relationships: item?.relationships
+                },
+                url: item?.cdn_url,
+                dimensions: {
+                    width: item?.width,
+                    height: item?.height,
+                }
+            };
+            return modifiedObject;
 
-        const attributes = item?.apiDto?.attributes || item?.attributes;
-        const relationships = item?.apiDto?.relationships || item?.relationships;
-
-        item.attributes = attributes;
-        item.relationships = relationships;
-        item.size = item?.apiDto?.attributes?.size || item?.attributes?.size;
-        item.width = item?.apiDto?.attributes?.width || item?.attributes?.width;
-        item.height = item?.apiDto?.attributes?.height  || item?.attributes?.height;
-        item.url = item?.apiDto?.attributes?.url || item?.attributes?.url;
-        item.cdn_url = item?.apiDto?.attributes?.cdn_url || item?.attributes?.cdn_url;
-        return item;
-      }
-    );
+    });
+    return modifiedArray;
+    }
   })
 
   React.useEffect(() => {
@@ -93,10 +115,13 @@ const CustomField: React.FC = function () {
         const contenttypeConfig = appSdk?.location?.CustomField?.fieldConfig;
 
         const initialData = customFieldLocation?.field?.getData();
-        extensionArrayPattern(initialData);
-        if (initialData?.length) {
+       const modifiedData = extensionArrayPattern(
+          initialData,
+          config?.is_extension
+        );
+        if (modifiedData?.length) {
           // set App's Custom Field Data
-          setSelectedAssets(initialData);
+          setSelectedAssets(modifiedData);
         }
 
         setCurrentLocale(customFieldLocation?.entry?.locale);
@@ -135,8 +160,7 @@ const CustomField: React.FC = function () {
         latestDataMap[id] = { ...item };
       }
     });
-    const result = Object?.values(latestDataMap);
-
+    const result = Object?.values(latestDataMap) || [];
     setRenderAssets(rootConfig?.filterAssetData?.(result));
     setSelectedAssetsIds(result?.map((item: any) => item?.[uniqueID]));
     state?.location?.CustomField?.field?.setData(result);
@@ -161,10 +185,10 @@ const CustomField: React.FC = function () {
   const handleMessage = (event: MessageEvent) => {
     if (selectorPageWindow) {
       const dataArr: Array<any> = rootConfig?.handleSelectorPageData?.(event);
-      extensionArrayPattern(dataArr);
-      if (dataArr?.length) {
+      const modifiedArray = extensionArrayPattern(dataArr, state?.config?.is_extension);
+      if (modifiedArray?.length) {
         setSelectedAssets(
-          utils.uniqBy([...selectedAssets, ...dataArr], uniqueID)
+          utils.uniqBy([...selectedAssets, ...modifiedArray], uniqueID)
         ); // selectedAssets is array of assets selected in selectorpage
       }
     }
@@ -173,8 +197,8 @@ const CustomField: React.FC = function () {
   // handle assets received from selectorpage component
   const handleAssets = useCallback(
     (assets: any[]) => {
-      extensionArrayPattern(assets);
-      setSelectedAssets([...selectedAssets, ...assets]);
+      const modifiedAssets: any = extensionArrayPattern(assets, state?.config?.is_extension);
+      setSelectedAssets([...selectedAssets, ...modifiedAssets]);
     },
     [selectedAssets]
   );

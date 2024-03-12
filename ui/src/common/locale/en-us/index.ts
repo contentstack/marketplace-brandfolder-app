@@ -18,6 +18,11 @@ const localeTexts = {
       instruction: "Select the keys you want to save",
     },
     invalidCredentials: "Invalid Configuration",
+    isExtension: {
+      label: "Is Extension code?",
+      instruction:
+        "If you enable the Extension toggle, you get a JSON similar to the Brandfolder Extension code",
+    },
   },
   CustomFields: {
     button: {
