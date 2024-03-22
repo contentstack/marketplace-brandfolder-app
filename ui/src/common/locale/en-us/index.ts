@@ -18,6 +18,16 @@ const localeTexts = {
       instruction: "Select the keys you want to save",
     },
     invalidCredentials: "Invalid Configuration",
+    isExtension: {
+      label: "Is Extension code?",
+      instruction:
+        "If you enable the Extension toggle, you get a JSON similar to the Brandfolder Extension code",
+      legacyInfo:
+        "For the latest Brandfolder app, you can skip the Legacy Settings configuration.",
+      legacy_title: "Legacy Settings",
+      warning_note:
+        "Note: When you change the settings from App to Extension, and vice versa, there are chances of variation in data.",
+    },
   },
   CustomFields: {
     button: {
