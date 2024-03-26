@@ -41,12 +41,13 @@ const configureConfigScreen = () =>
 const filterAssetData = (assets: any[]) => {
   const filterAssetArray: TypeAsset[] = assets?.map((asset) => {
     // Enter your code for filteration of assets to the specified format
-    const { id, dimensions, sizeInBytes, url, name, extension } = asset;
+    const { id, dimensions, sizeInBytes, url, name, extension, filename } =
+      asset;
 
     return {
       id,
       type: utils.getAssetType(extension),
-      name,
+      name: name || filename,
       width: dimensions?.width,
       height: dimensions?.height,
       size: sizeInBytes, // add size in bytes as string eg.'416246'

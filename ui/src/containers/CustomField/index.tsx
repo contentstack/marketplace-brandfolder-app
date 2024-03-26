@@ -57,6 +57,45 @@ const CustomField: React.FC = function () {
   // unique param in the asset object
   const uniqueID = rootConfig?.damEnv?.ASSET_UNIQUE_ID || "id";
 
+  const extensionArrayPattern = (receivedArray: any) => {
+    const modifiedArray = Object.values(receivedArray).map((item: any) => {
+      const attributes = item?.apiDto?.attributes || item?.attributes;
+      const relationships = item?.apiDto?.relationships || item?.relationships;
+
+      const modifiedItem = {
+        ...item,
+        attributes,
+        relationships,
+        size: attributes?.size || item?.size,
+        width: attributes?.width || item?.width,
+        height: attributes?.height || item?.height,
+        url: attributes?.url || item?.url,
+        cdn_url: attributes?.cdn_url || item?.cdn_url,
+        is_processing: attributes?.is_processing || item?.isProcessing,
+        thumbnail_url: attributes?.thumbnail_url || item?.thumbnailUrl,
+        created_at: attributes?.created_at || item?.createdAt,
+        updated_at: attributes?.updated_at || item?.updatedAt,
+      };
+
+      const {
+        isProcessing,
+        thumbnailUrl,
+        createdAt,
+        updatedAt,
+        apiDto,
+        assetId,
+        dimensions,
+        mediaType,
+        name,
+        sizeInBytes,
+        supported,
+        ...rest
+      } = modifiedItem;
+      return rest;
+    });
+    return modifiedArray;
+  };
+
   React.useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk: any) => {
@@ -152,8 +191,13 @@ const CustomField: React.FC = function () {
   const handleAssets = useCallback(
     (assets: any[]) => {
       setSelectedAssets([...selectedAssets, ...assets]);
+
+      if (state?.config?.is_extension) {
+        const updatedAsset = extensionArrayPattern([...assets]);
+        setSelectedAssets([...selectedAssets, ...updatedAsset]);
+      }
     },
-    [selectedAssets]
+    [selectedAssets, state.config?.is_extension]
   );
 
   // function to set error
