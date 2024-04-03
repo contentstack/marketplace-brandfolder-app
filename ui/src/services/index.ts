@@ -4,26 +4,16 @@
 /* Import node module CSS */
 /* Import our CSS */
 
-import constants from "../common/constants";
-
-const checkConfigValidity = async (apiKey: any) => {
-  let authToken = "";
-  if (apiKey) {
-    authToken = `Bearer ${apiKey}`;
-  }
-  const response: any = await fetch(constants.brandfolderUrl, {
-    method: "GET",
+/* Below is just an example function which can be called
+from any of the app container pages. */
+const getDataFromAPI: Function = (data?: any): Promise<any> =>
+  fetch(`${process.env.REACT_APP_API_URL ?? ""}?${data?.queryParams}`, {
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: authToken,
+      ...data?.headers,
+      "x-api-key": process.env.REACT_APP_API_KEY ?? "",
     },
+    method: data?.method,
+    body: JSON.stringify(data?.body),
   });
-  return response?.status === 200;
-};
 
-const services = {
-  checkConfigValidity,
-};
-
-export default services;
+export default getDataFromAPI;

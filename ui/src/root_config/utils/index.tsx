@@ -25,7 +25,7 @@ const getFilteredConfigObj = (
 ) => {
   const returnObj: any = {};
   mapArr?.forEach((key: string) => {
-    if (key in checkObj && checkObj[key] !== "") {
+    if (key in checkObj && checkObj?.[key] !== "") {
       if (
         valueChecks &&
         key in valueChecks &&
@@ -42,8 +42,19 @@ const getFilteredConfigObj = (
   return returnObj;
 };
 
+const compareFn = (a: string, b: string): number => {
+  if (a < b) {
+    return -1;
+  }
+  if (a > b) {
+    return 1;
+  }
+  return 0;
+};
+
 const checkArrEqual = (arr1: string[], arr2: string[]) =>
-  [...arr1]?.sort()?.join(",") === [...arr2]?.sort()?.join(",");
+  [...arr1]?.sort(compareFn)?.join(",") ===
+  [...arr2]?.sort(compareFn)?.join(",");
 
 const handleLocaleConfig = (data: TypeLocaleConfigData) => {
   const {
@@ -56,7 +67,7 @@ const handleLocaleConfig = (data: TypeLocaleConfigData) => {
   } = data;
   let returnValue = { ...returnConfig };
   // prettier-ignore
-  if (('locale' in customConfig) && (currentLocale in customConfig?.locale)) {
+  if (('locale' in customConfig) && (currentLocale in (customConfig?.locale ?? {}))) {
 		const localeConfigObj = customConfig?.locale?.[currentLocale];
 		if (
 			typeof localeConfigObj === 'object' &&
@@ -87,7 +98,7 @@ const getSelectorConfig = (props: TypeSelectorConfig) => {
   if (!Object.keys(customConfig)?.length) return appConfig;
   // if customConfig
   let returnConfig = { ...appConfig };
-  if (!pairs || !pairs?.length) {
+  if (!pairs?.length) {
     returnConfig = {
       ...returnConfig,
       ...getFilteredConfigObj(keyArr, customConfig, valueChecks),
@@ -132,7 +143,7 @@ const getSelectorConfig = (props: TypeSelectorConfig) => {
 };
 
 const getAssetType = (extension: string) => {
-  extension = extension.toLowerCase();
+  extension = extension?.toLowerCase();
   let assetType = "document";
   const audioExtensions = ["mp3", "m4a", "flac", "wav", "wma", "aac"];
   const videoExtnesions = [
@@ -179,13 +190,13 @@ const getAssetType = (extension: string) => {
     "xlr",
   ];
 
-  if (videoExtnesions.includes(extension)) {
+  if (videoExtnesions?.includes(extension)) {
     assetType = "video";
-  } else if (audioExtensions.includes(extension)) {
+  } else if (audioExtensions?.includes(extension)) {
     assetType = "audio";
-  } else if (imageExtension.includes(extension)) {
+  } else if (imageExtension?.includes(extension)) {
     assetType = "image";
-  } else if (excelExtension.includes(extension)) {
+  } else if (excelExtension?.includes(extension)) {
     assetType = "excel";
   } else if (extension === "pdf") {
     assetType = "pdf";

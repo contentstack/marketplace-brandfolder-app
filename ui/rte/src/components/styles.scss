@@ -40,6 +40,17 @@
   }
 }
 
+.embed-asset-container {
+  & .tippy-wrapper {
+    margin-bottom: 6px !important;
+  }
+}
+
+.noLineHeight,
+.tippy-wrapper {
+  line-height: 0;
+}
+
 .scrte-image-resizer-feedback-right,
 .scrte-image-resizer-feedback-left {
   position: absolute;
@@ -154,6 +165,14 @@
     outline: none;
     border: none;
     padding: 6px;
+
+    &:hover {
+      background: #edf1f7 !important;
+      & svg path,
+      & svg circle {
+        fill: #222 !important;
+      }
+    }
   }
 }
 
@@ -208,4 +227,26 @@
   span {
     font-weight: 600;
   }
+}
+
+.remove-modal-icon {
+  & circle {
+    fill: #d62400 !important;
+  }
+}
+
+.Button--delete:hover {
+  & .remove-modal-icon {
+    & circle {
+      fill: white !important;
+    }
+
+    & path {
+      stroke: #d62400 !important;
+    }
+  }
+}
+
+.ReactModal__Overlay .ReactModal__Content .ReactModal__Content__body {
+  max-height: unset !important;
 }

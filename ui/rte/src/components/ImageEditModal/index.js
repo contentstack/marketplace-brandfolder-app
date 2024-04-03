@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import {
@@ -24,6 +23,7 @@ import localeTexts from "../../common/locale/en-us/index";
 
 const ImageEditModal = function (props) {
   const { element, rte, icon, closeModal, path } = props;
+  const RTE_DISPLAY_URL = rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
   const [state, setState] = useState({});
   let modalTitle;
   switch (icon) {
@@ -50,13 +50,13 @@ const ImageEditModal = function (props) {
         return {
           style: { overflow: "hidden" },
           classname: rteConfig?.damEnv?.DAM_APP_NAME,
-          id: `right${btoa(element?.attrs?.rte_display_url)}`,
+          id: `right${btoa(RTE_DISPLAY_URL)}`,
         };
       case "left":
         return {
           style: { display: "inline-block", overflow: "hidden" },
           classname: rteConfig?.damEnv?.DAM_APP_NAME,
-          id: `left${btoa(element?.attrs?.rte_display_url)}`,
+          id: `left${btoa(RTE_DISPLAY_URL)}`,
         };
     }
   };
@@ -87,22 +87,20 @@ const ImageEditModal = function (props) {
           at: rte?.getPath(element),
         });
       }
+    } else if (rte?._adv?.editor?.isInline(element)) {
+      rte?._adv?.Transforms?.removeNodes(rte?._adv?.editor, {
+        at: path,
+      });
+      let blockPath = [path[0], path[1] + 1];
+      rte?._adv?.Transforms?.insertNodes(rte?._adv?.editor, newNode, {
+        at: blockPath,
+      });
     } else {
-      if (rte?._adv?.editor?.isInline(element)) {
-        rte?._adv?.Transforms?.removeNodes(rte?._adv?.editor, {
-          at: path,
-        });
-        let blockPath = [path[0], path[1] + 1];
-        rte?._adv?.Transforms?.insertNodes(rte?._adv?.editor, newNode, {
-          at: blockPath,
-        });
-      } else {
-        rte?._adv?.Transforms?.setNodes(
-          rte?._adv?.editor,
-          { attrs: state },
-          { at: rte?.getPath(element) }
-        );
-      }
+      rte?._adv?.Transforms?.setNodes(
+        rte?._adv?.editor,
+        { attrs: state },
+        { at: rte?.getPath(element) }
+      );
     }
   }, [
     path,
@@ -170,7 +168,7 @@ const ImageEditModal = function (props) {
         },
         style: {
           "text-align": "left",
-          "max-width": prevState.width ? `${prevState.width}px` : undefined,
+          "max-width": prevState?.width ? `${prevState?.width}px` : undefined,
           float: "left",
         },
       }));
@@ -226,7 +224,7 @@ const ImageEditModal = function (props) {
     [updateSelect, updateCheckbox, updateText]
   );
 
-  let dropdownList = constantValues.dropdownList;
+  let { dropdownList } = constantValues;
 
   if (state?.inline) {
     dropdownList = dropdownList.filter((ele) => ele?.value !== "center");
@@ -235,13 +233,13 @@ const ImageEditModal = function (props) {
   return (
     <>
       <ModalHeader title={modalTitle} closeModal={closeModal} />
-
       <ModalBody className="modalBodyCustomClass">
         <div className="scrte-form-container">
           <div>
             {!icon ? (
               <img
-                src={element?.attrs?.rte_display_url}
+                src={RTE_DISPLAY_URL}
+                onError={utils.handleImageError}
                 className="modal"
                 alt={element?.attrs?.["asset-alt"]}
               />
@@ -297,7 +295,7 @@ const ImageEditModal = function (props) {
             </Field>
             <Field>
               <Checkbox
-                checked={state?.["redactor-attributes"]?.target || false}
+                checked={state?.["redactor-attributes"]?.target ?? false}
                 name="target"
                 label={constantValues.constants.newTab.label}
                 onChange={updateData}
@@ -313,15 +311,12 @@ const ImageEditModal = function (props) {
                 onChange={updateData}
                 disabled={
                   state?.position === "center" || state?.position === "none"
-                    ? true
-                    : false
                 }
               />
             </Field>
           </div>
         </div>
       </ModalBody>
-
       <ModalFooter>
         <ButtonGroup>
           <Button onClick={closeModal} buttonType="light">
@@ -344,4 +339,5 @@ ImageEditModal.propTypes = {
   rte: PropTypes.object,
   icon: PropTypes.string,
   closeModal: PropTypes.func,
+  path: PropTypes.array,
 };

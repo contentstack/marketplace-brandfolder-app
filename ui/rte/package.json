@@ -1,7 +1,7 @@
 {
-  "name": "marketplace-brandfolder-rte-app",
+  "name": "marketplace-dam-rte-app",
   "version": "1.0.0",
-  "description": "RTE Plugin for the Brandfolder App",
+  "description": "RTE Plugin for the DAM App",
   "entry": "plugin",
   "output": "dam.js",
   "main": "../build/dist/plugin.system.js",
@@ -15,7 +15,7 @@
     "dev": "webpack --config webpack.dev.js"
   },
   "devDependencies": {
-    "@types/node": "^10.17.5",
+    "@types/node": "^20.10.6",
     "@types/react": "^16.9.11",
     "css-loader": "^6.5.1",
     "source-map-loader": "^0.2.4",
@@ -33,10 +33,10 @@
   },
   "dependencies": {
     "@babel/core": "^7.20.12",
-    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
-    "@contentstack/app-sdk": "^1.1.1",
-    "@contentstack/venus-components": "^1.0.4",
+    "@contentstack/app-sdk": "^2.0.0",
+    "@contentstack/venus-components": "^2.2.0",
     "@emotion/core": "^10.0.22",
     "@emotion/css": "^11.9.0",
     "babel-loader": "^9.1.2",
@@ -46,9 +46,8 @@
     "re-resizable": "^6.9.9",
     "react": "^16.11.0",
     "react-dom": "^16.13.1",
-    "trackjs": "^3.10.1",
     "uuid": "^8.3.2",
-    "webpack": "^5.76.0",
+    "webpack": "^5.65.0",
     "webpack-merge": "^5.8.0"
   },
   "keywords": [

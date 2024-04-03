@@ -6,6 +6,15 @@
     .page-wrapper {
       padding: 0;
       width: 100%;
+
+      & .FieldLabel {
+        font-weight: 700 !important;
+      }
     }
+  }
+
+  .loader-component {
+    display: flex;
+    flex-direction: column;
   }
 }
