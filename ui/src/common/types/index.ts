@@ -82,11 +82,15 @@ export type TypeWarningtext = {
 export interface TypeRootDamEnv {
   IS_DAM_SCRIPT?: boolean;
   DAM_APP_NAME: string;
+  BRANDFOLDER_API_BASE_URL: string;
+  PANEL_LOADING_ERR: string,
+  INCORRECT_CONFIG_ERR: string,
   CONFIG_FIELDS: string[];
   ASSET_UNIQUE_ID: string;
   DAM_SCRIPT_URL?: string;
   SELECTOR_PAGE_LOGO?: any;
   DIRECT_SELECTOR_PAGE: string;
+
 }
 
 export interface TypeRootConfigSreen {
@@ -134,6 +138,12 @@ export interface TypeCustomConfigUpdateParams {
 export interface TypeErrorFn {
   isErr: boolean;
   errorText: string;
+}
+
+export interface TypeSelectedItems {
+  assets: TypeAsset[];
+  removeAsset: Function;
+  setRearrangedAssets: Function;
 }
 
 export interface TrackProps {
