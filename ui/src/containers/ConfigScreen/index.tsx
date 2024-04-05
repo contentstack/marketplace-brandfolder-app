@@ -26,18 +26,12 @@ import utils from "../../common/utils";
 import localeTexts from "../../common/locale/en-us";
 import services from "../../services";
 import { TypeAppSdkConfigState, TypeOption } from "../../common/types";
-import {
-  setTrackJsMetaData,
-  useJsErrorTracker,
-} from "../../common/trackJs/setTrackJsMetaData";
 /* Import our CSS */
 import "./styles.scss";
 import WarningMessage from "../../components/WarningMessage";
 
 const ConfigScreen: React.FC = function () {
   const appConfig = useRef<any>();
-  // error tracking hooks
-  const { trackError } = useJsErrorTracker();
   // entire configuration object returned from configureConfigScreen
   const configInputFields = rootConfig?.configureConfigScreen?.();
   // config objs to be saved in configuration
@@ -216,16 +210,9 @@ const ConfigScreen: React.FC = function () {
           setRadioInputValues(radioValuesObj);
           setSelectInputValues(selectValuesObj);
           setIsExtension(state?.installationData?.configuration?.is_extension);
-          setTrackJsMetaData({
-            apiKey,
-            name,
-            orgUid,
-            userUid: uid,
-          });
         }
       })
       .catch((error) => {
-        trackError(error);
         console.error("Something Went Wrong While Loading App SDK", error);
       });
   }, []);

@@ -32,7 +32,13 @@ const DeleteModal = function (props) {
           </Button>
           <Button
             buttonType="delete"
-            icon="TrashMini"
+            icon="RemoveFilled"
+            iconProps={{
+              size: "mini",
+              className: "remove-modal-icon",
+            }}
+            size="small"
+            version="v2"
             onClick={useCallback(() => {
               remove();
               closeModal();
