@@ -10,8 +10,6 @@ import localeTexts from "./common/locale/en-us/index";
 
 export default ContentstackSDK.init()
   .then(async (sdk) => {
-    const { api_key: apiKey, name, org_uid: orgUid } = sdk?.stack?._data;
-    const { uid } = sdk?.currentUser;
     const extensionObj = await sdk?.location;
     const RTE = await extensionObj?.RTEPlugin;
 

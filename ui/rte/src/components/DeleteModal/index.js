@@ -15,7 +15,7 @@ const DeleteModal = function (props) {
   return (
     <>
       <ModalHeader
-        title={`${localeTexts.DeleteModal.header} ${type}`}
+        title={`${localeTexts.DeleteModal.header}`}
         closeModal={closeModal}
       />
       <ModalBody className="deleteModalBody">
