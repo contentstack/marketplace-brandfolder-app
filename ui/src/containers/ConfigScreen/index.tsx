@@ -399,7 +399,6 @@ const ConfigScreen: React.FC = function () {
               <Info
                 content={localeTexts.ConfigFields.isExtension.legacyInfo}
                 icon={<Icon icon="InfoCircleWhite" />}
-                type="attention"
               />
             </div>
 
