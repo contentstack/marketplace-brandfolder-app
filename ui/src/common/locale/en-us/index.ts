@@ -37,7 +37,7 @@ const localeTexts = {
       hoverActions: {
         preview: "Preview",
         platformRedirect: `Open In ${rootConfig?.damEnv?.DAM_APP_NAME}`,
-        remove: "Delete",
+        remove: "Remove",
         drag: "Drag",
       },
     },

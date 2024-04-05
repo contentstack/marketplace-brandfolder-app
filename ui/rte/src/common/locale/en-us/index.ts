@@ -16,10 +16,10 @@ const localeTexts = {
     },
   },
   DeleteModal: {
-    header: "Delete",
-    body: "This will delete <b>&apos;$&apos;</b> permanently.",
+    header: "Remove Asset from Contentstack Entry",
+    body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
     cancelButton: "Cancel",
-    confirmButton: "Delete",
+    confirmButton: "Remove",
   },
   ModalTitle: {
     video: "Edit Video",
