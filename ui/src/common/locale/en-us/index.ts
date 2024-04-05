@@ -19,14 +19,14 @@ const localeTexts = {
     },
     invalidCredentials: "Invalid Configuration",
     isExtension: {
-      label: "Is Extension code?",
+      label: "Enable Extension Support",
       instruction:
-        "If you enable the Extension toggle, you get a JSON similar to the Brandfolder Extension code",
+        "If this toggle is enabled, you will be able to get the asset JSON data similar to the Brandfolder Extension",
       legacyInfo:
-        "For the latest Brandfolder app, you can skip the Legacy Settings configuration.",
+        "Legacy settings allow you to use the Brandfolder app with Extension support, enabling you to get asset JSON data similar to that of the Brandfolder Extension. However, if you prefer to use the latest Brandfolder app, you can skip configuring the Legacy settings.",
       legacy_title: "Legacy Settings",
       warning_note:
-        "Note: When you change the settings from App to Extension, and vice versa, there are chances of variation in data.",
+        "Note: When you toggle between App and Extension settings, please note that the data variation may occur.",
     },
   },
   CustomFields: {
@@ -50,10 +50,10 @@ const localeTexts = {
     incorrectConfig: `The credentials you entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} App" are invalid or missing. Please update the configuration details and try again.`,
   },
   DeleteModal: {
-    header: "Delete",
-    body: "This will delete <b>&apos;$&apos;</b> permanently.",
+    header: "Remove Asset from Contentstack",
+    body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack?",
     cancelButton: "Cancel",
-    confirmButton: "Delete",
+    confirmButton: "Remove",
   },
 };
 

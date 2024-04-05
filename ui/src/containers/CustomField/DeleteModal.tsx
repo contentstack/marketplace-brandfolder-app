@@ -19,7 +19,7 @@ const DeleteModal: React.FC<Props> = function ({
   return (
     <>
       <ModalHeader
-        title={`${localeTexts.DeleteModal.header} ${type}`}
+        title={localeTexts.DeleteModal.header}
         closeModal={props.closeModal}
       />
       <ModalBody className="deleteModalBody">
@@ -36,7 +36,13 @@ const DeleteModal: React.FC<Props> = function ({
           </Button>
           <Button
             buttonType="delete"
-            icon="TrashMini"
+            icon="RemoveFilled"
+            iconProps={{
+              size: "mini",
+              className: "remove-modal-icon",
+            }}
+            size="small"
+            version="v2"
             onClick={useCallback(() => {
               remove(id);
               props.closeModal();
