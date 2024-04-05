@@ -2,26 +2,14 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import ContentstackSDK from "@contentstack/app-sdk";
-import { TrackJS } from "trackjs";
 import DAMIcon from "./components/DAMImages/DAMIcon";
 import ImageElement from "./components/DAMImages/ImageElement";
 import { onClickHandler } from "./dam";
 import rteConfig from "./rte_config";
 import localeTexts from "./common/locale/en-us/index";
 
-TrackJS.install({
-  token: `${process.env.REACT_APP_TRACKER_TOKEN}`,
-  application: process.env.REACT_APP_TRACKER_ENV,
-  console: { display: true },
-});
-
-TrackJS.addMetadata("application_type", "marketplace");
-TrackJS.addMetadata("application_name", "Brandfolder RTE App");
-
 export default ContentstackSDK.init()
   .then(async (sdk) => {
-    const { api_key: apiKey, name, org_uid: orgUid } = sdk?.stack?._data;
-    const { uid } = sdk?.currentUser;
     const extensionObj = await sdk?.location;
     const RTE = await extensionObj?.RTEPlugin;
 
@@ -48,11 +36,6 @@ export default ContentstackSDK.init()
       };
     });
 
-    TrackJS.addMetadata("stack", `${name}`);
-    TrackJS.addMetadata("organization", `${orgUid}`);
-    TrackJS.addMetadata("api_key", `${apiKey}`);
-    TrackJS.addMetadata("user_uid", `${uid}`);
-
     // @ts-ignore
     DAM.on("beforeRender", (rte: RTE) => {
       if (
@@ -77,7 +60,6 @@ export default ContentstackSDK.init()
     };
   })
   .catch((err) => {
-    TrackJS.track(err);
     console.error(
       `Error in loading ${rteConfig?.damEnv?.DAM_APP_NAME} plugin :: `,
       err
