@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@brandfolder-panel/sdk": "^0.9.24",
-    "@contentstack/app-sdk": "^2.0.0",
+    "@contentstack/app-sdk": "^2.0.1",
     "@contentstack/venus-components": "^2.2.0",
     "@dnd-kit/core": "^6.0.5",
     "@dnd-kit/sortable": "^7.0.1",
