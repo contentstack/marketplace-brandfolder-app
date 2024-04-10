@@ -246,12 +246,18 @@ const ConfigScreen: React.FC = function () {
       const newInstallationData = {
         ...state?.installationData,
         configuration: updatedConfig,
+
         serverConfiguration: updatedServerConfig,
       };
 
       if (state?.setInstallationData) {
+        setState({
+          ...state,
+          installationData: newInstallationData,
+        });
         await state?.setInstallationData(newInstallationData);
       }
+
       return true;
     }, 300),
     [
@@ -274,12 +280,6 @@ const ConfigScreen: React.FC = function () {
     }
   }, [state?.installationData?.configuration?.apiKey, appConfig.current]);
 
-  useEffect(() => {
-    const e: any = {};
-    e.target = { name: "is_extension", value: isExtension };
-    updateConfig(e, true);
-  }, [isExtension]);
-
   // converting the config in proper format for updateConfig
   const updateValueFunc = (configName: string, configValue: string) => {
     const value: any = {};
@@ -296,7 +296,10 @@ const ConfigScreen: React.FC = function () {
     [selectInputValues]
   );
   const updateIsExtension = (e: any) => {
-    setIsExtension(!isExtension);
+    const newIsExtension = !isExtension;
+    setIsExtension(newIsExtension);
+    e.target = { name: "is_extension", value: newIsExtension };
+    updateConfig(e, true);
   };
 
   // updating the radio option state
