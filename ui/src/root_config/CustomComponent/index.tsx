@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { PanelUISdk } from "@brandfolder-panel/sdk";
 
 import "../styles.scss";
@@ -57,9 +57,7 @@ const CustomComponent: React.FC<TypeCustomComponent> = function ({
     }
   }, [config]);
 
-  return (
-    <div id="panel-anchor" />
-  );
+  return <div id="panel-anchor" />;
 };
 
 export default CustomComponent;
