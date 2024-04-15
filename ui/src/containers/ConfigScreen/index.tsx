@@ -55,6 +55,7 @@ const ConfigScreen: React.FC = function () {
       }
       checkConfigFields({
         configuration: updatedConfig,
+
         serverConfiguration: updatedServerConfig,
       });
       setInstallationData({

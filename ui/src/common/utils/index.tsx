@@ -100,7 +100,7 @@ const getHoverActions = (
   }
 
   tootipActionArray.push({
-    actionIcon: <Icon icon="Trash" size="mini" />,
+    actionIcon: <Icon icon="RemoveFilled" size="mini" />,
     actionTitle: localeTexts.CustomFields.assetCard.hoverActions.remove,
     actionOnClick: () =>
       cbModal({

@@ -168,8 +168,8 @@ const ImageElement = function ({
           <Icon icon="Rename" />
         </EmbedBtn>
 
-        <EmbedBtn title="delete" content="Delete" onClick={handleDelete}>
-          <Icon icon="Delete" />
+        <EmbedBtn title="remove" content="Remove" onClick={handleDelete}>
+          <Icon icon="RemoveFilled" />
         </EmbedBtn>
       </div>
     );
