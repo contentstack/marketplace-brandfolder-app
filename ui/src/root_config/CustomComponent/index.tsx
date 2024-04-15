@@ -14,9 +14,9 @@ interface TypeCustomComponent {
 
 const CustomComponent: React.FC<TypeCustomComponent> = function ({
   config,
-  setError,
   successFn,
   damEnv,
+  setError,
   // eslint-disable-next-line
   closeFn,
 }) {
