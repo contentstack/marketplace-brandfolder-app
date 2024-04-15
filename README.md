@@ -1,4 +1,4 @@
-# Contentstack Marketplace DAM App Boilerplate
+# Contentstack Marketplace Brandfolder App
 
 This boilerplate provides a template to customize your own marketplace DAM app.
 
