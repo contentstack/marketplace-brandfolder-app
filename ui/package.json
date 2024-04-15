@@ -1,5 +1,5 @@
 {
-  "name": "marketplace-dam-app-ui",
+  "name": "marketplace-brandfolder-ui",
   "version": "1.0.0",
   "dependencies": {
     "@brandfolder-panel/sdk": "^0.9.24",
