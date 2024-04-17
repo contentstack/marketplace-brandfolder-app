@@ -211,7 +211,7 @@ npm run build
 
 You need to upload all the files from the build folder on AWS S3 or any static file hosting service of your preference.
 
-## Steps for Developing Marketplace DAM App
+## Steps for Developing Marketplace Brandfolder App
 
 Please refer to the [`TEMPLATE.md`](./TEMPLATE.md) file placed in `<APP_DIRECTORY>/TEMPLATE.md`, for more details.
 
