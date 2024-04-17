@@ -1,20 +1,20 @@
 {
   "name": "marketplace-brandfolder-app",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "description": "Contentstack Marketplace Brandfolder App",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/contentstack-expert-services/marketplace-brandfolder-app.git"
+    "url": "git+https://github.com/contentstack/marketplace-brandfolder-app.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/contentstack-expert-services/marketplace-brandfolder-app/issues"
+    "url": "https://github.com/contentstack/marketplace-brandfolder-app/issues"
   },
-  "homepage": "https://github.com/contentstack-expert-services/marketplace-brandfolder-app#readme",
+  "homepage": "https://github.com/contentstack/marketplace-brandfolder-app#readme",
   "devDependencies": {
     "husky": "^4.3.8",
     "prettier": "^2.4.1",
@@ -25,7 +25,8 @@
       "pre-commit": "cd ui && rimraf build && npm run precommit"
     }
   },
-  "dependencies": {
-    "@brandfolder-panel/sdk": "^0.9.24"
-  }
+  "validate-branch-name": {
+		"pattern": "^(feature|bugfix|hotfix)/ESI-[0-9]+-[a-z0-9-]{5,30}$",
+		"errorMsg": "Please add valid branch name!"
+	}
 }

@@ -70,7 +70,7 @@ const AssetList: React.FC<TypeAssetList> = function ({ id }) {
             <p>{name?.charAt(0)?.toUpperCase() + name?.slice(1)}</p>
           </div>
           <div role="cell" className="Table__body__column">
-            {type?.charAt(0)?.toUpperCase() + type.slice(1)}
+            {type?.charAt(0)?.toUpperCase() + type?.slice(1)}
           </div>
         </ActionTooltip>
       )}

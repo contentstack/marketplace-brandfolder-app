@@ -23,10 +23,11 @@ const configureConfigScreen = () =>
   ({
     apiKey: {
       type: "textInputFields",
-      labelText: "DAM Text Input",
-      helpText: "DAM Text Input Helptext",
-      placeholderText: "DAM Text Input Placeholder",
-      instructionText: "DAM Text Input Instruction Text",
+      labelText: "Brandfolder API Key",
+      helpText:
+        "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
+      placeholderText: "Enter your Brandfolder API Key",
+      instructionText: "Your Brandfolder API Key",
       inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
       saveInConfig: true,
       saveInServerConfig: false,

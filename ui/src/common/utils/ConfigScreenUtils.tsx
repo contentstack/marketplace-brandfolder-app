@@ -121,12 +121,12 @@ const getIntialValueofComponents = ({
     if (radioValuesKeys?.includes(item)) {
       radioValuesObj[item] = configInputFields?.[item]?.options?.filter(
         (v: TypeOption) => v?.value === savedData?.[item]
-      )[0];
+      )?.[0];
     }
     if (selectValuesKeys?.includes(item)) {
       selectValuesObj[item] = configInputFields?.[item]?.options?.filter(
         (v: TypeOption) => v?.value === savedData?.[item]
-      )[0];
+      )?.[0];
     }
   });
 
