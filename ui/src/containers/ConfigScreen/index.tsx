@@ -5,6 +5,15 @@ import React, { useCallback, useEffect, useRef } from "react";
 // https://venus-storybook.contentstack.com/?path=/docs/components-textinput--default
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import "@contentstack/venus-components/build/main.css";
+import {
+  Accordion,
+  Field,
+  FieldLabel,
+  Icon,
+  Info,
+  InstructionText,
+  ToggleSwitch,
+} from "@contentstack/venus-components";
 import debounce from "lodash/debounce";
 /* Import our modules */
 import {
@@ -17,17 +26,12 @@ import utils from "../../common/utils";
 import localeTexts from "../../common/locale/en-us";
 import services from "../../services";
 import { TypeAppSdkConfigState, TypeOption } from "../../common/types";
-import {
-  setTrackJsMetaData,
-  useJsErrorTracker,
-} from "../../common/trackJs/setTrackJsMetaData";
 /* Import our CSS */
 import "./styles.scss";
+import WarningMessage from "../../components/WarningMessage";
 
 const ConfigScreen: React.FC = function () {
   const appConfig = useRef<any>();
-  // error tracking hooks
-  const { trackError } = useJsErrorTracker();
   // entire configuration object returned from configureConfigScreen
   const configInputFields = rootConfig?.configureConfigScreen?.();
   // config objs to be saved in configuration
@@ -57,6 +61,7 @@ const ConfigScreen: React.FC = function () {
             [value]: saveInConfig?.[value]?.defaultSelectedOption || "",
           };
         }, {}),
+        is_extension: false,
       },
       /* Use ServerConfiguration Only When Webhook is Enbaled */
       serverConfiguration: {
@@ -127,6 +132,7 @@ const ConfigScreen: React.FC = function () {
       return acc;
     }, {}),
   });
+  const [isExtension, setIsExtension] = React.useState(false);
 
   React.useEffect(() => {
     ContentstackAppSdk.init()
@@ -203,16 +209,10 @@ const ConfigScreen: React.FC = function () {
 
           setRadioInputValues(radioValuesObj);
           setSelectInputValues(selectValuesObj);
-          setTrackJsMetaData({
-            apiKey,
-            name,
-            orgUid,
-            userUid: uid,
-          });
+          setIsExtension(state?.installationData?.configuration?.is_extension);
         }
       })
       .catch((error) => {
-        trackError(error);
         console.error("Something Went Wrong While Loading App SDK", error);
       });
   }, []);
@@ -246,6 +246,7 @@ const ConfigScreen: React.FC = function () {
       const newInstallationData = {
         ...state?.installationData,
         configuration: updatedConfig,
+
         serverConfiguration: updatedServerConfig,
       };
 
@@ -256,6 +257,7 @@ const ConfigScreen: React.FC = function () {
         });
         await state?.setInstallationData(newInstallationData);
       }
+
       return true;
     }, 300),
     [
@@ -293,6 +295,12 @@ const ConfigScreen: React.FC = function () {
     },
     [selectInputValues]
   );
+  const updateIsExtension = (e: any) => {
+    const newIsExtension = !isExtension;
+    setIsExtension(newIsExtension);
+    e.target = { name: "is_extension", value: newIsExtension };
+    updateConfig(e, true);
+  };
 
   // updating the radio option state
   const updateRadioOptions = useCallback(
@@ -376,6 +384,47 @@ const ConfigScreen: React.FC = function () {
             state?.installationData?.serverConfiguration,
             handleCustomConfigUpdate
           )}
+          <div className="legacy-config">
+            <div className="legacy--info">
+              <Info
+                content={localeTexts.ConfigFields.isExtension.legacyInfo}
+                icon={<Icon icon="InfoCircleWhite" />}
+              />
+            </div>
+
+            <Accordion
+              dashedLineVisibility
+              hasBackgroundColor
+              title={localeTexts.ConfigFields.isExtension.legacy_title}
+            >
+              <div className="warning_note">
+                <WarningMessage
+                  content={localeTexts.ConfigFields.isExtension.warning_note}
+                />
+              </div>
+              <Field>
+                <div className="extension-wrapper">
+                  <FieldLabel required htmlFor="is_extension">
+                    {" "}
+                    {localeTexts.ConfigFields.isExtension.label}
+                  </FieldLabel>
+
+                  <div className="is_extension_toggle">
+                    <ToggleSwitch
+                      checked={isExtension}
+                      name="is_extension"
+                      id="is_extension"
+                      data-testid="is_extension-input"
+                      onChange={updateIsExtension}
+                    />
+                  </div>
+                </div>
+                <InstructionText>
+                  {localeTexts.ConfigFields.isExtension.instruction}
+                </InstructionText>
+              </Field>
+            </Accordion>
+          </div>
         </div>
       </div>
     </div>

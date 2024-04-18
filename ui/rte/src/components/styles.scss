@@ -209,3 +209,21 @@
     font-weight: 600;
   }
 }
+
+.remove-modal-icon {
+  & circle {
+    fill: #d62400 !important;
+  }
+}
+
+.Button--delete:hover {
+  & .remove-modal-icon {
+    & circle {
+      fill: white !important;
+    }
+
+    & path {
+      stroke: #d62400 !important;
+    }
+  }
+}

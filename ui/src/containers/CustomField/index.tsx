@@ -13,10 +13,6 @@ import AssetCardContainer from "./AssetCardContainer";
 import rootConfig from "../../root_config/index";
 import SelectorPage from "../SelectorPage";
 import WarningMessage from "../../components/WarningMessage";
-import {
-  setTrackJsMetaData,
-  useJsErrorTracker,
-} from "../../common/trackJs/setTrackJsMetaData";
 
 /* To add any labels / captions for fields or any inputs, use common/local/en-us/index.ts */
 
@@ -28,8 +24,6 @@ declare global {
 }
 
 const CustomField: React.FC = function () {
-  // error tracking hooks
-  const { trackError } = useJsErrorTracker();
   const ref = useRef(null);
   // state for configuration
   const [state, setState] = React.useState<TypeSDKData>({
@@ -57,12 +51,50 @@ const CustomField: React.FC = function () {
   // unique param in the asset object
   const uniqueID = rootConfig?.damEnv?.ASSET_UNIQUE_ID || "id";
 
+  const extensionArrayPattern = (receivedArray: any) => {
+    const modifiedArray = Object.values(receivedArray).map((item: any) => {
+      const attributes = item?.apiDto?.attributes || item?.attributes;
+      const relationships = item?.apiDto?.relationships || item?.relationships;
+
+      const modifiedItem = {
+        ...item,
+        attributes,
+        relationships,
+        size: attributes?.size || item?.size,
+        width: attributes?.width || item?.width,
+        height: attributes?.height || item?.height,
+        url: attributes?.url || item?.url,
+        cdn_url: attributes?.cdn_url || item?.cdn_url,
+        is_processing: attributes?.is_processing || item?.isProcessing,
+        thumbnail_url: attributes?.thumbnail_url || item?.thumbnailUrl,
+        created_at: attributes?.created_at || item?.createdAt,
+        updated_at: attributes?.updated_at || item?.updatedAt,
+      };
+
+      const {
+        isProcessing,
+        thumbnailUrl,
+        createdAt,
+        updatedAt,
+        apiDto,
+        assetId,
+        dimensions,
+        mediaType,
+        name,
+        sizeInBytes,
+        supported,
+        ...rest
+      } = modifiedItem;
+      return rest;
+    });
+    return modifiedArray;
+  };
+
   React.useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk: any) => {
         // eslint-disable-next-line
         const { api_key: apiKey, name, org_uid: orgUid } = appSdk?.stack?._data;
-        const { uid } = appSdk?.currentUser;
 
         const config = await appSdk?.getConfig();
         const customFieldLocation = appSdk?.location?.CustomField;
@@ -82,13 +114,6 @@ const CustomField: React.FC = function () {
 
         appSdk?.location?.CustomField?.frame?.enableAutoResizing();
 
-        setTrackJsMetaData({
-          apiKey,
-          name,
-          orgUid,
-          userUid: uid,
-        });
-
         setState({
           config,
           contentTypeConfig: contenttypeConfig,
@@ -97,7 +122,6 @@ const CustomField: React.FC = function () {
         });
       })
       .catch((error) => {
-        trackError(error);
         console.error("appSdk initialization error", error);
       });
   }, []);
@@ -152,8 +176,13 @@ const CustomField: React.FC = function () {
   const handleAssets = useCallback(
     (assets: any[]) => {
       setSelectedAssets([...selectedAssets, ...assets]);
+
+      if (state?.config?.is_extension) {
+        const updatedAsset = extensionArrayPattern([...assets]);
+        setSelectedAssets([...selectedAssets, ...updatedAsset]);
+      }
     },
-    [selectedAssets]
+    [selectedAssets, state.config?.is_extension]
   );
 
   // function to set error
@@ -164,7 +193,6 @@ const CustomField: React.FC = function () {
     setIsError(isErrorPresent);
     if (errorText) {
       setWarningText(errorText);
-      trackError(errorText);
     }
   };
 

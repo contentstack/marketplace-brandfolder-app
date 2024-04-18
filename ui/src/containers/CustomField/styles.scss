@@ -67,7 +67,7 @@
 
         .AssetCard__shortinfo__name {
           & .tippy-wrapper {
-            width: 150px;
+            width: 120px;
           }
         }
 
@@ -126,6 +126,13 @@
 .selected-items:active {
   height: 180px;
   margin-bottom: 20px;
+
+  & .middle-truncate-start {
+    width: 130px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .AssetCard__action__custom:last-child:hover svg path {
@@ -169,6 +176,23 @@
       & .AssetCard__shortinfo__name > .tippy-wrapper > span {
         width: 120px !important;
       }
+    }
+  }
+}
+
+.remove-modal-icon {
+  & circle {
+    fill: #d62400 !important;
+  }
+}
+
+.Button--delete:hover {
+  & .remove-modal-icon {
+    & circle {
+      fill: white !important;
+    }
+    & path {
+      stroke: #d62400 !important;
     }
   }
 }

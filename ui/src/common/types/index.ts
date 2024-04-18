@@ -66,13 +66,6 @@ export type Props = {
   [key: string]: any;
 };
 
-export interface TrackProps {
-  apiKey: string;
-  orgUid: string;
-  name: string;
-  userUid: string;
-}
-
 export interface TypeRadioOption {
   fieldName: string;
   mode: TypeOption;
