@@ -105,6 +105,7 @@ export interface TypeRootCustomField {
   handleSelectorPageData?: Function;
   handleSelectorWindow?: Function;
   handleAuthWindow?: Function;
+  modifyAssetsToSave?: Function;
 }
 
 export interface TypeRootSelector {
@@ -125,6 +126,7 @@ export interface TypeRootConfig {
   customSelectorComponent?: Function;
   handleConfigtoSelectorPage?: Function;
   handleAuthWindow?: Function;
+  modifyAssetsToSave?: Function;
 }
 
 export interface TypeCustomConfigUpdateParams {
