@@ -10,7 +10,7 @@ const ASSET_AUDIO_TYPE = "Audio";
 
 /* Variables for getViewIconforTooltip function */
 const PREVIEW_ICON = "Eye";
-const NEWTAB_ICON = "NewTab";
+const NEWTAB_ICON = "OpenURL";
 
 const getDisplayUrl = (asset: any) => asset?.url;
 
@@ -66,7 +66,14 @@ const getAssetType = (asset: any) => {
 };
 
 const getViewIconforTooltip = (type: string) => {
-  /* possible return values ==> Eye and NewTab */
+  /* 
+    Returns an object with either or both preview and openInDam properties.
+    Note: The values of the properties are the same as the values of the PREVIEW_ICON and NEWTAB_ICON variables.
+  */
+  return {
+    preview: PREVIEW_ICON,
+    openInDam: NEWTAB_ICON,
+  };
 };
 
 const getSelectorWindowUrl = (config: any) => {
