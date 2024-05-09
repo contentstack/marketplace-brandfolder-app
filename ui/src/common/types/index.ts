@@ -131,7 +131,7 @@ export interface TypeRootConfig {
 
 export interface TypeCustomConfigUpdateParams {
   fieldName: string;
-  fieldValue: string;
+  fieldValue: any;
   saveConfig: boolean;
   saveServerConfig: boolean;
 }
