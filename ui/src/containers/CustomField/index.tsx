@@ -45,11 +45,17 @@ const CustomField: React.FC = function () {
 
   // save data of "selectedAssets" state in contentstack when updated
   React.useEffect(() => {
-    if (selectedAssets) {
+    if (Array.isArray(selectedAssets)) {
       setRenderAssets(rootConfig?.filterAssetData?.(selectedAssets));
-      setSelectedAssetIds(selectedAssets?.map((item) => item?.[uniqueID]));
+      setSelectedAssetIds(
+        (selectedAssets as any[])?.map((item: any) => item?.[uniqueID])
+      );
       const assetsToSave =
-        rootConfig?.modifyAssetsToSave?.(selectedAssets) ?? selectedAssets;
+        rootConfig?.modifyAssetsToSave?.(
+          state?.config,
+          state?.contentTypeConfig,
+          selectedAssets
+        ) ?? selectedAssets;
       state?.location?.field?.setData(assetsToSave);
     }
   }, [
@@ -60,7 +66,7 @@ const CustomField: React.FC = function () {
     if (dataArr?.length) {
       const assetLimit = state?.contentTypeConfig?.advanced?.max_limit;
       let finalAssets = CustomFieldUtils.uniqBy(
-        [...selectedAssets, ...dataArr],
+        [...(Array.isArray(selectedAssets) ? selectedAssets : []), ...dataArr],
         uniqueID
       );
 
