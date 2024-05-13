@@ -147,7 +147,10 @@ const ConfigScreen: React.FC = function () {
                 installationData?.serverConfiguration,
                 handleCustomConfigUpdate
               )}
-              <JsonComponent />
+              {
+                installationData?.configuration?.is_extension ? '' : <JsonComponent />
+              }
+              
             </div>
           </ConfigStateProvider>
         )}

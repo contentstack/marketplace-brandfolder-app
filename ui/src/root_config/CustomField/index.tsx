@@ -76,10 +76,51 @@ const handleAuthWindow = (
 const modifyAssetsToSave = (
   config: any,
   contentTypeConfig: any,
-  assets: any[]
+  assets: any[],
+  isExtensionSupport: any,
 ) => {
+
+  let modifiedArray: any[] = assets;
+
   /* code logic to modify the assets to save in Custom Field */
-  return assets;
+  if (config?.is_extension) {
+    modifiedArray = Object.values(assets).map((item: any) => {
+      const attributes = item?.apiDto?.attributes || item?.attributes;
+      const relationships = item?.apiDto?.relationships || item?.relationships;
+
+      const modifiedItem = {
+        ...item,
+        attributes,
+        relationships,
+        size: attributes?.size || item?.size,
+        width: attributes?.width || item?.width,
+        height: attributes?.height || item?.height,
+        url: attributes?.url || item?.url,
+        cdn_url: attributes?.cdn_url || item?.cdn_url,
+        is_processing: attributes?.is_processing || item?.isProcessing,
+        thumbnail_url: attributes?.thumbnail_url || item?.thumbnailUrl,
+        created_at: attributes?.created_at || item?.createdAt,
+        updated_at: attributes?.updated_at || item?.updatedAt,
+      };
+
+      const {
+        isProcessing,
+        thumbnailUrl,
+        createdAt,
+        updatedAt,
+        apiDto,
+        assetId,
+        dimensions,
+        mediaType,
+        name,
+        sizeInBytes,
+        supported,
+        ...rest
+      } = modifiedItem;
+      return rest;
+    });
+  }
+  return modifiedArray;
 };
 
 const rootCustomField: TypeRootCustomField = {

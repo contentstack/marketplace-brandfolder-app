@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* NOTE: Remove Functions which are not used */
@@ -23,7 +22,7 @@ import localeTexts from "../locale/en-us";
 import useAppLocation from "../../common/hooks/useAppLocation";
 
 const configureConfigScreen = () =>
-  /* IMPORTANT: 
+/* IMPORTANT: 
 1. All sensitive information must be saved in serverConfig
 2. serverConfig is used when webhooks are implemented
 3. save the fields that are to be accessed in other location in config
@@ -31,19 +30,19 @@ const configureConfigScreen = () =>
 5. If values are stored in serverConfig then those values will not be available to other UI locations
 6. Supported type options are textInputFields, radioInputFields, selectInputFields */
 
-  ({
-    apiKey: {
-      type: "textInputFields",
-      labelText: "Brandfolder API Key",
-      helpText:
-        "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
-      placeholderText: "Enter your Brandfolder API Key",
-      instructionText: "Your Brandfolder API Key",
-      inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
-      saveInConfig: true,
-      saveInServerConfig: false,
-    },
-  });
+({
+  apiKey: {
+    type: "textInputFields",
+    labelText: "Brandfolder API Key",
+    helpText:
+      "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
+    placeholderText: "Enter your Brandfolder API Key",
+    instructionText: "Your Brandfolder API Key",
+    inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
+    saveInConfig: true,
+    saveInServerConfig: false,
+  },
+});
 
 const customConfigComponent = (
   config: any,
@@ -76,12 +75,9 @@ const customConfigComponent = (
 
   // function for extension suppport
   const updateIsExtension = (e: any) => {
-    console.log(" updateIsExtension function is called:>> ");
     const newIsExtension = !isExtension;
-    console.log("newIsExtension :>> ", newIsExtension);
     setIsExtension(newIsExtension);
     e.target = { name: "is_extension", value: newIsExtension };
-    console.log("e.target :>> ", e.target);
     // handleCustomConfigUpdate(e)
     handleCustomConfigUpdate({
       fieldName: "is_extension",
@@ -92,7 +88,7 @@ const customConfigComponent = (
   };
 
   return (
-    <div className="layout-container">
+    <div className="Field Field--full">
       <div className="page-wrapper">
         <div className="config-wrapper" data-testid="config-wrapper">
           <div className="legacy-config">
