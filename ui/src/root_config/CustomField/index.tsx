@@ -77,9 +77,8 @@ const modifyAssetsToSave = (
   config: any,
   contentTypeConfig: any,
   assets: any[],
-  isExtensionSupport: any,
+  isExtensionSupport: any
 ) => {
-
   let modifiedArray: any[] = assets;
 
   /* code logic to modify the assets to save in Custom Field */

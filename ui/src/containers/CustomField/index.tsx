@@ -56,7 +56,10 @@ const CustomField: React.FC = function () {
           state?.contentTypeConfig,
           selectedAssets.slice(-1)
         ) ?? selectedAssets;
-      state?.location?.field?.setData([...selectedAssets.slice(0, -1), ...assetsToSave]);
+      state?.location?.field?.setData([
+        ...selectedAssets.slice(0, -1),
+        ...assetsToSave,
+      ]);
     }
   }, [
     selectedAssets, // Your Custom Field State Data
