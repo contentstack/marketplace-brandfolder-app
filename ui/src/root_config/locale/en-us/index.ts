@@ -9,6 +9,8 @@ const localeTexts = {
       legacy_title: "Legacy Settings",
       warning_note:
         "Note: When you toggle between App and Extension settings, please note that the data variation may occur.",
+      info_note:
+        "If the extension is enabled, All fields and Custom fields option will not be available.",
     },
   },
 };
