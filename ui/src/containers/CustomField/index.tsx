@@ -46,7 +46,7 @@ const CustomField: React.FC = function () {
 
   // save data of "selectedAssets" state in contentstack when updated
   React.useEffect(() => {
-    console.log('selectedAssets -----------------:>> ', selectedAssets);
+    console.log("selectedAssets -----------------:>> ", selectedAssets);
     if (Array.isArray(selectedAssets)) {
       setRenderAssets(rootConfig?.filterAssetData?.(selectedAssets));
       setSelectedAssetIds(
