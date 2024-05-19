@@ -83,7 +83,9 @@ const modifyAssetsToSave = (
 
   /* code logic to modify the assets to save in Custom Field */
   if (config?.is_extension) {
-    modifiedArray = Object.values(assets).map((item: any) => {
+    let isExtensionAsset = assets?.slice(-1)
+
+    const formattedArray = Object.values(isExtensionAsset).map((item: any) => {
       const attributes = item?.apiDto?.attributes || item?.attributes;
       const relationships = item?.apiDto?.relationships || item?.relationships;
 
@@ -118,8 +120,10 @@ const modifyAssetsToSave = (
       } = modifiedItem;
       return rest;
     });
+    let sliceData = assets.slice(0, -1)
+    modifiedArray = [...sliceData, ...formattedArray,];
   }
-  return modifiedArray;
+  return modifiedArray
 };
 
 const rootCustomField: TypeRootCustomField = {

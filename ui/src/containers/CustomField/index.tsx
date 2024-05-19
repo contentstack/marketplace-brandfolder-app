@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* Import React modules */
 import React, { useCallback, useContext, useState } from "react";
 /* Import ContentStack modules */
@@ -45,6 +46,7 @@ const CustomField: React.FC = function () {
 
   // save data of "selectedAssets" state in contentstack when updated
   React.useEffect(() => {
+    console.log('selectedAssets -----------------:>> ', selectedAssets);
     if (Array.isArray(selectedAssets)) {
       setRenderAssets(rootConfig?.filterAssetData?.(selectedAssets));
       setSelectedAssetIds(
@@ -54,12 +56,10 @@ const CustomField: React.FC = function () {
         rootConfig?.modifyAssetsToSave?.(
           state?.config,
           state?.contentTypeConfig,
-          selectedAssets.slice(-1)
+          selectedAssets
+          // selectedAssets.slice(-1)
         ) ?? selectedAssets;
-      state?.location?.field?.setData([
-        ...selectedAssets.slice(0, -1),
-        ...assetsToSave,
-      ]);
+      state?.location?.field?.setData(assetsToSave);
     }
   }, [
     selectedAssets, // Your Custom Field State Data
