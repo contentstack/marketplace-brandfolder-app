@@ -2,7 +2,7 @@ import rteConfig from "../../../rte_config/index";
 
 const localeTexts = {
   SelectorPage: {
-    title: `${rteConfig?.damEnv?.DAM_APP_NAME}`,
+    title: rteConfig?.damEnv?.DAM_APP_NAME,
   },
   RTE: {
     ToolTip: {
@@ -14,6 +14,12 @@ const localeTexts = {
       cancel: "Cancel",
       save: "Save",
     },
+    iconContent: {
+      remove: "Remove",
+      edit: "Edit Properties",
+      preview: "Preview Asset",
+      openInDAM: `Open In ${rteConfig?.damEnv?.DAM_APP_NAME}`,
+    },
   },
   DeleteModal: {
     header: "Remove Asset from Contentstack Entry",
@@ -22,10 +28,10 @@ const localeTexts = {
     confirmButton: "Remove",
   },
   ModalTitle: {
-    video: "Edit Video",
-    audio: "Edit Audio",
-    image: "Edit Image",
-    default: "Edit Asset",
+    video: "Edit Video Properties",
+    audio: "Edit Audio Properties",
+    image: "Edit Image Properties",
+    default: "Edit Asset Properties",
   },
 };
 

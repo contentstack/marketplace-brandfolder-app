@@ -1,9 +1,8 @@
-/* eslint no-underscore-dangle: 0 */
 /** @jsx jsx */
 import { jsx } from "@emotion/core";
 import ContentstackSDK from "@contentstack/app-sdk";
-import DAMIcon from "./components/DAMImages/DAMIcon";
-import ImageElement from "./components/DAMImages/ImageElement";
+import DAMIcon from "./components/DAMIcon";
+import ImageElement from "./components/ImageElement";
 import { onClickHandler } from "./dam";
 import rteConfig from "./rte_config";
 import localeTexts from "./common/locale/en-us/index";
@@ -61,7 +60,7 @@ export default ContentstackSDK.init()
   })
   .catch((err) => {
     console.error(
-      `Error in loading ${rteConfig?.damEnv?.DAM_APP_NAME} plugin :: `,
+      `Error in loading ${rteConfig.damEnv.DAM_APP_NAME} JSON RTE plugin :: `,
       err
     );
   });

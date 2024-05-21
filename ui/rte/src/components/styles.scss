@@ -40,6 +40,11 @@
   }
 }
 
+.noLineHeight,
+.tippy-wrapper {
+  line-height: 0;
+}
+
 .scrte-image-resizer-feedback-right,
 .scrte-image-resizer-feedback-left {
   position: absolute;
@@ -140,12 +145,13 @@
 }
 
 .embed--btn-group {
+  height: 32px;
   transition: 0.15s all ease-in-out;
   margin-left: 3px;
   display: flex;
-  align-items: center;
-  border-radius: 6px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  box-shadow: 0 4px 15px 0 #6c5ce733, 0 3px 14px 3px #0000001f,
+    0 8px 10px 1px #00000024;
   background: white;
   overflow: hidden;
 
@@ -154,6 +160,22 @@
     outline: none;
     border: none;
     padding: 6px;
+    height: 32px;
+    width: 32px;
+    border-radius: 4px;
+
+    &:hover {
+      background: #edf1f7 !important;
+
+      & svg path {
+        fill: #6c5ce7;
+      }
+    }
+
+    & svg {
+      height: 20px !important;
+      width: 20px !important;
+    }
   }
 }
 
@@ -226,4 +248,17 @@
       stroke: #d62400 !important;
     }
   }
+}
+
+.ReactModal__Overlay .ReactModal__Content .ReactModal__Content__body {
+  max-height: unset !important;
+}
+
+.edit-modal-properties {
+  padding: 2px !important;
+}
+
+.rte-prop-toggle-wrap {
+  margin: 8px 0;
+  padding: 8px;
 }

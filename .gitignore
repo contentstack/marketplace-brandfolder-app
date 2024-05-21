@@ -6,8 +6,6 @@ node_modules/
 /ui/node_modules
 /ui/.npmrc
 /ui/coverage
-/ui/.env
-/ui/rte/.env
 
 # production
 /api/build
@@ -23,7 +21,13 @@ node_modules/
 /**/**/yarn-error.log*
 
 .vercel
-
-.vscode
 .eslintcache
+
+.env
+.npmrc
 .dccache
+api/.env
+ui/.env
+ui/.npmrc
+coverage/
+.talismanrc

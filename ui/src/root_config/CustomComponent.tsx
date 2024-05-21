@@ -2,9 +2,6 @@
 import React, { useEffect } from "react";
 /* Import other node modules */
 import { PanelUISdk } from "@brandfolder-panel/sdk";
-/* Import our modules */
-/* Import node module CSS */
-/* Import our CSS */
 import "./styles.scss";
 
 interface TypeCustomComponent {
