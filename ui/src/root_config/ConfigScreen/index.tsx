@@ -64,7 +64,7 @@ const customConfigComponent = (
         sdkConfigData
           .getInstallationData()
           .then((data: any) => {
-            setIsExtension(data.configuration.is_extension);
+            setIsExtension(data?.configuration?.is_extension);
           })
           .catch((err: Error) => {
             console.error(err);
