@@ -1,9 +1,19 @@
 .config-wrapper {
   margin: 0;
 
+  & .TextInput__input {
+    width: 97% !important;
+  }
+
   & .Field {
     padding: 30px 20px;
     margin: 0;
+  }
+
+  & .FieldLabel {
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    line-height: 16.2px !important;
   }
 
   .FieldLabel + div {
@@ -27,7 +37,8 @@
   }
 
   .Radio-wrapper {
-    padding: 20px 10px 0;
+    padding: 0 10px;
+    margin-bottom: 0;
 
     & .Radio {
       margin-right: 20px;
@@ -43,6 +54,7 @@
     margin-left: 0;
   }
 
+  // This needs to change according to change in default values, need to handle this dynamically
   .Select__value-container > div:nth-child(-n + 4) {
     pointer-events: none;
     cursor: alias;
@@ -67,23 +79,53 @@
       }
     }
   }
+
+  & .Select {
+    min-width: 300px !important;
+    max-width: unset !important;
+  }
+
+  & .dam-keys-select {
+    min-width: 200px !important;
+  }
+
+  .Select__menu {
+    min-width: 150px !important;
+    & .Select__menu-list {
+      max-height: 250px !important;
+    }
+  }
+
+  & .Select__add-option {
+    cursor: pointer;
+    color: #475161 !important;
+    font-size: 14px;
+
+    svg {
+      margin: 0 15px;
+    }
+  }
 }
 
-.legacy-config {
-  margin-left: 30px;
+.note-p {
+  display: inline-block !important;
+  margin: 5px 5px 0 0;
 }
 
-.legacy--info {
-  padding-right: 50px;
-  margin: 20px 0 20px 5px;
+.modal_toast_message {
+  bottom: 60px !important;
 }
 
-.extension-wrapper {
-  display: flex;
-  align-items: center;
+.json-field {
+  & .Radio-wrapper {
+    margin: 20px 0;
+  }
 }
 
-.warning_note {
-  margin-top: 10px;
-  margin-right: 45px !important;
+#tippy-1,
+#tippy-2,
+#tippy-3,
+#tippy-4,
+#tippy-5 {
+  padding-bottom: 5px;
 }

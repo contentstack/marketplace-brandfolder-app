@@ -12,8 +12,6 @@ cd ui
 rm -rf build
 rm -rf node_modules
 npm install
-# npm run test
-npm run precommit
 npm run build
 
 cd rte
