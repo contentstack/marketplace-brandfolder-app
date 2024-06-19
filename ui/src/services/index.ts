@@ -6,14 +6,26 @@
 
 /* Below is just an example function which can be called
 from any of the app container pages. */
-const getDataFromAPI: Function = (data?: any): Promise<any> =>
-  fetch(`${process.env.REACT_APP_API_URL ?? ""}?${data?.queryParams}`, {
-    headers: {
-      ...data?.headers,
-      "x-api-key": process.env.REACT_APP_API_KEY ?? "",
-    },
-    method: data?.method,
-    body: JSON.stringify(data?.body),
-  });
+import constants from "../common/constants";
 
-export default getDataFromAPI;
+const checkApiKeyValidity = async (apiKey: any) => {
+  let authToken = "";
+  if (apiKey) {
+    authToken = `Bearer ${apiKey}`;
+  }
+  const response: any = await fetch(constants.brandfolderUrl, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: authToken,
+    },
+  });
+  return response?.status === 200;
+};
+
+const services = {
+  checkApiKeyValidity,
+};
+
+export default services;

@@ -20,6 +20,7 @@ import {
 } from "../../common/types";
 import localeTexts from "../locale/en-us";
 import useAppLocation from "../../common/hooks/useAppLocation";
+import services from "../../services";
 
 const configureConfigScreen = () =>
   /* IMPORTANT: 
@@ -43,6 +44,28 @@ const configureConfigScreen = () =>
       saveInServerConfig: false,
     },
   });
+
+// eslint-disable-next-line
+const checkConfigValidity = async (config: any, serverConfig: any) => {
+  // return value of the function is object which takes disableSave[type=boolean] and message[type=string]. Assigning "true" to disableSave will disable the button and "false" will enable to button.
+  if (config?.apiKey) {
+    try {
+      const isValid = await services.checkApiKeyValidity(config.apiKey);
+      if (!isValid) {
+        return {
+          disableSave: true,
+          message: localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg,
+        };
+      }
+    } catch (error) {
+      return {
+        disableSave: true,
+        message: localeTexts.ConfigFields.ErrorMessages.errorKeyMsg,
+      };
+    }
+  }
+  return { disableSave: false };
+};
 
 const customConfigComponent = (
   config: any,
@@ -163,6 +186,8 @@ const customWholeJson = () => {
     "supported",
     "dimensions",
     "apiDto",
+    "dimensions.width",
+    "dimensions.height",
   ];
 
   const defaultFeilds: string[] = [
@@ -184,6 +209,7 @@ const customWholeJson = () => {
 
 const rootConfigScreen: TypeRootConfigSreen = {
   configureConfigScreen,
+  checkConfigValidity,
   customConfigComponent,
   customWholeJson,
 };
