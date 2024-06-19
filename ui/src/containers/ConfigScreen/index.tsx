@@ -44,7 +44,7 @@ const ConfigScreen: React.FC = function () {
 
       // On enabling the isExtension here we are setting custom json value to false
       if (updatedConfig.is_extension === false) {
-        updatedConfig.is_custom_json = false
+        updatedConfig.is_custom_json = false;
       }
 
       const updatedServerConfig = installationData?.serverConfiguration || {};
