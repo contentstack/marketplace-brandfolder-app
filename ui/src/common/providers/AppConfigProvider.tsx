@@ -1,16 +1,11 @@
-import React, {
-  useState,
-  useMemo,
-  useRef,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useMemo, useRef, useEffect, useCallback } from "react";
 import AppConfigContext from "../contexts/AppConfigContext";
 import rootConfig from "../../root_config";
 import { TypeAppSdkConfigState } from "../types";
 import useAppLocation from "../hooks/useAppLocation";
 import localeTexts from "../locale/en-us";
 import ConfigScreenUtils from "../utils/ConfigScreenUtils";
+import CustomFieldUtils from "../utils/CustomFieldUtils";
 
 const AppConfigProvider: React.FC = function ({ children }) {
   const configInputFields = rootConfig?.configureConfigScreen?.();
@@ -24,8 +19,6 @@ const AppConfigProvider: React.FC = function ({ children }) {
 
   const { location } = useAppLocation();
 
-  // state for error handling of empty field values
-  const [errorState, setErrorState] = useState<any>([]);
   // state for configuration
   const [installation, setInstallation] = React.useState<TypeAppSdkConfigState>(
     {
@@ -58,33 +51,39 @@ const AppConfigProvider: React.FC = function ({ children }) {
   );
 
   // function to check if field values are empty and handles save button disable on empty field values
-  const checkConfigFields = ({ configuration, serverConfiguration }: any) => {
-    const skipKeys = [
-      "dam_keys",
-      "is_custom_json",
-      "keypath_options",
-      "is_extension",
-    ];
+  const checkConfigFields = async ({
+    configuration,
+    serverConfiguration,
+  }: any) => {
+    const requiredFields = rootConfig.damEnv.REQUIRED_CONFIG_FIELDS;
     const missingValues: string[] = [];
 
-    Object.entries({
-      ...configuration,
-      ...serverConfiguration,
-    })?.forEach(([key, value]: any) => {
-      if (!skipKeys?.includes(key)) {
-        if (
-          !value ||
-          (Array.isArray(value) && !value?.length) ||
-          !Object.keys(value)?.length
-        ) {
-          missingValues?.push(key);
+    const flatStructure = CustomFieldUtils.flatten({
+      configuration,
+      serverConfiguration,
+    });
+
+    Object.entries(flatStructure)?.forEach(([objKey, objValue]: any) => {
+      const key = objKey.split(".")?.at(-1);
+      if (requiredFields?.includes(key)) {
+        const value = typeof objValue === "boolean" ? `${objValue}` : objValue;
+        if (!value) {
+          missingValues?.push(objKey?.split(".multi_config_keys.")?.at(-1));
         }
       }
     });
-    setErrorState(missingValues);
-    if (missingValues?.length) {
+
+    const { disableSave: isConfigValid, message: disableMsg } =
+      (await rootConfig?.checkConfigValidity?.(
+        configuration,
+        serverConfiguration
+      )) ?? false;
+
+    if (isConfigValid || missingValues?.length) {
       appConfig?.current?.setValidity(false, {
-        message: localeTexts.ConfigFields.invalidCredentials,
+        message: isConfigValid
+          ? disableMsg
+          : localeTexts.ConfigFields.missingCredentials,
       });
     } else {
       appConfig?.current?.setValidity(true);
@@ -129,7 +128,6 @@ const AppConfigProvider: React.FC = function ({ children }) {
 
   const StateContext = useMemo(
     () => ({
-      errorState,
       installationData: installation,
       setInstallationData,
       appConfig,
@@ -140,7 +138,6 @@ const AppConfigProvider: React.FC = function ({ children }) {
       checkConfigFields,
     }),
     [
-      errorState,
       installation,
       setInstallationData,
       appConfig,

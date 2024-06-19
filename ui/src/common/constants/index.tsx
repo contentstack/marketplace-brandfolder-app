@@ -8,9 +8,12 @@ const constantStyles = {
 const limitationsDocUrl =
   "https://www.contentstack.com/docs/developers/create-custom-fields/limitations-of-custom-fields/";
 
+const brandfolderUrl = "https://brandfolder.com/api/v4/users/whoami";
+
 const constants = {
   constantStyles,
   limitationsDocUrl,
+  brandfolderUrl,
 };
 
 export default constants;
