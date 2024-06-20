@@ -330,7 +330,21 @@ const getIconElement = ({ type, thumbnailUrl, handleImageError }: any) => {
         </div>
       );
       break;
+    case "powerpoint":
+      returnEl = (
+        <div className="noImage icon-element">
+          <Icon icon="PPT" />
+        </div>
+      );
+      break;
     case "document":
+      returnEl = (
+        <div className="noImage icon-element">
+          <Icon icon="DOC2" />
+        </div>
+      );
+      break;
+    case "word":
       returnEl = (
         <div className="noImage icon-element">
           <Icon icon="DOC2" />
@@ -352,6 +366,13 @@ const getIconElement = ({ type, thumbnailUrl, handleImageError }: any) => {
       );
       break;
     case "zip":
+      returnEl = (
+        <div className="noImage icon-element">
+          <Icon icon="ZIP" />
+        </div>
+      );
+      break;
+    case "archive":
       returnEl = (
         <div className="noImage icon-element">
           <Icon icon="ZIP" />
@@ -385,6 +406,31 @@ const getIconElement = ({ type, thumbnailUrl, handleImageError }: any) => {
   return returnEl;
 };
 
+const flatten = (data: any) => {
+  const result: any = {};
+  function recurse(cur: any, prop: string) {
+    if (Object(cur) !== cur) {
+      result[prop] = cur;
+    } else if (Array.isArray(cur)) {
+      let l;
+      // eslint-disable-next-line
+      for (let i = 0, l = cur?.length; i < l; i++)
+        recurse(cur?.[i], `${prop}[${i}]`);
+      if (l === 0) result[prop] = [];
+    } else {
+      let isEmpty = true;
+      // eslint-disable-next-line
+      for (const p in cur) {
+        isEmpty = false;
+        recurse(cur?.[p], prop ? `${prop}.${p}` : p);
+      }
+      if (isEmpty && prop) result[prop] = {};
+    }
+  }
+  recurse(data, "");
+  return result;
+};
+
 const CustomFieldUtils = {
   popupWindow,
   getHoverActions,
@@ -400,6 +446,7 @@ const CustomFieldUtils = {
   gridViewDropdown,
   noAssetElement,
   getIconElement,
+  flatten,
 };
 
 export default CustomFieldUtils;

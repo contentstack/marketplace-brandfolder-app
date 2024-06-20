@@ -12,6 +12,10 @@ const localeTexts = {
       info_note:
         "If the extension is enabled, All fields and Custom fields option will not be available.",
     },
+    ErrorMessages: {
+      inValidKeyMsg: "Invalid API Key",
+      errorKeyMsg: "Error checking API Key validity",
+    },
   },
 };
 

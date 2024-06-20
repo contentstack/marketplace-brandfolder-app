@@ -90,10 +90,12 @@ export interface TypeRootDamEnv {
   DAM_SCRIPT_URL?: string;
   SELECTOR_PAGE_LOGO?: any;
   DIRECT_SELECTOR_PAGE: string;
+  REQUIRED_CONFIG_FIELDS: string[];
 }
 
 export interface TypeRootConfigSreen {
   configureConfigScreen?: Function;
+  checkConfigValidity?: Function;
   customConfigComponent?: Function;
   customWholeJson?: Function;
 }
@@ -116,6 +118,7 @@ export interface TypeRootSelector {
 export interface TypeRootConfig {
   damEnv: TypeRootDamEnv;
   configureConfigScreen?: Function;
+  checkConfigValidity?: Function;
   customConfigComponent?: Function;
   customWholeJson?: Function;
   filterAssetData?: Function;
