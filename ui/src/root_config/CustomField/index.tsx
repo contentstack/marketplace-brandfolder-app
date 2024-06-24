@@ -10,6 +10,7 @@ import {
 } from "../../common/types";
 import DamEnvVariables from "../DamEnv";
 import utils from "../utils";
+import constants from "../../common/constants";
 
 const filterAssetData = (assets: any[]) => {
   const filterAssetArray: TypeAsset[] = assets?.map((asset) => {
@@ -25,7 +26,7 @@ const filterAssetData = (assets: any[]) => {
       size: sizeInBytes, // add size in bytes as string eg.'416246'
       thumbnailUrl: url,
       previewUrl: url, // add this parameter if you want "Preview" in tooltip action items
-      platformUrl: "", // add this parameter if you want "Open In DAM" in tooltip action items
+      platformUrl: constants?.branfolderPortalUrl + asset?.assetId, // add this parameter if you want "Open In DAM" in tooltip action items
     };
   });
 
