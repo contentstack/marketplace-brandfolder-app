@@ -16,8 +16,12 @@ const filterAssetData = (assets: any[]) => {
     // Enter your code for filteration of assets to the specified format
     const { id, dimensions, sizeInBytes, url, name, extension, filename } =
       asset;
-      const portalUrl = "https://brandfolder.com/contentstack/#!asset/"
-      console.info("___________________portalUrl+asset?.assetId",portalUrl+asset?.assetId , asset?.assetId)
+    const portalUrl = "https://brandfolder.com/contentstack/#!asset/";
+    console.info(
+      "___________________portalUrl+asset?.assetId",
+      portalUrl + asset?.assetId,
+      asset?.assetId
+    );
     return {
       id,
       type: utils.getAssetType(extension),
@@ -27,9 +31,9 @@ const filterAssetData = (assets: any[]) => {
       size: sizeInBytes, // add size in bytes as string eg.'416246'
       thumbnailUrl: url,
       previewUrl: url, // add this parameter if you want "Preview" in tooltip action items
-      platformUrl: portalUrl+asset?.assetId, // add this parameter if you want "Open In DAM" in tooltip action items
+      platformUrl: portalUrl + asset?.assetId, // add this parameter if you want "Open In DAM" in tooltip action items
     };
-  }); 
+  });
 
   return filterAssetArray;
 };
