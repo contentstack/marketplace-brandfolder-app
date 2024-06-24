@@ -39,7 +39,7 @@ const ConfigScreen: React.FC = function () {
       if (typeof fieldValue === "string") {
         fieldValue = fieldValue?.trim();
       }
-      const updatedConfig = installationData?.configuration || {};    
+      const updatedConfig = installationData?.configuration || {};
 
       const updatedServerConfig = installationData?.serverConfiguration || {};
 
