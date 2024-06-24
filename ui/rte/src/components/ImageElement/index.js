@@ -155,18 +155,18 @@ const ImageElement = function ({
     return (
       <div contentEditable={false} className="embed--btn-group">
         {element?.attrs?.mimetype === "video/mp4" ||
-          element?.attrs?.mimetype === "image/jpeg" ||
-          element?.attrs?.mimetype === "video/mp3" ||
-          element?.attrs?.mimetype === "audio/mpeg"
+        element?.attrs?.mimetype === "image/jpeg" ||
+        element?.attrs?.mimetype === "video/mp3" ||
+        element?.attrs?.mimetype === "audio/mpeg"
           ? preview && (
-            <EmbedBtn
-              title={localeTexts.RTE.iconContent.preview}
-              content={utils.getToolTipIconContent(preview)}
-              onClick={handleView}
-            >
-              <Icon icon={preview} size="tiny" version="v2" />
-            </EmbedBtn>
-          )
+              <EmbedBtn
+                title={localeTexts.RTE.iconContent.preview}
+                content={utils.getToolTipIconContent(preview)}
+                onClick={handleView}
+              >
+                <Icon icon={preview} size="tiny" version="v2" />
+              </EmbedBtn>
+            )
           : ""}
         <EmbedBtn
           title="edit"
