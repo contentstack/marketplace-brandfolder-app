@@ -23,7 +23,7 @@ import useAppLocation from "../../common/hooks/useAppLocation";
 import services from "../../services";
 
 const configureConfigScreen = () =>
-/* IMPORTANT: 
+  /* IMPORTANT: 
 1. All sensitive information must be saved in serverConfig
 2. serverConfig is used when webhooks are implemented
 3. save the fields that are to be accessed in other location in config
@@ -31,19 +31,19 @@ const configureConfigScreen = () =>
 5. If values are stored in serverConfig then those values will not be available to other UI locations
 6. Supported type options are textInputFields, radioInputFields, selectInputFields */
 
-({
-  apiKey: {
-    type: "textInputFields",
-    labelText: "Brandfolder API Key",
-    helpText:
-      "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
-    placeholderText: "Enter your Brandfolder API Key",
-    instructionText: "Your Brandfolder API Key",
-    inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
-    saveInConfig: true,
-    saveInServerConfig: false,
-  },
-});
+  ({
+    apiKey: {
+      type: "textInputFields",
+      labelText: "Brandfolder API Key",
+      helpText:
+        "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
+      placeholderText: "Enter your Brandfolder API Key",
+      instructionText: "Your Brandfolder API Key",
+      inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
+      saveInConfig: true,
+      saveInServerConfig: false,
+    },
+  });
 
 // eslint-disable-next-line
 const checkConfigValidity = async (config: any, serverConfig: any) => {
@@ -123,45 +123,45 @@ const customConfigComponent = (
               maxWidth="700px"
               icon="io"
             >
-                <Accordion
-                  dashedLineVisibility
-                  hasBackgroundColor
-                  title={localeTexts.ConfigFields.isExtension.legacy_title}
-                >
-                  <div className="warning_note">
-                    <WarningMessage
-                      content={localeTexts.ConfigFields.isExtension.warning_note}
-                    />
-                  </div>
-                  <Field>
-                    <div className="extension-wrapper">
-                      <FieldLabel required htmlFor="is_extension">
-                        {" "}
-                        {localeTexts.ConfigFields.isExtension.label}
-                      </FieldLabel>
+              <Accordion
+                dashedLineVisibility
+                hasBackgroundColor
+                title={localeTexts.ConfigFields.isExtension.legacy_title}
+              >
+                <div className="warning_note">
+                  <WarningMessage
+                    content={localeTexts.ConfigFields.isExtension.warning_note}
+                  />
+                </div>
+                <Field>
+                  <div className="extension-wrapper">
+                    <FieldLabel required htmlFor="is_extension">
+                      {" "}
+                      {localeTexts.ConfigFields.isExtension.label}
+                    </FieldLabel>
 
-                      <div className="is_extension_toggle">
-                        <ToggleSwitch
-                          checked={isExtension}
-                          name="is_extension"
-                          id="is_extension"
-                          data-testid="is_extension-input"
-                          onChange={updateIsExtension}
-                        />
-                      </div>
+                    <div className="is_extension_toggle">
+                      <ToggleSwitch
+                        checked={isExtension}
+                        name="is_extension"
+                        id="is_extension"
+                        data-testid="is_extension-input"
+                        onChange={updateIsExtension}
+                      />
                     </div>
-                    <InstructionText>
-                      {localeTexts.ConfigFields.isExtension.instruction}
-                    </InstructionText>
-                  </Field>
-                </Accordion>
+                  </div>
+                  <InstructionText>
+                    {localeTexts.ConfigFields.isExtension.instruction}
+                  </InstructionText>
+                </Field>
+              </Accordion>
             </Tooltip>
             <br />
             <br />
-              <Info
-                content={localeTexts.ConfigFields.isExtension.info_note}
-                icon={<Icon icon="InfoCircleWhite" />}
-              />
+            <Info
+              content={localeTexts.ConfigFields.isExtension.info_note}
+              icon={<Icon icon="InfoCircleWhite" />}
+            />
           </div>
         </div>
       </div>
