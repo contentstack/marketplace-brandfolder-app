@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 /* NOTE: Remove Functions which are not used */
 import React, { useEffect, useRef } from "react";
 import {
@@ -10,6 +9,7 @@ import {
   Info,
   InstructionText,
   ToggleSwitch,
+  Tooltip,
 } from "@contentstack/venus-components";
 import CustomComponent from "../CustomComponent";
 import WarningMessage from "../../components/WarningMessage";
@@ -115,45 +115,48 @@ const customConfigComponent = (
       <div className="page-wrapper">
         <div className="config-wrapper" data-testid="config-wrapper">
           <div className="legacy-config">
-            <div className="legacy--info">
-              <Info
-                content={localeTexts.ConfigFields.isExtension.legacyInfo}
-                icon={<Icon icon="InfoCircleWhite" />}
-              />
-            </div>
-
-            <Accordion
-              dashedLineVisibility
-              hasBackgroundColor
-              title={localeTexts.ConfigFields.isExtension.legacy_title}
+            <Tooltip
+              content={localeTexts.ConfigFields.isExtension.legacyInfo}
+              position="top-end"
+              type="primary"
+              variantType="dark"
+              maxWidth="700px"
+              icon="io"
             >
-              <div className="warning_note">
-                <WarningMessage
-                  content={localeTexts.ConfigFields.isExtension.warning_note}
-                />
-              </div>
-              <Field>
-                <div className="extension-wrapper">
-                  <FieldLabel required htmlFor="is_extension">
-                    {" "}
-                    {localeTexts.ConfigFields.isExtension.label}
-                  </FieldLabel>
-
-                  <div className="is_extension_toggle">
-                    <ToggleSwitch
-                      checked={isExtension}
-                      name="is_extension"
-                      id="is_extension"
-                      data-testid="is_extension-input"
-                      onChange={updateIsExtension}
-                    />
-                  </div>
+              <Accordion
+                dashedLineVisibility
+                hasBackgroundColor
+                title={localeTexts.ConfigFields.isExtension.legacy_title}
+              >
+                <div className="warning_note">
+                  <WarningMessage
+                    content={localeTexts.ConfigFields.isExtension.warning_note}
+                  />
                 </div>
-                <InstructionText>
-                  {localeTexts.ConfigFields.isExtension.instruction}
-                </InstructionText>
-              </Field>
-            </Accordion>
+                <Field>
+                  <div className="extension-wrapper">
+                    <FieldLabel required htmlFor="is_extension">
+                      {" "}
+                      {localeTexts.ConfigFields.isExtension.label}
+                    </FieldLabel>
+
+                    <div className="is_extension_toggle">
+                      <ToggleSwitch
+                        checked={isExtension}
+                        name="is_extension"
+                        id="is_extension"
+                        data-testid="is_extension-input"
+                        onChange={updateIsExtension}
+                      />
+                    </div>
+                  </div>
+                  <InstructionText>
+                    {localeTexts.ConfigFields.isExtension.instruction}
+                  </InstructionText>
+                </Field>
+              </Accordion>
+            </Tooltip>
+            <br />
             <br />
             <Info
               content={localeTexts.ConfigFields.isExtension.info_note}

@@ -106,7 +106,7 @@ beforeEach(() => {
   const setStateMock = React.useState;
   const useStateMock: any = (useState: any) => [useState, setStateMock];
   const testName = expect.getState().currentTestName;
-  if (testName.includes("**")) {
+  if (testName?.includes("**")) {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() =>
@@ -118,7 +118,7 @@ beforeEach(() => {
       )
       .mockImplementationOnce(() => useStateMock(false))
       .mockImplementationOnce(() => useStateMock(assetData));
-  } else if (testName.includes("*")) {
+  } else if (testName?.includes("*")) {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() =>
