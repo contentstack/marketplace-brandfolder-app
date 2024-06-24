@@ -83,7 +83,6 @@ export const onClickHandler = async (props) => {
         break;
       }
     }
-
     let url;
     if (rteConfig?.damEnv?.DIRECT_SELECTOR_PAGE === "url") {
       url = rteConfig?.getSelectorWindowUrl?.(config);

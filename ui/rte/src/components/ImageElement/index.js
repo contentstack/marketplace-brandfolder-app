@@ -154,24 +154,18 @@ const ImageElement = function ({
       rteConfig?.getViewIconforTooltip?.(RTE_RESOURCE_TYPE);
     return (
       <div contentEditable={false} className="embed--btn-group">
-        {preview && (
-          <EmbedBtn
-            title={localeTexts.RTE.iconContent.preview}
-            content={utils.getToolTipIconContent(preview)}
-            onClick={handleView}
-          >
-            <Icon icon={preview} size="tiny" version="v2" />
-          </EmbedBtn>
-        )}
-        {openInDam && (
-          <EmbedBtn
-            title={localeTexts.RTE.iconContent.openInDAM}
-            content={utils.getToolTipIconContent(openInDam)}
-            onClick={handleView}
-          >
-            <Icon icon={openInDam} size="tiny" version="v2" />
-          </EmbedBtn>
-        )}
+        {element?.attrs?.mimetype ===
+        ("video/mp4" || "image/jpeg" || "video/mp3" || "audio/mpeg")
+          ? preview && (
+              <EmbedBtn
+                title={localeTexts.RTE.iconContent.preview}
+                content={utils.getToolTipIconContent(preview)}
+                onClick={handleView}
+              >
+                <Icon icon={preview} size="tiny" version="v2" />
+              </EmbedBtn>
+            )
+          : ""}
         <EmbedBtn
           title="edit"
           content={localeTexts.RTE.iconContent.edit}
