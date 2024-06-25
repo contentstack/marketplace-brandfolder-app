@@ -9,7 +9,6 @@ import {
   Info,
   InstructionText,
   ToggleSwitch,
-  Tooltip,
 } from "@contentstack/venus-components";
 import CustomComponent from "../CustomComponent";
 import WarningMessage from "../../components/WarningMessage";
@@ -125,14 +124,6 @@ const customConfigComponent = (
       <div className="page-wrapper">
         <div className="config-wrapper" data-testid="config-wrapper">
           <div className="legacy-config">
-            <Tooltip
-              content={localeTexts.ConfigFields.isExtension.legacyInfo}
-              position="top-end"
-              type="primary"
-              variantType="dark"
-              maxWidth="700px"
-              icon="io"
-            >
               <Accordion
                 dashedLineVisibility
                 hasBackgroundColor
@@ -165,7 +156,6 @@ const customConfigComponent = (
                   </InstructionText>
                 </Field>
               </Accordion>
-            </Tooltip>
             <br />
             <br />
             <Info

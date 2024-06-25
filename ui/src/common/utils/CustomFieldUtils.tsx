@@ -50,7 +50,7 @@ const getHoverActions = (
     });
   }
 
-  if (platformUrl) {
+  if (platformUrl) {  
     tootipActionArray?.push({
       actionTitle:
         localeTexts.CustomFields.assetCard.hoverActions.platformRedirect,
