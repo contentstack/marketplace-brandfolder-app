@@ -96,12 +96,6 @@ const modifyAssetsToSave = (
       const attributes = item?.apiDto?.attributes || item?.attributes;
       const relationships = item?.apiDto?.relationships || item?.relationships;
 
-      console.info(
-        "------------- attributes?.thumbnail_url -----------",
-        attributes?.thumbnail_url
-      );
-      console.info("-------------- item ------------------", item);
-
       const modifiedItem = {
         ...item,
         attributes,
