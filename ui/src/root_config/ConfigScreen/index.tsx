@@ -9,7 +9,6 @@ import {
   Info,
   InstructionText,
   ToggleSwitch,
-  Tooltip,
 } from "@contentstack/venus-components";
 import CustomComponent from "../CustomComponent";
 import WarningMessage from "../../components/WarningMessage";
@@ -125,47 +124,38 @@ const customConfigComponent = (
       <div className="page-wrapper">
         <div className="config-wrapper" data-testid="config-wrapper">
           <div className="legacy-config">
-            <Tooltip
-              content={localeTexts.ConfigFields.isExtension.legacyInfo}
-              position="top-end"
-              type="primary"
-              variantType="dark"
-              maxWidth="700px"
-              icon="io"
+            <Accordion
+              dashedLineVisibility
+              hasBackgroundColor
+              title={localeTexts.ConfigFields.isExtension.legacy_title}
             >
-              <Accordion
-                dashedLineVisibility
-                hasBackgroundColor
-                title={localeTexts.ConfigFields.isExtension.legacy_title}
-              >
-                <div className="warning_note">
-                  <WarningMessage
-                    content={localeTexts.ConfigFields.isExtension.warning_note}
-                  />
-                </div>
-                <Field>
-                  <div className="extension-wrapper">
-                    <FieldLabel required htmlFor="is_extension">
-                      {" "}
-                      {localeTexts.ConfigFields.isExtension.label}
-                    </FieldLabel>
+              <div className="warning_note">
+                <WarningMessage
+                  content={localeTexts.ConfigFields.isExtension.warning_note}
+                />
+              </div>
+              <Field>
+                <div className="extension-wrapper">
+                  <FieldLabel required htmlFor="is_extension">
+                    {" "}
+                    {localeTexts.ConfigFields.isExtension.label}
+                  </FieldLabel>
 
-                    <div className="is_extension_toggle">
-                      <ToggleSwitch
-                        checked={isExtension}
-                        name="is_extension"
-                        id="is_extension"
-                        data-testid="is_extension-input"
-                        onChange={updateIsExtension}
-                      />
-                    </div>
+                  <div className="is_extension_toggle">
+                    <ToggleSwitch
+                      checked={isExtension}
+                      name="is_extension"
+                      id="is_extension"
+                      data-testid="is_extension-input"
+                      onChange={updateIsExtension}
+                    />
                   </div>
-                  <InstructionText>
-                    {localeTexts.ConfigFields.isExtension.instruction}
-                  </InstructionText>
-                </Field>
-              </Accordion>
-            </Tooltip>
+                </div>
+                <InstructionText>
+                  {localeTexts.ConfigFields.isExtension.instruction}
+                </InstructionText>
+              </Field>
+            </Accordion>
             <br />
             <br />
             <Info
