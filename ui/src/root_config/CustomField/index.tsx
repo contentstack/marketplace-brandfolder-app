@@ -15,8 +15,17 @@ import constants from "../../common/constants";
 const filterAssetData = (assets: any[]) => {
   const filterAssetArray: TypeAsset[] = assets?.map((asset) => {
     // Enter your code for filteration of assets to the specified format
-    const { id, dimensions, sizeInBytes, url, name, extension, filename } =
-      asset;
+    const {
+      id,
+      dimensions,
+      sizeInBytes,
+      url,
+      name,
+      extension,
+      filename,
+      thumbnail_url: allFieldImgThumbnailUrl,
+      thumbnailUrl: custFieldImgThumbnailUrl,
+    } = asset;
     return {
       id,
       type: utils.getAssetType(extension),
@@ -24,7 +33,7 @@ const filterAssetData = (assets: any[]) => {
       width: dimensions?.width,
       height: dimensions?.height,
       size: sizeInBytes, // add size in bytes as string eg.'416246'
-      thumbnailUrl: url,
+      thumbnailUrl: custFieldImgThumbnailUrl || allFieldImgThumbnailUrl,
       previewUrl: url, // add this parameter if you want "Preview" in tooltip action items
       platformUrl: constants?.branfolderPortalUrl + asset?.assetId, // add this parameter if you want "Open In DAM" in tooltip action items
     };

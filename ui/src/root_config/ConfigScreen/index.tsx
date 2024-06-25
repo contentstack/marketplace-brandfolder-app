@@ -108,6 +108,16 @@ const customConfigComponent = (
       saveConfig: true,
       saveServerConfig: false,
     });
+
+    // On enabling the isExtension here we are setting custom json value to false
+    if (newIsExtension) {
+      handleCustomConfigUpdate({
+        fieldName: "is_custom_json",
+        fieldValue: false,
+        saveConfig: true,
+        saveServerConfig: false,
+      });
+    }
   };
 
   return (
@@ -180,9 +190,9 @@ const customWholeJson = () => {
     "assetId",
     "url",
     "filename",
+    "thumbnailUrl",
     "extension",
     "mimetype",
-    "thumbnailUrl",
     "sizeInBytes",
     "isProcessing",
     "mediaType",
@@ -202,6 +212,8 @@ const customWholeJson = () => {
     "dimensions.width",
     "dimensions.height",
     "extension",
+    "thumbnailUrl",
+    "assetId",
   ];
 
   return {
