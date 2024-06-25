@@ -190,7 +190,7 @@ const customWholeJson = () => {
     "assetId",
     "url",
     "filename",
-    "thumbnailUrl", 
+    "thumbnailUrl",
     "extension",
     "mimetype",
     "sizeInBytes",

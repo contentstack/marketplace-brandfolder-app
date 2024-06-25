@@ -15,8 +15,14 @@ import constants from "../../common/constants";
 const filterAssetData = (assets: any[]) => {
   const filterAssetArray: TypeAsset[] = assets?.map((asset) => {
     // Enter your code for filteration of assets to the specified format
-    const { id, dimensions, sizeInBytes, url,
-      name, extension, filename,
+    const {
+      id,
+      dimensions,
+      sizeInBytes,
+      url,
+      name,
+      extension,
+      filename,
       thumbnail_url: allFieldImgThumbnailUrl,
       thumbnailUrl: custFieldImgThumbnailUrl,
     } = asset;
@@ -90,8 +96,11 @@ const modifyAssetsToSave = (
       const attributes = item?.apiDto?.attributes || item?.attributes;
       const relationships = item?.apiDto?.relationships || item?.relationships;
 
-      console.info("------------- attributes?.thumbnail_url -----------", attributes?.thumbnail_url)
-      console.info("-------------- item ------------------", item)
+      console.info(
+        "------------- attributes?.thumbnail_url -----------",
+        attributes?.thumbnail_url
+      );
+      console.info("-------------- item ------------------", item);
 
       const modifiedItem = {
         ...item,
