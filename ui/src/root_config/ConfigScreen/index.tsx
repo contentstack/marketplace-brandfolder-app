@@ -190,9 +190,9 @@ const customWholeJson = () => {
     "assetId",
     "url",
     "filename",
+    "thumbnailUrl", 
     "extension",
     "mimetype",
-    "thumbnailUrl",
     "sizeInBytes",
     "isProcessing",
     "mediaType",
@@ -212,6 +212,8 @@ const customWholeJson = () => {
     "dimensions.width",
     "dimensions.height",
     "extension",
+    "thumbnailUrl",
+    "assetId",
   ];
 
   return {
