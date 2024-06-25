@@ -25,10 +25,14 @@ const filterAssetData = (assets: any[]) => {
       filename,
       thumbnail_url: allFieldImgThumbnailUrl,
       thumbnailUrl: custFieldImgThumbnailUrl,
-      relationships
+      relationships,
     } = asset;
-    const platforlUrl = asset?.assetId ? constants?.branfolderPortalUrl + asset?.assetId : ''
-    const extensionImgPlatformUrl = asset?.relationships?.asset?.data?.id ? constants?.branfolderPortalUrl + asset?.relationships?.asset?.data?.id : ""
+    const platforlUrl = asset?.assetId
+      ? constants?.branfolderPortalUrl + asset?.assetId
+      : "";
+    const extensionImgPlatformUrl = asset?.relationships?.asset?.data?.id
+      ? constants?.branfolderPortalUrl + asset?.relationships?.asset?.data?.id
+      : "";
 
     return {
       id,

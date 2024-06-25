@@ -124,38 +124,38 @@ const customConfigComponent = (
       <div className="page-wrapper">
         <div className="config-wrapper" data-testid="config-wrapper">
           <div className="legacy-config">
-              <Accordion
-                dashedLineVisibility
-                hasBackgroundColor
-                title={localeTexts.ConfigFields.isExtension.legacy_title}
-              >
-                <div className="warning_note">
-                  <WarningMessage
-                    content={localeTexts.ConfigFields.isExtension.warning_note}
-                  />
-                </div>
-                <Field>
-                  <div className="extension-wrapper">
-                    <FieldLabel required htmlFor="is_extension">
-                      {" "}
-                      {localeTexts.ConfigFields.isExtension.label}
-                    </FieldLabel>
+            <Accordion
+              dashedLineVisibility
+              hasBackgroundColor
+              title={localeTexts.ConfigFields.isExtension.legacy_title}
+            >
+              <div className="warning_note">
+                <WarningMessage
+                  content={localeTexts.ConfigFields.isExtension.warning_note}
+                />
+              </div>
+              <Field>
+                <div className="extension-wrapper">
+                  <FieldLabel required htmlFor="is_extension">
+                    {" "}
+                    {localeTexts.ConfigFields.isExtension.label}
+                  </FieldLabel>
 
-                    <div className="is_extension_toggle">
-                      <ToggleSwitch
-                        checked={isExtension}
-                        name="is_extension"
-                        id="is_extension"
-                        data-testid="is_extension-input"
-                        onChange={updateIsExtension}
-                      />
-                    </div>
+                  <div className="is_extension_toggle">
+                    <ToggleSwitch
+                      checked={isExtension}
+                      name="is_extension"
+                      id="is_extension"
+                      data-testid="is_extension-input"
+                      onChange={updateIsExtension}
+                    />
                   </div>
-                  <InstructionText>
-                    {localeTexts.ConfigFields.isExtension.instruction}
-                  </InstructionText>
-                </Field>
-              </Accordion>
+                </div>
+                <InstructionText>
+                  {localeTexts.ConfigFields.isExtension.instruction}
+                </InstructionText>
+              </Field>
+            </Accordion>
             <br />
             <br />
             <Info
