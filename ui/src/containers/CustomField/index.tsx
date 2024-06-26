@@ -150,7 +150,6 @@ const CustomField: React.FC = function () {
               state?.config,
               state?.contentTypeConfig,
               assets
-              // selectedAssets.slice(-1)
             ) ?? assets;
           handleUniqueSelectedData(assetsToSave);
         }
