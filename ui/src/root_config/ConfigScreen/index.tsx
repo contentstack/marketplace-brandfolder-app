@@ -128,6 +128,7 @@ const customConfigComponent = (
               dashedLineVisibility
               hasBackgroundColor
               title={localeTexts.ConfigFields.isExtension.legacy_title}
+              renderExpanded
             >
               <div className="warning_note">
                 <WarningMessage
