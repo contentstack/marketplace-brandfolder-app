@@ -51,14 +51,7 @@ const CustomField: React.FC = function () {
       setSelectedAssetIds(
         (selectedAssets as any[])?.map((item: any) => item?.[uniqueID])
       );
-      const assetsToSave =
-        rootConfig?.modifyAssetsToSave?.(
-          state?.config,
-          state?.contentTypeConfig,
-          selectedAssets
-          // selectedAssets.slice(-1)
-        ) ?? selectedAssets;
-      state?.location?.field?.setData(assetsToSave);
+      state?.location?.field?.setData(selectedAssets);
     }
   }, [
     selectedAssets, // Your Custom Field State Data
@@ -152,7 +145,14 @@ const CustomField: React.FC = function () {
           const assetData = CustomFieldUtils.getFilteredAssets(assets, keys);
           handleUniqueSelectedData(assetData);
         } else {
-          handleUniqueSelectedData(assets);
+          const assetsToSave =
+            rootConfig?.modifyAssetsToSave?.(
+              state?.config,
+              state?.contentTypeConfig,
+              assets
+              // selectedAssets.slice(-1)
+            ) ?? assets;
+          handleUniqueSelectedData(assetsToSave);
         }
       }
     },
