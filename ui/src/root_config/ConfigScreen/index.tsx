@@ -22,7 +22,7 @@ import useAppLocation from "../../common/hooks/useAppLocation";
 import services from "../../services";
 
 const configureConfigScreen = () =>
-  /* IMPORTANT: 
+/* IMPORTANT: 
 1. All sensitive information must be saved in serverConfig
 2. serverConfig is used when webhooks are implemented
 3. save the fields that are to be accessed in other location in config
@@ -30,19 +30,19 @@ const configureConfigScreen = () =>
 5. If values are stored in serverConfig then those values will not be available to other UI locations
 6. Supported type options are textInputFields, radioInputFields, selectInputFields */
 
-  ({
-    apiKey: {
-      type: "textInputFields",
-      labelText: "Brandfolder API Key",
-      helpText:
-        "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
-      placeholderText: "Enter your Brandfolder API Key",
-      instructionText: "Your Brandfolder API Key",
-      inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
-      saveInConfig: true,
-      saveInServerConfig: false,
-    },
-  });
+({
+  apiKey: {
+    type: "textInputFields",
+    labelText: "Brandfolder API Key",
+    helpText:
+      "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
+    placeholderText: "Enter your Brandfolder API Key",
+    instructionText: "Your Brandfolder API Key",
+    inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
+    saveInConfig: true,
+    saveInServerConfig: false,
+  },
+});
 
 // eslint-disable-next-line
 const checkConfigValidity = async (config: any, serverConfig: any) => {
@@ -123,6 +123,12 @@ const customConfigComponent = (
     <div className="Field Field--full">
       <div className="page-wrapper">
         <div className="config-wrapper" data-testid="config-wrapper">
+          <div className="warning_note">
+            <WarningMessage
+              content={localeTexts.ConfigFields.isExtension.warning_note}
+            />
+          </div>
+          <br />
           <div className="legacy-config">
             <Accordion
               dashedLineVisibility
@@ -130,11 +136,6 @@ const customConfigComponent = (
               title={localeTexts.ConfigFields.isExtension.legacy_title}
               renderExpanded
             >
-              <div className="warning_note">
-                <WarningMessage
-                  content={localeTexts.ConfigFields.isExtension.warning_note}
-                />
-              </div>
               <Field>
                 <div className="extension-wrapper">
                   <FieldLabel required htmlFor="is_extension">
@@ -157,7 +158,6 @@ const customConfigComponent = (
                 </InstructionText>
               </Field>
             </Accordion>
-            <br />
             <br />
             <Info
               content={localeTexts.ConfigFields.isExtension.info_note}
