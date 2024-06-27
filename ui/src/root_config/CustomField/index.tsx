@@ -42,7 +42,7 @@ const filterAssetData = (assets: any[]) => {
       height: dimensions?.height,
       size: sizeInBytes, // add size in bytes as string eg.'416246'
       thumbnailUrl: allFieldImgThumbnailUrl || custFieldImgThumbnailUrl || url,
-      previewUrl: allFieldImgThumbnailUrl || custFieldImgThumbnailUrl || url, // add this parameter if you want "Preview" in tooltip action items
+      previewUrl: url, // add this parameter if you want "Preview" in tooltip action items
       platformUrl: platforlUrl || extensionImgPlatformUrl, // add this parameter if you want "Open In DAM" in tooltip action items
     };
   });
