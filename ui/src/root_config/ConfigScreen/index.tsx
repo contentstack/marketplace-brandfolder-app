@@ -123,6 +123,12 @@ const customConfigComponent = (
     <div className="Field Field--full">
       <div className="page-wrapper">
         <div className="config-wrapper" data-testid="config-wrapper">
+          <div className="warning_note">
+            <WarningMessage
+              content={localeTexts.ConfigFields.isExtension.warning_note}
+            />
+          </div>
+          <br />
           <div className="legacy-config">
             <Accordion
               dashedLineVisibility
@@ -130,11 +136,6 @@ const customConfigComponent = (
               title={localeTexts.ConfigFields.isExtension.legacy_title}
               renderExpanded
             >
-              <div className="warning_note">
-                <WarningMessage
-                  content={localeTexts.ConfigFields.isExtension.warning_note}
-                />
-              </div>
               <Field>
                 <div className="extension-wrapper">
                   <FieldLabel required htmlFor="is_extension">
@@ -157,7 +158,6 @@ const customConfigComponent = (
                 </InstructionText>
               </Field>
             </Accordion>
-            <br />
             <br />
             <Info
               content={localeTexts.ConfigFields.isExtension.info_note}
