@@ -35,12 +35,12 @@ const filterAssetData = (assets: any[]) => {
       ? constants?.branfolderPortalUrl + asset?.relationships?.asset?.data?.id
       : "";
 
-    const previewAllField = asset?.apiDto?.attributes?.cdn_url
-    const previewExtension = asset?.cdn_url
+    const previewAllField = asset?.apiDto?.attributes?.cdn_url;
+    const previewExtension = asset?.cdn_url;
 
     return {
       id,
-      type: utils.getAssetType(extension),  
+      type: utils.getAssetType(extension),
       name: name || filename,
       width: dimensions?.width,
       height: dimensions?.height,

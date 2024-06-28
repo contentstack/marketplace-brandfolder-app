@@ -20,7 +20,8 @@ code {
 .Accordion__data .Field {
   padding-left: 0 !important;
 }
-.Accordion__data .Field  .FieldLabel, .InstructionText {
+.Accordion__data .Field .FieldLabel,
+.InstructionText {
   margin-left: 0;
 }
 .app-failed-container {
