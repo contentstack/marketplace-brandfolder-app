@@ -27,6 +27,7 @@ const filterAssetData = (assets: any[]) => {
       thumbnailUrl: custFieldImgThumbnailUrl,
       relationships,
     } = asset;
+
     const platforlUrl = asset?.assetId
       ? constants?.branfolderPortalUrl + asset?.assetId
       : "";
@@ -34,15 +35,18 @@ const filterAssetData = (assets: any[]) => {
       ? constants?.branfolderPortalUrl + asset?.relationships?.asset?.data?.id
       : "";
 
+    const previewAllField = asset?.apiDto?.attributes?.cdn_url
+    const previewExtension = asset?.cdn_url
+
     return {
       id,
-      type: utils.getAssetType(extension),
+      type: utils.getAssetType(extension),  
       name: name || filename,
       width: dimensions?.width,
       height: dimensions?.height,
       size: sizeInBytes, // add size in bytes as string eg.'416246'
       thumbnailUrl: allFieldImgThumbnailUrl || custFieldImgThumbnailUrl || url,
-      previewUrl: url, // add this parameter if you want "Preview" in tooltip action items
+      previewUrl: previewAllField || previewExtension || url, // add this parameter if you want "Preview" in tooltip action items
       platformUrl: platforlUrl || extensionImgPlatformUrl, // add this parameter if you want "Open In DAM" in tooltip action items
     };
   });
