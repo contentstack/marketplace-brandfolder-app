@@ -28,7 +28,7 @@ const filterAssetData = (assets: any[]) => {
       relationships,
     } = asset;
 
-    const platforlUrl = asset?.assetId
+    const platformlUrl = asset?.assetId
       ? constants?.branfolderPortalUrl + asset?.assetId
       : "";
     const extensionImgPlatformUrl = asset?.relationships?.asset?.data?.id
@@ -47,7 +47,7 @@ const filterAssetData = (assets: any[]) => {
       size: sizeInBytes, // add size in bytes as string eg.'416246'
       thumbnailUrl: allFieldImgThumbnailUrl || custFieldImgThumbnailUrl || url,
       previewUrl: previewAllField || previewExtension || url, // add this parameter if you want "Preview" in tooltip action items
-      platformUrl: platforlUrl || extensionImgPlatformUrl, // add this parameter if you want "Open In DAM" in tooltip action items
+      platformUrl: platformlUrl || extensionImgPlatformUrl, // add this parameter if you want "Open in DAM" in tooltip action items
     };
   });
 
