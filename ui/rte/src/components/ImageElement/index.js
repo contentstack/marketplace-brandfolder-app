@@ -166,6 +166,7 @@ const ImageElement = function ({
       <div contentEditable={false} className="embed--btn-group">
         {element?.attrs?.extension === "jar" ||
         element?.attrs?.extension === "xls" ||
+        element?.attrs?.extension === "zip" ||
         element?.attrs?.extension === "pdf"
           ? ""
           : preview && (
