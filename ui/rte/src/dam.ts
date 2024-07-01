@@ -33,6 +33,8 @@ const saveData = (event: any) => {
       dataArr = data?.selectedAssets;
     }
     dataArr?.forEach((asset: any) => {
+      asset.rte_resource_type = rteConfig?.getAssetType?.(asset);
+      asset.rte_display_url = rteConfig?.getDisplayUrl?.(asset);
       asset.height = null;
       asset.width = null;
 

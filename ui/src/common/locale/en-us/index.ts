@@ -90,7 +90,7 @@ const localeTexts = {
     assetCard: {
       hoverActions: {
         preview: "Preview",
-        platformRedirect: `Open In ${rootConfig?.damEnv?.DAM_APP_NAME}`,
+        platformRedirect: `Open in ${rootConfig?.damEnv?.DAM_APP_NAME}`,
         remove: "Remove",
         drag: "Reorder",
       },
