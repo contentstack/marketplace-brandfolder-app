@@ -20,6 +20,9 @@ const constants = {
   inlineImage: {
     label: "Inline Asset",
   },
+  branfolderPortalUrl: { 
+    label: "https://brandfolder.com/contentstack/#!asset/" 
+  },
 };
 
 const dropdownList = [
