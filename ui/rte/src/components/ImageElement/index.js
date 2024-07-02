@@ -165,19 +165,20 @@ const ImageElement = function ({
     return (
       <div contentEditable={false} className="embed--btn-group">
         {element?.attrs?.extension === "jar" ||
-        element?.attrs?.extension === "xls" ||
-        element?.attrs?.extension === "zip" ||
-        element?.attrs?.extension === "pdf"
+          element?.attrs?.extension === "xls" ||
+          element?.attrs?.extension === "zip" ||
+          element?.attrs?.extension === "pdf" ||
+          element?.attrs?.extension === "json"
           ? ""
           : preview && (
-              <EmbedBtn
-                title={localeTexts.RTE.iconContent.preview}
-                content={utils.getToolTipIconContent(preview)}
-                onClick={handleView}
-              >
-                <Icon icon={preview} size="tiny" version="v2" />
-              </EmbedBtn>
-            )}
+            <EmbedBtn
+              title={localeTexts.RTE.iconContent.preview}
+              content={utils.getToolTipIconContent(preview)}
+              onClick={handleView}
+            >
+              <Icon icon={preview} size="tiny" version="v2" />
+            </EmbedBtn>
+          )}
         {openInDam && (
           <EmbedBtn
             title={localeTexts.RTE.iconContent.openInDAM}

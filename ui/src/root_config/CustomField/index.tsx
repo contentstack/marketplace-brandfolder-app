@@ -23,8 +23,6 @@ const filterAssetData = (assets: any[]) => {
       name,
       extension,
       filename,
-      thumbnail_url: allFieldImgThumbnailUrl,
-      thumbnailUrl: custFieldImgThumbnailUrl,
       relationships,
     } = asset;
 
@@ -45,7 +43,7 @@ const filterAssetData = (assets: any[]) => {
       width: dimensions?.width,
       height: dimensions?.height,
       size: sizeInBytes, // add size in bytes as string eg.'416246'
-      thumbnailUrl: allFieldImgThumbnailUrl || custFieldImgThumbnailUrl || url,
+      thumbnailUrl: asset?.apiDto?.attributes?.cdn_url || asset?.cdn_url || url,
       previewUrl: previewAllField || previewExtension || url, // add this parameter if you want "Preview" in tooltip action items
       platformUrl: platformlUrl || extensionImgPlatformUrl, // add this parameter if you want "Open in DAM" in tooltip action items
     };
