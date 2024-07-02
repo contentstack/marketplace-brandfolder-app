@@ -167,7 +167,8 @@ const ImageElement = function ({
         {element?.attrs?.extension === "jar" ||
         element?.attrs?.extension === "xls" ||
         element?.attrs?.extension === "zip" ||
-        element?.attrs?.extension === "pdf"
+        element?.attrs?.extension === "pdf" ||
+        element?.attrs?.extension === "json"
           ? ""
           : preview && (
               <EmbedBtn
