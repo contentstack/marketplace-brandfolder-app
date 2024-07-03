@@ -28,11 +28,11 @@ const getConfig = () => {
 
     const finalConfig = default_multi_config_key
       ? {
-        ...config,
-        selected_config: {
-          ...multiConfig,
-        },
-      }
+          ...config,
+          selected_config: {
+            ...multiConfig,
+          },
+        }
       : { ...config };
     delete finalConfig.default_multi_config_key;
     delete finalConfig.multi_config_keys;
