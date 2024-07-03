@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable arrow-body-style */
+
 /* NOTE: Remove Functions which are not used */
 import React, { useEffect, useRef } from "react";
 import {
@@ -41,6 +43,7 @@ const configureConfigScreen = () =>
       inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
       saveInConfig: true,
       saveInServerConfig: false,
+      isAccordianConfig: true,
     },
   });
 

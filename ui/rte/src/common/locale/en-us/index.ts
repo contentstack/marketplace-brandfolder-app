@@ -20,10 +20,15 @@ const localeTexts = {
       preview: "Preview Asset",
       openInDAM: `Open in ${rteConfig?.damEnv?.DAM_APP_NAME}`,
     },
+    assetValidation: {
+      errorStatement:
+        "Error: $var cannot be added as it does not match the asset constraints provided.",
+    },
   },
   DeleteModal: {
     header: "Remove Asset from Contentstack Entry",
     body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
+    textPlaceholder: "Enter asset name for confirmation",
     cancelButton: "Cancel",
     confirmButton: "Remove",
   },
