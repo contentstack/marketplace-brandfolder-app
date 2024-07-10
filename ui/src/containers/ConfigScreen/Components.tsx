@@ -43,7 +43,6 @@ export const TextInputField = function ({
   const { installationData } = useContext(AppConfigContext);
   return (
     <>
-      {console.info(" --------- objValue --------  ", objValue)}
       <Field>
         <FieldLabel
           required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
