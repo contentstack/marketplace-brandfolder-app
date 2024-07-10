@@ -9,6 +9,9 @@ import {
 } from "@contentstack/venus-components";
 import localeTexts from "../../common/locale/en-us";
 
+const removeHTMLTags = (description) =>
+  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
+
 const DeleteModal = function ({ remove, name: itemName, closeModal }) {
   return (
     <>
@@ -17,11 +20,11 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
         closeModal={closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p
-          dangerouslySetInnerHTML={{
-            __html: `${localeTexts.DeleteModal.body.replace(/\$/g, itemName)}`,
-          }}
-        />
+        <p>
+          {localeTexts.DeleteModal.bodyBeforePlaceholder}
+          <b>{removeHTMLTags(itemName)}</b>
+          {localeTexts.DeleteModal.bodyAfterPlaceholder}
+        </p>
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>

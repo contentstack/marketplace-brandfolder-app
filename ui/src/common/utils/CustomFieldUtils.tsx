@@ -224,7 +224,7 @@ const navigateObject = (obj: any, findkeys: string[]) => {
         currentObj = currentObj?.[subKeyArr?.[0]]?.[subKeyArr?.[1]];
       }
     } else if (currentObj?.hasOwnProperty(keyvalue)) {
-      currentObj = currentObj?.[keyvalue];
+      currentObj = currentObj?.[keyvalue] ?? {};
     } else {
       currentObj = undefined;
     }

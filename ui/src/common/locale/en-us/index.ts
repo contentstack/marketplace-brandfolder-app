@@ -13,7 +13,7 @@ const localeTexts = {
         "Note: When you toggle between App and Extension settings, please note that the data variation may occur.",
     },
     entrySaveRadioButton: {
-      label: "Save In Entry",
+      label: "Choose the Brandfolder Keys to Save In Entry",
       help: `You can select how you want to save the data you get from ${rootConfig.damEnv.DAM_APP_NAME}.`,
       placeholder:
         "Enter the structure of the data you want to save in the entry",
@@ -48,8 +48,8 @@ const localeTexts = {
 
     customWholeJson: {
       modal: {
-        header: "Add Key Path",
-        label: "Key Path",
+        header: "Add Brandfolder Key Path",
+        label: "Brandfolder Key Path",
         placeholder: "Enter Key Path",
         instructionS:
           'Use the dot format to enter nested objects, for eg: "file.url".',
@@ -122,7 +122,8 @@ const localeTexts = {
   },
   DeleteModal: {
     header: "Remove Asset from Contentstack Entry",
-    body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
+    bodyBeforePlaceholder: "Are you sure you want to remove  ",
+    bodyAfterPlaceholder: " from Contentstack Entry?",
     cancelButton: "Cancel",
     confirmButton: "Remove",
   },
