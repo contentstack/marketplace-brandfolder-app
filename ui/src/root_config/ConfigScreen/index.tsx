@@ -24,7 +24,7 @@ import useAppLocation from "../../common/hooks/useAppLocation";
 import services from "../../services";
 
 const configureConfigScreen = () =>
-  /* IMPORTANT: 
+/* IMPORTANT: 
 1. All sensitive information must be saved in serverConfig
 2. serverConfig is used when webhooks are implemented
 3. save the fields that are to be accessed in other location in config
@@ -32,28 +32,48 @@ const configureConfigScreen = () =>
 5. If values are stored in serverConfig then those values will not be available to other UI locations
 6. Supported type options are textInputFields, radioInputFields, selectInputFields */
 
-  ({
-    apiKey: {
-      type: "textInputFields",
-      labelText: "Brandfolder API Key",
-      helpText:
-        "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
-      placeholderText: "Enter your Brandfolder API Key",
-      instructionText: "Your Brandfolder API Key",
-      inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
-      saveInConfig: true,
-      saveInServerConfig: false,
-      isAccordianConfig: true,
-    },
+({
+  apiKey: {
+    type: "textInputFields",
+    labelText: "Brandfolder API Key",
+    helpText:
+      "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
+    placeholderText: "Enter your Brandfolder API Key",
+    instructionText: "Your Brandfolder API Key",
+    inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
+    saveInConfig: true,
+    saveInServerConfig: false,
+    isAccordianConfig: true,
+  },
+});
+
+// Function to extract apiKey values into key-value pairs array
+const getApiKeyPairs = (config: any) => {
+  const keys = Object.keys(config.multi_config_keys);
+  const keyValuePairs: any = [];
+  keys.forEach(key => {
+    const apiKey = config?.multi_config_keys[key]?.apiKey;
+    keyValuePairs.push(apiKey);
   });
+  return keyValuePairs;
+};
+
 
 // eslint-disable-next-line
 const checkConfigValidity = async (config: any, serverConfig: any) => {
+
   // return value of the function is object which takes disableSave[type=boolean] and message[type=string]. Assigning "true" to disableSave will disable the button and "false" will enable to button.
+
+
   if (config?.apiKey) {
+    const response = {
+      "Default": {
+        "apiKey": config?.apiKey
+      }
+    };
     try {
-      const isValid = await services.checkApiKeyValidity(config.apiKey);
-      if (!isValid) {
+      const isValid = await services.checkApiKeyValidity(response);
+      if (!isValid?.isValid) {
         return {
           disableSave: true,
           message: localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg,
@@ -66,7 +86,26 @@ const checkConfigValidity = async (config: any, serverConfig: any) => {
       };
     }
   }
-  return { disableSave: false };
+
+  if (config?.multi_config_keys) {
+    try {
+      const isValid = await services.checkApiKeyValidity(config?.multi_config_keys);
+      if (!isValid?.isValid) {
+        return {
+          disableSave: true,
+          // eslint-disable-next-line
+          message: localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg + "in field " + isValid?.key,
+        };
+      }
+    } catch (error) {
+      return {
+        disableSave: true,
+        message: localeTexts.ConfigFields.ErrorMessages.errorKeyMsg,
+      };
+    }
+  }
+  return { disableSave: false };  
+
 };
 
 const customConfigComponent = (
