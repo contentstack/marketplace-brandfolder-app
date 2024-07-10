@@ -76,6 +76,8 @@ export const TextInputField = function ({
           canShowPassword
           data-testid="text_input"
           version="v2"
+          maxLength="250"
+          showCharacterCount
         />
         <InstructionText data-testid="text_instruction">
           <div
