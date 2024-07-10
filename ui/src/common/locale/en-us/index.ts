@@ -122,10 +122,11 @@ const localeTexts = {
   },
   DeleteModal: {
     header: "Remove Asset from Contentstack Entry",
-    body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
+    bodyBeforePlaceholder: "Are you sure you want to remove  ",
+    bodyAfterPlaceholder: " from Contentstack Entry?",
     cancelButton: "Cancel",
     confirmButton: "Remove",
-  },
+  },  
   AppFailed: {
     Message1: "App Location Iniailization Failed.",
     Message2: "Please reload the location and Try Again!",
