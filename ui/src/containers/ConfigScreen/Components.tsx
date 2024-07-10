@@ -76,13 +76,11 @@ export const TextInputField = function ({
           canShowPassword
           data-testid="text_input"
           version="v2"
+          maxLength="250"
+          showCharacterCount
         />
         <InstructionText data-testid="text_instruction">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: objValue?.instructionText,
-            }}
-          />
+          <div>{objValue?.instructionText}</div>
         </InstructionText>
       </Field>
       <Line type="dashed" />
@@ -152,11 +150,7 @@ export const RadioInputField = function ({
           ))}
         </div>
         <InstructionText data-testid="radio_instruction">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: objValue?.instructionText,
-            }}
-          />
+          <div>{objValue?.instructionText}</div>
         </InstructionText>
       </Field>
       <Line type="dashed" />
@@ -196,11 +190,7 @@ export const SelectInputField = function ({
           version="v2"
         />
         <InstructionText data-testid="select_instruction">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: objValue?.instructionText,
-            }}
-          />
+          <div>{objValue?.instructionText}</div>
         </InstructionText>
       </Field>
       <Line type="dashed" />

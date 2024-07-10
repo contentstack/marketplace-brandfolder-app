@@ -125,7 +125,7 @@ const customConfigComponent = (
         <div className="config-wrapper" data-testid="config-wrapper">
           <div className="warning_note">
             <WarningMessage
-              content={localeTexts.ConfigFields.isExtension.warning_note}
+              content={localeTexts.ConfigFields.isExtension.legacyInfo}
             />
           </div>
           <br />
