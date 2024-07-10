@@ -43,6 +43,9 @@ export const TextInputField = function ({
   const { installationData } = useContext(AppConfigContext);
   return (
     <>
+      {
+        console.info(" --------- objValue --------  ", objValue)
+      }
       <Field>
         <FieldLabel
           required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
@@ -66,8 +69,8 @@ export const TextInputField = function ({
             objValue?.saveInConfig
               ? installationData?.configuration?.[objKey]
               : objValue?.saveInServerConfig
-              ? installationData?.serverConfiguration?.[objKey]
-              : ""
+                ? installationData?.serverConfiguration?.[objKey]
+                : ""
           }
           placeholder={objValue?.placeholderText}
           name={objKey}
@@ -80,11 +83,7 @@ export const TextInputField = function ({
           showCharacterCount
         />
         <InstructionText data-testid="text_instruction">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: objValue?.instructionText,
-            }}
-          />
+          <div>{objValue?.instructionText}</div>
         </InstructionText>
       </Field>
       <Line type="dashed" />
@@ -154,11 +153,7 @@ export const RadioInputField = function ({
           ))}
         </div>
         <InstructionText data-testid="radio_instruction">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: objValue?.instructionText,
-            }}
-          />
+          <div>{objValue?.instructionText}</div>
         </InstructionText>
       </Field>
       <Line type="dashed" />
@@ -198,11 +193,7 @@ export const SelectInputField = function ({
           version="v2"
         />
         <InstructionText data-testid="select_instruction">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: objValue?.instructionText,
-            }}
-          />
+          <div>{objValue?.instructionText}</div>
         </InstructionText>
       </Field>
       <Line type="dashed" />

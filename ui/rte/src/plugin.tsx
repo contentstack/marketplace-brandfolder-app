@@ -59,8 +59,6 @@ export default ContentstackSDK.init()
     };
   })
   .catch((err) => {
-    console.error(
-      `Error in loading ${rteConfig.damEnv.DAM_APP_NAME} JSON RTE plugin :: `,
-      err
-    );
+    const errorMessage = `Error in loading ${rteConfig.damEnv.DAM_APP_NAME} JSON RTE plugin :: `;
+    console.error(errorMessage, err);
   });
