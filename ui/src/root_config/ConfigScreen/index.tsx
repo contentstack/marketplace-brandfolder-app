@@ -93,10 +93,7 @@ const checkConfigValidity = async (config: any, serverConfig: any) => {
         return {
           disableSave: true,
           // eslint-disable-next-line
-          message:
-            `${localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg 
-            }in field ${ 
-            isValid?.key}`,
+          message: `${localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg}in field ${isValid?.key}`,
         };
       }
     } catch (error) {
