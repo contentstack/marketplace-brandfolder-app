@@ -126,7 +126,7 @@ const localeTexts = {
     bodyAfterPlaceholder: " from Contentstack Entry?",
     cancelButton: "Cancel",
     confirmButton: "Remove",
-  },  
+  },
   AppFailed: {
     Message1: "App Location Iniailization Failed.",
     Message2: "Please reload the location and Try Again!",
