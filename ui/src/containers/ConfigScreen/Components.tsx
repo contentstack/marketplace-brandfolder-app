@@ -43,9 +43,7 @@ export const TextInputField = function ({
   const { installationData } = useContext(AppConfigContext);
   return (
     <>
-      {
-        console.info(" --------- objValue --------  ", objValue)
-      }
+      {console.info(" --------- objValue --------  ", objValue)}
       <Field>
         <FieldLabel
           required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
@@ -69,8 +67,8 @@ export const TextInputField = function ({
             objValue?.saveInConfig
               ? installationData?.configuration?.[objKey]
               : objValue?.saveInServerConfig
-                ? installationData?.serverConfiguration?.[objKey]
-                : ""
+              ? installationData?.serverConfiguration?.[objKey]
+              : ""
           }
           placeholder={objValue?.placeholderText}
           name={objKey}
