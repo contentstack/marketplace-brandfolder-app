@@ -26,23 +26,55 @@ const fieldsWithData = [
 
 const postMessageData = [
   {
-    __typename: "Image",
-    id: "KEFzc2V0X2lkIENDQkVCRDA4LTU1NDctNEYyNC1CODc4MkNCMjQ5QkRBNTg5KQ==",
-    name: "qc-45",
-    type: "IMAGE",
-    url: "https://contentstackintegration.getbynder.com/media/?mediaId=CCBEBD08-5547-4F24-B8782CB249BDA589",
-    files: {
-      webImage: {
-        url: "https://contentstackintegration.getbynder.com/m/1ba8bc400b9f96da/webimage-qc-45.jpg",
-        width: 800,
-        height: 682,
-        fileSize: null,
+    id: "mc4r2w7gb9qsqw87qv9rp8pv",
+    name: "attacker.jpg",
+    createdAt: {},
+    updatedAt: {},
+    position: 0,
+    type: "attachments",
+    assetId: "n87f6b8wvttbr9mn6p5q24nk",
+    url: "https://cdn.brandfolder.io/EYSCDOSE/at/mc4r2w7gb9qsqw87qv9rp8pv/attacker.jpg",
+    filename: "attacker.jpg",
+    extension: "jpg",
+    mimetype: "image/jpeg",
+    thumbnailUrl:
+      "https://thumbs.bfldr.com/at/mc4r2w7gb9qsqw87qv9rp8pv?expiry=1713332751&fit=bounds&height=162&sig=NDQ4MDdiZmI2MjA4Mzc5ZTA0YmFjZDdkZDk5OWIxZjVhNmI3YTgxYg%3D%3D&width=262",
+    dimensions: {
+      width: 512,
+      height: 512,
+      type: 0,
+    },
+    sizeInBytes: 46494,
+    isProcessing: false,
+    mediaType: "JPG",
+    supported: true,
+    apiDto: {
+      id: "mc4r2w7gb9qsqw87qv9rp8pv",
+      type: "attachments",
+      attributes: {
+        mimetype: "image/jpeg",
+        extension: "jpg",
+        filename: "attacker.jpg",
+        size: 46494,
+        width: 512,
+        height: 512,
+        url: "https://assets2.brandfolder.io/bf-boulder-prod/mc4r2w7gb9qsqw87qv9rp8pv/v/1079794536/original/attacker.jpg",
+        position: 0,
+        created_at: "2023-01-28T05:52:29.018Z",
+        updated_at: "2023-01-28T05:52:33.628Z",
+        is_processing: false,
+        thumbnail_url:
+          "https://thumbs.bfldr.com/at/mc4r2w7gb9qsqw87qv9rp8pv?expiry=1713332751&fit=bounds&height=162&sig=NDQ4MDdiZmI2MjA4Mzc5ZTA0YmFjZDdkZDk5OWIxZjVhNmI3YTgxYg%3D%3D&width=262",
+        cdn_url:
+          "https://cdn.brandfolder.io/EYSCDOSE/at/mc4r2w7gb9qsqw87qv9rp8pv/attacker.jpg",
       },
-      thumbnail: {
-        url: "https://contentstackintegration.getbynder.com/m/1ba8bc400b9f96da/thul-qc-45.jpg",
-        width: 250,
-        height: 213,
-        fileSize: null,
+      relationships: {
+        asset: {
+          data: {
+            id: "n87f6b8wvttbr9mn6p5q24nk",
+            type: "generic_files",
+          },
+        },
       },
     },
   },
@@ -74,7 +106,7 @@ beforeEach(() => {
   const setStateMock = React.useState;
   const useStateMock: any = (useState: any) => [useState, setStateMock];
   const testName = expect.getState().currentTestName;
-  if (testName.includes("**")) {
+  if (testName?.includes("**")) {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() =>
@@ -86,7 +118,7 @@ beforeEach(() => {
       )
       .mockImplementationOnce(() => useStateMock(false))
       .mockImplementationOnce(() => useStateMock(assetData));
-  } else if (testName.includes("*")) {
+  } else if (testName?.includes("*")) {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() =>

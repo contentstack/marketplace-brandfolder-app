@@ -4,9 +4,11 @@
 /* Import node module CSS */
 /* Import our CSS */
 
+/* Below is just an example function which can be called
+from any of the app container pages. */
 import constants from "../common/constants";
 
-const checkConfigValidity = async (apiKey: any) => {
+const checkApiKeyValidity = async (apiKey: any) => {
   let authToken = "";
   if (apiKey) {
     authToken = `Bearer ${apiKey}`;
@@ -23,7 +25,7 @@ const checkConfigValidity = async (apiKey: any) => {
 };
 
 const services = {
-  checkConfigValidity,
+  checkApiKeyValidity,
 };
 
 export default services;

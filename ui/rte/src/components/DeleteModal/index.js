@@ -1,5 +1,4 @@
-/* eslint-disable */
-import React, { useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {
   Button,
@@ -10,20 +9,22 @@ import {
 } from "@contentstack/venus-components";
 import localeTexts from "../../common/locale/en-us";
 
-const DeleteModal = function (props) {
-  const { type, remove, name: itemName, closeModal } = props;
+const removeHTMLTags = (description) =>
+  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
+
+const DeleteModal = function ({ remove, name: itemName, closeModal }) {
   return (
     <>
       <ModalHeader
-        title={`${localeTexts.DeleteModal.header}`}
+        title={localeTexts.DeleteModal.header}
         closeModal={closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p
-          dangerouslySetInnerHTML={{
-            __html: `${localeTexts.DeleteModal.body.replace("$", itemName)}`,
-          }}
-        />
+        <p>
+          {localeTexts.DeleteModal.bodyBeforePlaceholder}
+          <b>{removeHTMLTags(itemName)}</b>
+          {localeTexts.DeleteModal.bodyAfterPlaceholder}
+        </p>
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
@@ -37,12 +38,10 @@ const DeleteModal = function (props) {
               size: "mini",
               className: "remove-modal-icon",
             }}
-            size="small"
-            version="v2"
-            onClick={useCallback(() => {
+            onClick={() => {
               remove();
               closeModal();
-            }, [remove, closeModal])}
+            }}
           >
             {localeTexts.DeleteModal.confirmButton}
           </Button>
@@ -54,6 +53,7 @@ const DeleteModal = function (props) {
 
 export default DeleteModal;
 
+// eslint-disable-next-line
 DeleteModal.propTypes = {
   type: PropTypes.string,
   remove: PropTypes.func,

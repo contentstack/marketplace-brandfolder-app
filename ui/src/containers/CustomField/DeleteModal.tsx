@@ -9,6 +9,9 @@ import React, { useCallback } from "react";
 import localeTexts from "../../common/locale/en-us";
 import { Props } from "../../common/types";
 
+const removeHTMLTags = (description: string) =>
+  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
+
 const DeleteModal: React.FC<Props> = function ({
   type,
   remove,
@@ -23,11 +26,11 @@ const DeleteModal: React.FC<Props> = function ({
         closeModal={props.closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p
-          dangerouslySetInnerHTML={{
-            __html: `${localeTexts.DeleteModal.body.replace("$", itemName)}`,
-          }}
-        />
+        <p>
+          {localeTexts.DeleteModal.bodyBeforePlaceholder}
+          <b>{removeHTMLTags(itemName)}</b>
+          {localeTexts.DeleteModal.bodyAfterPlaceholder}
+        </p>
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
