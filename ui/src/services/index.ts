@@ -34,7 +34,9 @@ const checkApiKeyValidity = async (config: any) => {
         if (response?.status === 200) {
           return { key, isValid: true };
         }
-        throw new Error(localeTexts?.ConfigFields?.ErrorMessages?.inValidKeyMsg);
+        throw new Error(
+          localeTexts?.ConfigFields?.ErrorMessages?.inValidKeyMsg
+        );
       } catch (error) {
         return { key, isValid: false };
       }
@@ -45,10 +47,12 @@ const checkApiKeyValidity = async (config: any) => {
   const results = await Promise.all(checkApiKeyPromises);
 
   // Filter out the keys where isValid is false
-  const invalidKeys = results?.filter((result) => !result.isValid)?.map((result) => result.key);
+  const invalidKeys = results
+    ?.filter((result) => !result.isValid)
+    ?.map((result) => result.key);
 
   // If there are any invalid keys, return them in the specified format
-  if (invalidKeys?.length > 0) { 
+  if (invalidKeys?.length > 0) {
     return { isValid: false, key: invalidKeys.join(",") };
   }
 

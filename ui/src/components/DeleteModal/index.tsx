@@ -43,16 +43,17 @@ const DeleteModal: React.FC<Props> = function ({
       <ModalBody className="deleteModalBody">
         <p
           dangerouslySetInnerHTML={{
-            __html: `${configLocation
+            __html: `${
+              configLocation
                 ? localeTexts.ConfigFields.DeleteModal.body.replace(
-                  /\$/g,
-                  itemName
-                )
+                    /\$/g,
+                    itemName
+                  )
                 : localeTexts.CustomFields.DeleteModal.body.replace(
-                  /\$/g,
-                  itemName
-                )
-              }`,
+                    /\$/g,
+                    itemName
+                  )
+            }`,
           }}
         />
         <br />
@@ -84,7 +85,11 @@ const DeleteModal: React.FC<Props> = function ({
           </Button>
           <Button
             buttonType="delete"
-            icon={configLocation ? localeTexts.ConfigFields.DeleteModal.confirmButton : localeTexts.ConfigFields.DeleteModal.removeFilled}
+            icon={
+              configLocation
+                ? localeTexts.ConfigFields.DeleteModal.confirmButton
+                : localeTexts.ConfigFields.DeleteModal.removeFilled
+            }
             iconProps={{
               size: "mini",
               className: "remove-modal-icon",
