@@ -122,7 +122,7 @@ const saveData = (event: any) => {
       HEIGHT_NAME: HEIGHT,
       WIDTH_NAME: WIDTH,
     } = rteConfig.damEnv.ADVANCED_ASSET_PARAMS ?? {};
-    const { size, height, width } = advancedConfig?.advanced;
+    const { size, height, width } = advancedConfig?.advanced ?? {};
     const acceptedAssets: any[] = [];
     const rejectedAssets: any[] = [];
 
