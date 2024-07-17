@@ -32,6 +32,7 @@ const localeTexts = {
       textPlaceholder: "Enter configuration name for confirmation",
       cancelButton: "Cancel",
       confirmButton: "Delete",
+      removeFilled: "RemoveFilled",
     },
     entrySaveRadioButton: {
       label: "Save In Entry",

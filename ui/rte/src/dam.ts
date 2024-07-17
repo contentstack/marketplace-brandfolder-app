@@ -28,18 +28,18 @@ const getConfig = () => {
 
     const finalConfig = default_multi_config_key
       ? {
-          ...config,
-          selected_config: {
-            ...multiConfig,
-          },
-        }
+        ...config,
+        selected_config: {
+          ...multiConfig,
+        },
+      }
       : { ...config };
-    delete finalConfig.default_multi_config_key;
-    delete finalConfig.multi_config_keys;
+    delete finalConfig?.default_multi_config_key;
+    delete finalConfig?.multi_config_keys;
 
     const finalContentTypeConfig = { ...advancedConfig };
-    delete finalContentTypeConfig.config_label;
-    delete finalContentTypeConfig.locale;
+    delete finalContentTypeConfig?.config_label;
+    delete finalContentTypeConfig?.locale;
 
     return { config: finalConfig, contentTypeConfig: finalContentTypeConfig };
   }
@@ -139,9 +139,6 @@ const saveData = (event: any) => {
     });
 
     dataArr?.forEach((asset: any) => {
-      // asset.rte_resource_type = rteConfig?.getAssetType?.(asset);
-      // asset.rte_display_url = rteConfig?.getDisplayUrl?.(asset);
-
       if (Object.keys(config?.multi_config_keys ?? {})?.length) {
         const configLabel = getCurrentConfigLabel();
         asset.cs_metadata = {

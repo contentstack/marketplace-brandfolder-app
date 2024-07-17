@@ -70,8 +70,8 @@ const CustomField: React.FC = function () {
             ...multiConfig,
           },
         };
-        delete finalConfig.default_multi_config_key;
-        delete finalConfig.multi_config_keys;
+        delete finalConfig?.default_multi_config_key;
+        delete finalConfig?.multi_config_keys;
       }
 
       const finalContentTypeConfig = { ...contentTypeConfig };

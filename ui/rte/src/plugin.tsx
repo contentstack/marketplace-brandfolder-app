@@ -50,7 +50,6 @@ export default ContentstackSDK.init()
     DAM.on("exec", async (rte: RTE) => {
       const config = await rte?.getConfig();
       const advancedConfig = await rte?.getFieldConfig();
-      // const currentLocale = await rte?.getLocale();
       const savedSelection = rte?.selection?.get();
       onClickHandler({
         extension: sdk,
@@ -58,7 +57,6 @@ export default ContentstackSDK.init()
         savedSelection,
         config,
         advancedConfig,
-        // currentLocale
       });
     });
 

@@ -9,7 +9,6 @@ import {
   TypeRootCustomField,
 } from "../../common/types";
 import DamEnvVariables from "../DamEnv";
-// import utils from "../utils";
 import utils from "../../common/utils";
 import constants from "../../common/constants";
 

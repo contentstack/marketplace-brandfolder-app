@@ -7,6 +7,7 @@
 /* Below is just an example function which can be called
 from any of the app container pages. */
 import constants from "../common/constants";
+import localeTexts from "../root_config/locale/en-us";
 
 const checkApiKeyValidity = async (config: any) => {
   const multiConfigKeys = config;
@@ -16,7 +17,7 @@ const checkApiKeyValidity = async (config: any) => {
     async ([key, value]: any) => {
       try {
         let authToken = "";
-        if (value.apiKey) {
+        if (value?.apiKey) {
           authToken = `Bearer ${value.apiKey}`;
         }
 
@@ -30,10 +31,10 @@ const checkApiKeyValidity = async (config: any) => {
         });
 
         // If the response status is 200, return valid; otherwise, it's an error
-        if (response.status === 200) {
+        if (response?.status === 200) {
           return { key, isValid: true };
         }
-        throw new Error("Invalid API Key");
+        throw new Error(localeTexts?.ConfigFields?.ErrorMessages?.inValidKeyMsg);
       } catch (error) {
         return { key, isValid: false };
       }
@@ -44,12 +45,10 @@ const checkApiKeyValidity = async (config: any) => {
   const results = await Promise.all(checkApiKeyPromises);
 
   // Filter out the keys where isValid is false
-  const invalidKeys = results
-    .filter((result) => !result.isValid)
-    .map((result) => result.key);
+  const invalidKeys = results?.filter((result) => !result.isValid)?.map((result) => result.key);
 
   // If there are any invalid keys, return them in the specified format
-  if (invalidKeys.length > 0) {
+  if (invalidKeys?.length > 0) { 
     return { isValid: false, key: invalidKeys.join(",") };
   }
 

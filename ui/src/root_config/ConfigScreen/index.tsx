@@ -49,10 +49,10 @@ const configureConfigScreen = () =>
 
 // Function to extract apiKey values into key-value pairs array
 const getApiKeyPairs = (config: any) => {
-  const keys = Object.keys(config.multi_config_keys);
+  const keys = Object.keys(config?.multi_config_keys);
   const keyValuePairs: any = [];
   keys.forEach((key) => {
-    const apiKey = config?.multi_config_keys[key]?.apiKey;
+    const apiKey = config?.multi_config_keys?.[key]?.apiKey;
     keyValuePairs.push(apiKey);
   });
   return keyValuePairs;
