@@ -64,11 +64,11 @@ const CustomField: React.FC = function () {
 
       const finalConfig = default_multi_config_key
         ? {
-            ...config,
-            selected_config: {
-              ...multiConfig,
-            },
-          }
+          ...config,
+          selected_config: {
+            ...multiConfig,
+          },
+        }
         : { ...config };
       delete finalConfig.default_multi_config_key;
       delete finalConfig.multi_config_keys;
@@ -198,6 +198,16 @@ const CustomField: React.FC = function () {
         );
 
         const assets = data?.selectedAssets;
+        if (state?.config?.is_extension) {
+          const assetsToSave =
+            rootConfig?.modifyAssetsToSave?.(
+              state?.config,
+              state?.contentTypeConfig,
+              assets
+            ) ?? assets;
+          handleUniqueSelectedData(assetsToSave);
+        }
+
         if (state?.config?.is_custom_json) {
           const keys = CustomFieldUtils.extractKeys(state?.config?.dam_keys);
           const assetData = CustomFieldUtils.getFilteredAssets(
@@ -206,13 +216,7 @@ const CustomField: React.FC = function () {
           );
           handleUniqueSelectedData(assetData);
         } else {
-          const assetsToSave =
-            rootConfig?.modifyAssetsToSave?.(
-              state?.config,
-              state?.contentTypeConfig,
-              assets
-            ) ?? assets;
-          handleUniqueSelectedData(assetsToSave);
+          handleUniqueSelectedData(finalAssets?.acceptedAssets);
         }
 
         if (finalAssets?.rejectedAssets?.length) {
@@ -235,19 +239,20 @@ const CustomField: React.FC = function () {
               rejectedAssetNames?.map((item) => `"${item}"`)?.join(", ")
             )}`;
           }
-
-          Notification({
-            displayContent: {
-              error: {
-                error_message: message,
+          if (!state?.config?.is_extension) {
+            Notification({
+              displayContent: {
+                error: {
+                  error_message: message,
+                },
               },
-            },
-            notifyProps: {
-              hideProgressBar: true,
-              closeButton: true,
-            },
-            type: "error",
-          });
+              notifyProps: {
+                hideProgressBar: true,
+                closeButton: true,
+              },
+              type: "error",
+            });
+          }
         }
       } else if (data?.message === "close") {
         window.removeEventListener("message", saveData, false);

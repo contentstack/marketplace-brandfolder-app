@@ -18,7 +18,6 @@ const checkApiKeyValidity = async (config: any) => {
         let authToken = "";
         if (value.apiKey) {
           authToken = `Bearer ${value.apiKey}`;
-          console.info("authToken", authToken);
         }
 
         const response = await fetch(constants.brandfolderUrl, {
