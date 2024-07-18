@@ -10,6 +10,9 @@ import {
 import localeTexts from "../../common/locale/en-us";
 import { Props } from "../../common/types";
 
+const removeHTMLTags = (description: string) =>
+  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
+
 const DeleteModal: React.FC<Props> = function ({
   remove,
   id,
@@ -41,21 +44,11 @@ const DeleteModal: React.FC<Props> = function ({
         closeModal={props.closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p
-          dangerouslySetInnerHTML={{
-            __html: `${
-              configLocation
-                ? localeTexts.ConfigFields.DeleteModal.body.replace(
-                    /\$/g,
-                    itemName
-                  )
-                : localeTexts.CustomFields.DeleteModal.body.replace(
-                    /\$/g,
-                    itemName
-                  )
-            }`,
-          }}
-        />
+        <p>
+          {localeTexts.ConfigFields.DeleteModal.bodyBeforePlaceholder}
+          <b>&apos;{removeHTMLTags(itemName)}&apos;</b>
+          {localeTexts.ConfigFields.DeleteModal.bodyAfterPlaceholder}
+        </p>
         <br />
         <TextInput
           required

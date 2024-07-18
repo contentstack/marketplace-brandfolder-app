@@ -14,10 +14,10 @@ const popupWindow = (windowDetails: TypePopupWindowDetails) => {
     windowDetails.url,
     windowDetails.title,
     "toolbar=no, location=no, directories=no, " +
-      "status=no, menubar=no, scrollbars=no, resizable=no, " +
-      `copyhistory=no, width=${windowDetails.w}, ` +
-      `height=${windowDetails.h}, ` +
-      `top=${top}, left=${left}`
+    "status=no, menubar=no, scrollbars=no, resizable=no, " +
+    `copyhistory=no, width=${windowDetails.w}, ` +
+    `height=${windowDetails.h}, ` +
+    `top=${top}, left=${left}`
   );
 };
 
@@ -231,7 +231,7 @@ const navigateObject = (obj: any, findkeys: string[]) => {
         currentObj = currentObj?.[subKeyArr?.[0]]?.[subKeyArr?.[1]];
       }
     } else if (currentObj?.hasOwnProperty(keyvalue)) {
-      currentObj = currentObj?.[keyvalue];
+      currentObj = currentObj?.[keyvalue] ?? {};
     } else {
       currentObj = undefined;
     }

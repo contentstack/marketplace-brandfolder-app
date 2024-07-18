@@ -31,11 +31,11 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
         closeModal={closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p
-          dangerouslySetInnerHTML={{
-            __html: `${localeTexts.DeleteModal.body.replace(/\$/g, itemName)}`,
-          }}
-        />
+        <p>
+          {localeTexts.DeleteModal.bodyBeforePlaceholder}
+          <b>{removeHTMLTags(itemName)}</b>
+          {localeTexts.DeleteModal.bodyAfterPlaceholder}
+        </p>
         <br />
         <TextInput
           required
