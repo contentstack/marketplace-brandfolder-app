@@ -195,7 +195,7 @@ export const SelectInputField = function ({
       <InstructionText data-testid="select_instruction">
         <div>{objValue?.instructionText}</div>
       </InstructionText>
-    </Field>
+    </Field>  
   );
 };
 
