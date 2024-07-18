@@ -10,6 +10,9 @@ import {
 } from "@contentstack/venus-components";
 import localeTexts from "../../common/locale/en-us";
 
+const removeHTMLTags = (description) =>
+  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
+
 const DeleteModal = function ({ remove, name: itemName, closeModal }) {
   const [deleteConfirmationName, setDeleteConfirmationName] = useState("");
   const [deleteBtnDisable, setDeleteBtnDisable] = useState(true);
