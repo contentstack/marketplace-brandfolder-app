@@ -14,10 +14,10 @@ const popupWindow = (windowDetails: TypePopupWindowDetails) => {
     windowDetails.url,
     windowDetails.title,
     "toolbar=no, location=no, directories=no, " +
-    "status=no, menubar=no, scrollbars=no, resizable=no, " +
-    `copyhistory=no, width=${windowDetails.w}, ` +
-    `height=${windowDetails.h}, ` +
-    `top=${top}, left=${left}`
+      "status=no, menubar=no, scrollbars=no, resizable=no, " +
+      `copyhistory=no, width=${windowDetails.w}, ` +
+      `height=${windowDetails.h}, ` +
+      `top=${top}, left=${left}`
   );
 };
 

@@ -45,11 +45,11 @@ export const TextInputField = function ({
   if (objValue?.saveInConfig || objValue?.saveInServerConfig) {
     fieldValue = acckey
       ? installationData?.[
-          objValue.saveInConfig ? "configuration" : "serverConfiguration"
-        ]?.multi_config_keys?.[acckey]?.[objKey]
+        objValue.saveInConfig ? "configuration" : "serverConfiguration"
+      ]?.multi_config_keys?.[acckey]?.[objKey]
       : installationData?.[
-          objValue.saveInConfig ? "configuration" : "serverConfiguration"
-        ]?.[objKey];
+      objValue.saveInConfig ? "configuration" : "serverConfiguration"
+      ]?.[objKey];
   }
 
   return (
@@ -78,11 +78,7 @@ export const TextInputField = function ({
         version="v2"
       />
       <InstructionText data-testid="text_instruction">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: objValue?.instructionText,
-          }}
-        />
+        <div>{objValue?.instructionText}</div>
       </InstructionText>
     </Field>
   );
@@ -154,11 +150,7 @@ export const RadioInputField = function ({
         ))}
       </div>
       <InstructionText data-testid="radio_instruction">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: objValue?.instructionText,
-          }}
-        />
+        <div>{objValue?.instructionText}</div>
       </InstructionText>
     </Field>
   );
@@ -201,11 +193,7 @@ export const SelectInputField = function ({
         version="v2"
       />
       <InstructionText data-testid="select_instruction">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: objValue?.instructionText,
-          }}
-        />
+      <div>{objValue?.instructionText}</div>
       </InstructionText>
     </Field>
   );
