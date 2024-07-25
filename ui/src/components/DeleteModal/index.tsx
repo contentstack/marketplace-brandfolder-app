@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import React, { useCallback, useState } from "react";
 import {
   Button,
@@ -51,6 +49,21 @@ const DeleteModal: React.FC<Props> = function ({
           <b>{removeHTMLTags(itemName)}</b>
           {localeTexts.DeleteModal.bodyAfterPlaceholder}
         </p>
+        <TextInput
+          required
+          maxLength={50}
+          showCharacterCount
+          hideCharCountError={false}
+          placeholder={
+            configLocation
+              ? localeTexts.ConfigFields.DeleteModal.textPlaceholder
+              : localeTexts.CustomFields.DeleteModal.textPlaceholder
+          }
+          name="deleteConfirmationName"
+          value={deleteConfirmationName}
+          onChange={handleDeleteInput}
+          version="v2"
+        />
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
