@@ -35,7 +35,7 @@ const localeTexts = {
       removeFilled: "RemoveFilled",
     },
     entrySaveRadioButton: {
-      label: "Save In Entry",
+      label: "Choose the Brandfolder Keys to Save In Entry",
       help: `You can select how you want to save the data you get from ${rootConfig.damEnv.DAM_APP_NAME}.`,
       placeholder:
         "Enter the structure of the data you want to save in the entry",
@@ -70,8 +70,8 @@ const localeTexts = {
 
     customWholeJson: {
       modal: {
-        header: "Add Key Path",
-        label: "Key Path",
+        header: "Add Brandfolder Key Path",
+        label: "Brandfolder Key Path",
         placeholder: "Enter Key Path",
         instructionS:
           'Use the dot format to enter nested objects, for eg: "file.url".',
@@ -151,6 +151,13 @@ const localeTexts = {
   },
   Warnings: {
     incorrectConfig: `The credentials you entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} App" are invalid or missing. Please update the configuration details and try again.`,
+  },
+  DeleteModal: {
+    header: "Remove Asset from Contentstack Entry",
+    bodyBeforePlaceholder: "Are you sure you want to remove  ",
+    bodyAfterPlaceholder: " from Contentstack Entry?",
+    cancelButton: "Cancel",
+    confirmButton: "Remove",
   },
   AppFailed: {
     Message1: "App Location Iniailization Failed.",

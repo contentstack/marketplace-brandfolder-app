@@ -27,8 +27,8 @@ const localeTexts = {
   },
   DeleteModal: {
     header: "Remove Asset from Contentstack Entry",
-    body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
-    textPlaceholder: "Enter asset name for confirmation",
+    bodyBeforePlaceholder: "Are you sure you want to remove  ",
+    bodyAfterPlaceholder: " from Contentstack Entry?",
     cancelButton: "Cancel",
     confirmButton: "Remove",
   },

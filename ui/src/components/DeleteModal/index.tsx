@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useCallback, useState } from "react";
 import {
   Button,
@@ -9,6 +11,9 @@ import {
 } from "@contentstack/venus-components";
 import localeTexts from "../../common/locale/en-us";
 import { Props } from "../../common/types";
+
+const removeHTMLTags = (description: string) =>
+  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
 
 const DeleteModal: React.FC<Props> = function ({
   remove,
@@ -41,37 +46,11 @@ const DeleteModal: React.FC<Props> = function ({
         closeModal={props.closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p
-          dangerouslySetInnerHTML={{
-            __html: `${
-              configLocation
-                ? localeTexts.ConfigFields.DeleteModal.body.replace(
-                    /\$/g,
-                    itemName
-                  )
-                : localeTexts.CustomFields.DeleteModal.body.replace(
-                    /\$/g,
-                    itemName
-                  )
-            }`,
-          }}
-        />
-        <br />
-        <TextInput
-          required
-          maxLength={50}
-          showCharacterCount
-          hideCharCountError={false}
-          placeholder={
-            configLocation
-              ? localeTexts.ConfigFields.DeleteModal.textPlaceholder
-              : localeTexts.CustomFields.DeleteModal.textPlaceholder
-          }
-          name="deleteConfirmationName"
-          value={deleteConfirmationName}
-          onChange={handleDeleteInput}
-          version="v2"
-        />
+        <p>
+          {localeTexts.DeleteModal.bodyBeforePlaceholder}
+          <b>{removeHTMLTags(itemName)}</b>
+          {localeTexts.DeleteModal.bodyAfterPlaceholder}
+        </p>
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>

@@ -1,37 +1,29 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
 import {
-  TextInput,
   Button,
   ButtonGroup,
   ModalBody,
   ModalFooter,
   ModalHeader,
 } from "@contentstack/venus-components";
+import React, { useCallback } from "react";
 import localeTexts from "../../common/locale/en-us";
+import { Props } from "../../common/types";
 
-const removeHTMLTags = (description) =>
+const removeHTMLTags = (description: string) =>
   description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
 
-const DeleteModal = function ({ remove, name: itemName, closeModal }) {
-  const [deleteConfirmationName, setDeleteConfirmationName] = useState("");
-  const [deleteBtnDisable, setDeleteBtnDisable] = useState(true);
-
-  const handleDeleteInput = (e) => {
-    const inputValue = e?.target?.value?.trim();
-    if (inputValue === itemName) {
-      setDeleteConfirmationName(inputValue);
-      setDeleteBtnDisable(false);
-    } else {
-      setDeleteBtnDisable(true);
-    }
-  };
-
+const DeleteModal: React.FC<Props> = function ({
+  type,
+  remove,
+  id,
+  name: itemName,
+  ...props
+}) {
   return (
     <>
       <ModalHeader
         title={localeTexts.DeleteModal.header}
-        closeModal={closeModal}
+        closeModal={props.closeModal}
       />
       <ModalBody className="deleteModalBody">
         <p>
@@ -42,12 +34,7 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
-          <Button
-            buttonType="light"
-            size="small"
-            version="v2"
-            onClick={closeModal}
-          >
+          <Button buttonType="light" onClick={props.closeModal}>
             {localeTexts.DeleteModal.cancelButton}
           </Button>
           <Button
@@ -59,11 +46,10 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
             }}
             size="small"
             version="v2"
-            disabled={deleteBtnDisable}
-            onClick={() => {
-              remove();
-              closeModal();
-            }}
+            onClick={useCallback(() => {
+              remove(id);
+              props.closeModal();
+            }, [id, props])}
           >
             {localeTexts.DeleteModal.confirmButton}
           </Button>
@@ -74,11 +60,3 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
 };
 
 export default DeleteModal;
-
-// eslint-disable-next-line
-DeleteModal.propTypes = {
-  type: PropTypes.string,
-  remove: PropTypes.func,
-  name: PropTypes.string,
-  closeModal: PropTypes.func,
-};
