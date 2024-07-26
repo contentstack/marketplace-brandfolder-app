@@ -206,8 +206,8 @@ const ConfigStateProvider: React.FC<any> = function ({
     const multiServerConfig = {
       ...serverConfigCopy?.multi_config_keys,
     };
-    delete configCopy.multi_config_keys;
-    delete serverConfigCopy.multi_config_keys;
+    delete configCopy?.multi_config_keys;
+    delete serverConfigCopy?.multi_config_keys;
 
     const savedData = {
       ...configCopy,

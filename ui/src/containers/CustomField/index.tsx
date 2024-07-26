@@ -76,10 +76,10 @@ const CustomField: React.FC = function () {
 
       const finalContentTypeConfig = { ...contentTypeConfig };
       if (finalContentTypeConfig?.advanced)
-        delete finalContentTypeConfig.advanced;
+        delete finalContentTypeConfig?.advanced;
       if (finalContentTypeConfig?.config_label)
-        delete finalContentTypeConfig.config_label;
-      if (finalContentTypeConfig?.locale) delete finalContentTypeConfig.locale;
+        delete finalContentTypeConfig?.config_label;
+      if (finalContentTypeConfig?.locale) delete finalContentTypeConfig?.locale;
 
       return { config: finalConfig, contentTypeConfig: finalContentTypeConfig };
     }

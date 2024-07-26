@@ -1,6 +1,6 @@
 {
   "name": "marketplace-brandfolder-ui",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "dependencies": {
     "@brandfolder-panel/sdk": "^0.9.26",
     "@contentstack/app-sdk": "^2.0.1",

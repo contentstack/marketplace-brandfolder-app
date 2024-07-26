@@ -45,10 +45,10 @@ export const TextInputField = function ({
   if (objValue?.saveInConfig || objValue?.saveInServerConfig) {
     fieldValue = acckey
       ? installationData?.[
-          objValue.saveInConfig ? "configuration" : "serverConfiguration"
+          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
         ]?.multi_config_keys?.[acckey]?.[objKey]
       : installationData?.[
-          objValue.saveInConfig ? "configuration" : "serverConfiguration"
+          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
         ]?.[objKey];
   }
 

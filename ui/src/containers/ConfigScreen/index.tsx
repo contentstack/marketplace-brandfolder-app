@@ -293,8 +293,8 @@ const ConfigScreen: React.FC = function () {
     const defaultConfig =
       installationData?.configuration?.default_multi_config_key ?? "";
 
-    delete multiConfigData[configKey];
-    delete serverMultiConfigData[configKey];
+    delete multiConfigData?.[configKey];
+    delete serverMultiConfigData?.[configKey];
 
     let defaultConfigKey;
     if (defaultConfig === configKey) {

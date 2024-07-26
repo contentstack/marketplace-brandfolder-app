@@ -48,8 +48,8 @@ const checkApiKeyValidity = async (config: any) => {
 
   // Filter out the keys where isValid is false
   const invalidKeys = results
-    ?.filter((result) => !result.isValid)
-    ?.map((result) => result.key);
+    ?.filter((result) => !result?.isValid)
+    ?.map((result) => result?.key);
 
   // If there are any invalid keys, return them in the specified format
   if (invalidKeys?.length > 0) {
