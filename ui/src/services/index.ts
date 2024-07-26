@@ -13,7 +13,7 @@ const checkApiKeyValidity = async (config: any) => {
   const multiConfigKeys = config;
 
   // Map over the config keys and check their validity in parallel
-  const checkApiKeyPromises = Object.entries(multiConfigKeys).map(
+  const checkApiKeyPromises = Object.entries(multiConfigKeys)?.map(
     async ([key, value]: any) => {
       try {
         let authToken = "";
