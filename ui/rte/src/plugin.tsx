@@ -49,8 +49,15 @@ export default ContentstackSDK.init()
     // @ts-ignore
     DAM.on("exec", async (rte: RTE) => {
       const config = await rte?.getConfig();
+      const advancedConfig = await rte?.getFieldConfig();
       const savedSelection = rte?.selection?.get();
-      onClickHandler({ extension: sdk, rte, savedSelection, config });
+      onClickHandler({
+        extension: sdk,
+        rte,
+        savedSelection,
+        config,
+        advancedConfig,
+      });
     });
 
     // eslint-disable-next-line
