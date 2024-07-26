@@ -5,11 +5,13 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
+import { Notification } from "@contentstack/venus-components";
 import rootConfig from "../../root_config";
 import { TypeOption } from "../types";
 import ConfigStateContext from "../contexts/ConfigStateContext";
 import AppConfigContext from "../contexts/AppConfigContext";
 import ConfigScreenUtils from "../utils/ConfigScreenUtils";
+import localeTexts from "../locale/en-us";
 
 const ConfigStateProvider: React.FC<any> = function ({
   children,
@@ -87,10 +89,21 @@ const ConfigStateProvider: React.FC<any> = function ({
     }, {}),
   });
 
+  const trandformFieldName = (fieldName: string) => {
+    let transformedFieldName = fieldName;
+    if (fieldName?.includes("undefined$--"))
+      transformedFieldName = fieldName?.split("$--")?.[1];
+    else if (fieldName?.includes("$--"))
+      transformedFieldName = fieldName?.replace("$--", "$:");
+
+    return transformedFieldName;
+  };
+
   // updating the select option state
   const updateSelectConfig = useCallback(
     (e: TypeOption, fieldName: string) => {
-      setSelectInputValues({ ...selectInputValues, [fieldName]: e });
+      const transformedFieldName = trandformFieldName(fieldName);
+      setSelectInputValues({ ...selectInputValues, [transformedFieldName]: e });
       updateValueFunc(fieldName, e?.value);
     },
     [selectInputValues]
@@ -99,7 +112,11 @@ const ConfigStateProvider: React.FC<any> = function ({
   // updating the radio option state
   const updateRadioOptions = useCallback(
     (fieldName: string, option: TypeOption) => {
-      setRadioInputValues({ ...radioInputValues, [fieldName]: option });
+      const transformedFieldName = trandformFieldName(fieldName);
+      setRadioInputValues({
+        ...radioInputValues,
+        [transformedFieldName]: option,
+      });
       updateValueFunc(fieldName, option?.value);
     },
     [radioInputValues]
@@ -128,15 +145,42 @@ const ConfigStateProvider: React.FC<any> = function ({
       ...modalValueArr,
       ...updatedValue,
     ];
-    setKeyPathOptions(updatedOptions);
-    updateValueFunc("keypath_options", updatedOptions, true);
-    setCustomOptions([...customOptions, ...modalValueArr, ...updatedValue]);
-    if (mode === "createApply") {
-      const selectedKeys = [...damKeys, ...updatedValue];
-      setDamKeys(selectedKeys);
-      updateTypeObj(selectedKeys);
+
+    if ([...customOptions, ...modalValueArr, ...updatedValue]?.length <= 150) {
+      setKeyPathOptions(updatedOptions);
+      updateValueFunc("keypath_options", updatedOptions, true);
+      setCustomOptions([...customOptions, ...modalValueArr, ...updatedValue]);
+      if (mode === "createApply") {
+        const selectedKeys = [...damKeys, ...updatedValue];
+        setDamKeys(selectedKeys);
+        updateTypeObj(selectedKeys);
+      }
+    } else {
+      Notification({
+        displayContent: {
+          error: {
+            error_message:
+              localeTexts.ConfigFields.customWholeJson.notification.limitError,
+          },
+        },
+        notifyProps: {
+          hideProgressBar: true,
+          className: "modal_toast_message",
+        },
+        type: "error",
+      });
     }
   };
+
+  const transformObject = (input: any) =>
+    Object.keys(input)?.reduce((output: any, key) => {
+      const prefix = `${key}$:`;
+      Object.keys(input[key])?.forEach((nestedKey) => {
+        const newKey = prefix + nestedKey;
+        output[newKey] = input[key]?.[nestedKey];
+      });
+      return output;
+    }, {});
 
   useEffect(() => {
     // getting the default key names for radio and select input
@@ -149,10 +193,29 @@ const ConfigStateProvider: React.FC<any> = function ({
     const keyOptions = installationData?.configuration?.keypath_options ?? [];
     setKeyPathOptions(keyOptions);
     setCustomOptions([...customOptions, ...keyOptions]);
-    const savedData = {
+
+    const configCopy = {
       ...installationData?.configuration,
+    };
+    const multiConfig = {
+      ...configCopy?.multi_config_keys,
+    };
+    const serverConfigCopy = {
       ...installationData?.serverConfiguration,
     };
+    const multiServerConfig = {
+      ...serverConfigCopy?.multi_config_keys,
+    };
+    delete configCopy?.multi_config_keys;
+    delete serverConfigCopy?.multi_config_keys;
+
+    const savedData = {
+      ...configCopy,
+      ...serverConfigCopy,
+      ...transformObject(multiConfig),
+      ...transformObject(multiServerConfig),
+    };
+
     const { radioValuesObj, selectValuesObj } =
       ConfigScreenUtils.getIntialValueofComponents({
         savedData,
@@ -160,6 +223,7 @@ const ConfigStateProvider: React.FC<any> = function ({
         selectValuesKeys,
         configInputFields,
       });
+
     setRadioInputValues(radioValuesObj);
     setSelectInputValues(selectValuesObj);
   }, [installationData?.configuration, installationData?.serverConfiguration]);

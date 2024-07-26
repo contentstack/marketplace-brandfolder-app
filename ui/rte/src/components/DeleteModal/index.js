@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
+  TextInput,
   Button,
   ButtonGroup,
   ModalBody,
@@ -13,6 +14,19 @@ const removeHTMLTags = (description) =>
   description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
 
 const DeleteModal = function ({ remove, name: itemName, closeModal }) {
+  const [deleteConfirmationName, setDeleteConfirmationName] = useState("");
+  const [deleteBtnDisable, setDeleteBtnDisable] = useState(true);
+
+  const handleDeleteInput = (e) => {
+    const inputValue = e?.target?.value?.trim();
+    if (inputValue === itemName) {
+      setDeleteConfirmationName(inputValue);
+      setDeleteBtnDisable(false);
+    } else {
+      setDeleteBtnDisable(true);
+    }
+  };
+
   return (
     <>
       <ModalHeader
@@ -28,7 +42,12 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
-          <Button buttonType="light" onClick={closeModal}>
+          <Button
+            buttonType="light"
+            size="small"
+            version="v2"
+            onClick={closeModal}
+          >
             {localeTexts.DeleteModal.cancelButton}
           </Button>
           <Button
@@ -38,6 +57,9 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
               size: "mini",
               className: "remove-modal-icon",
             }}
+            size="small"
+            version="v2"
+            disabled={deleteBtnDisable}
             onClick={() => {
               remove();
               closeModal();

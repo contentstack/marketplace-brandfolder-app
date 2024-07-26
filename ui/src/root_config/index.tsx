@@ -12,9 +12,9 @@ const damEnv = DamEnvVariables;
 
 const configureConfigScreen = rootConfigScreen?.configureConfigScreen;
 
-const checkConfigValidity = rootConfigScreen?.checkConfigValidity;
-
 const customConfigComponent = rootConfigScreen?.customConfigComponent;
+
+const checkConfigValidity = rootConfigScreen?.checkConfigValidity;
 
 const customWholeJson = rootConfigScreen?.customWholeJson;
 

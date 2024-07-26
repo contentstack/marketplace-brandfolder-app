@@ -76,7 +76,7 @@ const getViewIconforTooltip = (type: string) => {
   };
 };
 
-const getSelectorWindowUrl = (config: any) => {
+const getSelectorWindowUrl = (config: any, contentTypeConfig: any) => {
   return ""; // return url to be opened as selector page
 };
 
@@ -84,13 +84,27 @@ const handleSelectorPageData = (event: any) => {
   return []; // return array of asset objects which are selected
 };
 
-const handleSelectorWindow = (config: any) => {
+const handleSelectorWindow = (config: any, contentTypeConfig: any) => {
   /* code logic to open the DAM selector page */
 };
 
-const handleAuthWindow = (config: any, resolve: Function, reject: Function) => {
+const handleAuthWindow = (
+  config: any,
+  contentTypeConfig: any,
+  resolve: Function,
+  reject: Function
+) => {
   /* code logic to open the DAM auth window */
   resolve(); // if authentication is success, call resolve() | if failed, call reject(error) with error
+};
+
+const handleConfigtoSelectorPage = (
+  config: any,
+  contentTypeConfig: any,
+  currentLocale: string
+) => {
+  /* Return Config to be used on selector page */
+  return {};
 };
 
 const rteFunctions: any = {
@@ -101,6 +115,7 @@ const rteFunctions: any = {
   handleSelectorPageData,
   handleSelectorWindow,
   handleAuthWindow,
+  handleConfigtoSelectorPage,
 };
 
 export default rteFunctions;
