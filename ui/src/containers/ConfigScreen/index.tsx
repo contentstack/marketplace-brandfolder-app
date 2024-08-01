@@ -405,7 +405,7 @@ const ConfigScreen: React.FC = function () {
                 </Dropdown>
               </div>
             ),
-            onClick: () => {},
+            onClick: () => { },
           },
         ]}
       >
@@ -424,8 +424,8 @@ const ConfigScreen: React.FC = function () {
   const renderAccFields = (accordianFields: any) => {
     const accordianKeys = Object.keys(
       installationData?.configuration?.multi_config_keys ??
-        installationData?.serverConfiguration?.multi_config_keys ??
-        {}
+      installationData?.serverConfiguration?.multi_config_keys ??
+      {}
     );
     return (
       <div className="multi-config-accordian-wrapper">
@@ -512,7 +512,11 @@ const ConfigScreen: React.FC = function () {
           <ConfigStateProvider updateValueFunc={updateValueFunc}>
             <div className="config-wrapper" data-testid="config-wrapper">
               {renderConfig()}
-              <JsonComponent />
+              {installationData?.configuration?.is_extension ? (
+                ""
+              ) : (
+                <JsonComponent />
+              )}
             </div>
           </ConfigStateProvider>
         )}

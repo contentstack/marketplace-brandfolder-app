@@ -24,7 +24,7 @@ import useAppLocation from "../../common/hooks/useAppLocation";
 import services from "../../services";
 
 const configureConfigScreen = () =>
-  /* IMPORTANT: 
+/* IMPORTANT: 
 1. All sensitive information must be saved in serverConfig
 2. serverConfig is used when webhooks are implemented
 3. save the fields that are to be accessed in other location in config
@@ -32,20 +32,20 @@ const configureConfigScreen = () =>
 5. If values are stored in serverConfig then those values will not be available to other UI locations
 6. Supported type options are textInputFields, radioInputFields, selectInputFields */
 
-  ({
-    apiKey: {
-      type: "textInputFields",
-      labelText: "Brandfolder API Key",
-      helpText:
-        "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
-      placeholderText: "Enter your Brandfolder API Key",
-      instructionText: "Your Brandfolder API Key",
-      inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
-      saveInConfig: true,
-      saveInServerConfig: false,
-      isAccordianConfig: true,
-    },
-  });
+({
+  apiKey: {
+    type: "textInputFields",
+    labelText: "Brandfolder API Key",
+    helpText:
+      "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
+    placeholderText: "Enter your Brandfolder API Key",
+    instructionText: "Your Brandfolder API Key",
+    inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
+    saveInConfig: true,
+    saveInServerConfig: false,
+    isAccordianConfig: true,
+  },
+});
 
 // Function to extract apiKey values into key-value pairs array
 const getApiKeyPairs = (config: any) => {
@@ -116,6 +116,8 @@ const customConfigComponent = (
   const { location } = useAppLocation();
   const appConfig = useRef<any>();
   const [isExtension, setIsExtension] = React.useState(false);
+
+  console.info(" ---------------isExtension", isExtension)
 
   useEffect(() => {
     if (location) {
