@@ -12,7 +12,16 @@ const ASSET_AUDIO_TYPE = "Audio";
 const PREVIEW_ICON = "Eye";
 const NEWTAB_ICON = "OpenURL";
 
-const getDisplayUrl = (asset: any) => asset?.url;
+const getDisplayUrl = (asset: any) => {
+  /* 
+    Returns an object with either or both preview and openInDam properties.
+    Note: The values of the properties are url values for preview and openInDam.
+  */
+  return {
+    preview: asset?.preview_url ?? "", // preview_url present in asset object
+    openInDam: asset?.openInDAM_url ?? "", // openInDAM_url present in asset object
+  };
+};
 
 const getAssetType = (asset: any) => {
   /* possible return values ==> Document, Image, Pdf, Archive, Video, Audio */

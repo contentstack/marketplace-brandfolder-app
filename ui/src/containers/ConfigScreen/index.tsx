@@ -512,7 +512,11 @@ const ConfigScreen: React.FC = function () {
           <ConfigStateProvider updateValueFunc={updateValueFunc}>
             <div className="config-wrapper" data-testid="config-wrapper">
               {renderConfig()}
-              <JsonComponent />
+              {installationData?.configuration?.is_extension ? (
+                ""
+              ) : (
+                <JsonComponent />
+              )}
             </div>
           </ConfigStateProvider>
         )}
