@@ -117,8 +117,6 @@ const customConfigComponent = (
   const appConfig = useRef<any>();
   const [isExtension, setIsExtension] = React.useState(false);
 
-  console.info(" ---------------isExtension", isExtension);
-
   useEffect(() => {
     if (location) {
       const sdkConfigData = location?.installation;
