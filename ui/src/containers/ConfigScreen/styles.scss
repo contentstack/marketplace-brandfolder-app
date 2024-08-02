@@ -19,10 +19,6 @@
     display: inline-block;
   }
 
-  .TextInput--with-count {
-    padding-right: 0 !important;
-  }
-
   .TextInput__char-count {
     margin: 0.3125rem 0 0 0.5rem !important;
   }
@@ -256,12 +252,6 @@
   & .Field {
     padding: 24px !important;
   }
-}
-
-.TextInput--suffix
-  .TextInput__suffix__wrapper.TextInput__password
-  + .TextInput__input {
-  padding-right: 10px !important;
 }
 
 .deleteModalBody {

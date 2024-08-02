@@ -39,6 +39,15 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
           <b>{removeHTMLTags(itemName)}</b>
           {localeTexts.DeleteModal.bodyAfterPlaceholder}
         </p>
+        <br />
+        <TextInput
+          required
+          placeholder={localeTexts.DeleteModal.textPlaceholder}
+          name="deleteConfirmationName"
+          value={deleteConfirmationName}
+          onChange={handleDeleteInput}
+          version="v2"
+        />
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>

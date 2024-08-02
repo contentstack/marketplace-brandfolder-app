@@ -22,7 +22,8 @@ const ImageElement = function ({
   ...props
 }) {
   const RTE_RESOURCE_TYPE = rteConfig?.getAssetType?.(element?.attrs) ?? "";
-  const RTE_DISPLAY_URL = rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
+  const { preview: RTE_DISPLAY_URL, openInDam: RTE_OPENDAM_URL } =
+    rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
   const isSelected = rte?.selection?.isSelected();
   const isFocused = rte?.selection?.isFocused();
   const isHighlight = isFocused && isSelected;
@@ -102,9 +103,10 @@ const ImageElement = function ({
     }
   }, [element?.attrs?.position, rte?.getPath(element)]);
 
-  const handleView = useCallback(() => {
-    window.open(RTE_DISPLAY_URL);
-  }, [RTE_DISPLAY_URL]);
+  const handleView = (view) => {
+    const url = view === "preview" ? RTE_DISPLAY_URL : RTE_OPENDAM_URL;
+    window.open(url, "_blank", "noreferrer");
+  };
 
   const handelOpenInApp = useCallback(() => {
     window.open(platformlUrl);
@@ -164,26 +166,20 @@ const ImageElement = function ({
       rteConfig?.getViewIconforTooltip?.(RTE_RESOURCE_TYPE);
     return (
       <div contentEditable={false} className="embed--btn-group">
-        {element?.attrs?.extension === "jar" ||
-        element?.attrs?.extension === "xls" ||
-        element?.attrs?.extension === "zip" ||
-        element?.attrs?.extension === "pdf" ||
-        element?.attrs?.extension === "json"
-          ? ""
-          : preview && (
-              <EmbedBtn
-                title={localeTexts.RTE.iconContent.preview}
-                content={utils.getToolTipIconContent(preview)}
-                onClick={handleView}
-              >
-                <Icon icon={preview} size="tiny" version="v2" />
-              </EmbedBtn>
-            )}
+        {preview && (
+          <EmbedBtn
+            title={localeTexts.RTE.iconContent.preview}
+            content={utils.getToolTipIconContent(preview)}
+            onClick={() => handleView("preview")}
+          >
+            <Icon icon={preview} size="tiny" version="v2" />
+          </EmbedBtn>
+        )}
         {openInDam && (
           <EmbedBtn
             title={localeTexts.RTE.iconContent.openInDAM}
             content={utils.getToolTipIconContent(openInDam)}
-            onClick={handelOpenInApp}
+            onClick={() => handleView("openInDAM")}
           >
             <Icon icon={openInDam} size="tiny" version="v2" />
           </EmbedBtn>
