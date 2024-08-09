@@ -40,16 +40,23 @@ export const TextInputField = function ({
   updateConfig,
   acckey,
 }: TypeConfigComponent) {
-  const { installationData } = useContext(AppConfigContext);
+  const { installationData, appConfig } = useContext(AppConfigContext);
   let fieldValue = "";
   if (objValue?.saveInConfig || objValue?.saveInServerConfig) {
     fieldValue = acckey
       ? installationData?.[
-          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
-        ]?.multi_config_keys?.[acckey]?.[objKey]
+        objValue?.saveInConfig ? "configuration" : "serverConfiguration"
+      ]?.multi_config_keys?.[acckey]?.[objKey]
       : installationData?.[
-          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
-        ]?.[objKey];
+      objValue?.saveInConfig ? "configuration" : "serverConfiguration"
+      ]?.[objKey];
+  }
+
+  const onChange = (arg: any) => {
+    appConfig?.current?.setValidity(false)
+    if (updateConfig) {
+      updateConfig(arg)
+    }
   }
 
   return (
@@ -74,7 +81,7 @@ export const TextInputField = function ({
         hideCharCountError={false}
         placeholder={objValue?.placeholderText}
         name={`${acckey}$--${objKey}`}
-        onChange={updateConfig}
+        onChange={onChange}
         type={objValue?.inputFieldType}
         canShowPassword
         data-testid="text_input"
