@@ -45,19 +45,19 @@ export const TextInputField = function ({
   if (objValue?.saveInConfig || objValue?.saveInServerConfig) {
     fieldValue = acckey
       ? installationData?.[
-        objValue?.saveInConfig ? "configuration" : "serverConfiguration"
-      ]?.multi_config_keys?.[acckey]?.[objKey]
+          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
+        ]?.multi_config_keys?.[acckey]?.[objKey]
       : installationData?.[
-      objValue?.saveInConfig ? "configuration" : "serverConfiguration"
-      ]?.[objKey];
+          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
+        ]?.[objKey];
   }
 
   const onChange = (arg: any) => {
-    appConfig?.current?.setValidity(false)
+    appConfig?.current?.setValidity(false);
     if (updateConfig) {
-      updateConfig(arg)
+      updateConfig(arg);
     }
-  }
+  };
 
   return (
     <Field>
