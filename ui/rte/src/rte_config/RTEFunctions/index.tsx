@@ -1,4 +1,5 @@
 import React from "react";
+import constants from "../../common/constants";
 
 /* Variables for getAssetType function */
 const ASSET_DOCUMENT_TYPE = "Document";
@@ -18,8 +19,8 @@ const getDisplayUrl = (asset: any) => {
     Note: The values of the properties are url values for preview and openInDam.
   */
   return {
-    preview: asset?.preview_url ?? "", // preview_url present in asset object
-    openInDam: asset?.openInDAM_url ?? "", // openInDAM_url present in asset object
+    preview: asset?.url ?? "", // preview_url present in asset object
+    openInDam: asset?.assetId ? constants?.constants?.branfolderPortalUrl?.label + asset?.assetId : "", // openInDAM_url present in asset object
   };
 };
 
