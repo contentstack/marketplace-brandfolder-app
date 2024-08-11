@@ -20,7 +20,9 @@ const getDisplayUrl = (asset: any) => {
   */
   return {
     preview: asset?.url ?? "", // preview_url present in asset object
-    openInDam: asset?.assetId ? constants?.constants?.branfolderPortalUrl?.label + asset?.assetId : "", // openInDAM_url present in asset object
+    openInDam: asset?.assetId
+      ? constants?.constants?.branfolderPortalUrl?.label + asset?.assetId
+      : "", // openInDAM_url present in asset object
   };
 };
 
