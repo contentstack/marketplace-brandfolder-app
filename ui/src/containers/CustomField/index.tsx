@@ -250,16 +250,16 @@ const CustomField: React.FC = function () {
                 },
               },
               notifyProps: {
+                autoClose: true,
                 hideProgressBar: true,
-                closeButton: true,
               },
               type: "error",
             });
           }
+        } else if (data?.message === "close") {
+          window.removeEventListener("message", saveData, false);
+          selectorPageWindow = undefined;
         }
-      } else if (data?.message === "close") {
-        window.removeEventListener("message", saveData, false);
-        selectorPageWindow = undefined;
       }
     },
     [state?.config, handleUniqueSelectedData]
