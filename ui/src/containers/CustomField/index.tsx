@@ -102,6 +102,7 @@ const CustomField: React.FC = function () {
   const handleUniqueSelectedData = (dataArr: any[]) => {
     if (dataArr?.length) {
       let modifiedAssetsData = dataArr;
+
       if (Object.keys(state?.config?.multi_config_keys ?? {})?.length) {
         const configLabel = getCurrentConfigLabel();
         modifiedAssetsData = dataArr?.map((asset: any) => ({
@@ -209,17 +210,17 @@ const CustomField: React.FC = function () {
               assets
             ) ?? assets;
           handleUniqueSelectedData(assetsToSave);
-        }
-
-        if (state?.config?.is_custom_json) {
-          const keys = CustomFieldUtils.extractKeys(state?.config?.dam_keys);
-          const assetData = CustomFieldUtils.getFilteredAssets(
-            finalAssets?.acceptedAssets,
-            keys
-          );
-          handleUniqueSelectedData(assetData);
         } else {
-          handleUniqueSelectedData(finalAssets?.acceptedAssets);
+          if (state?.config?.is_custom_json) {
+            const keys = CustomFieldUtils.extractKeys(state?.config?.dam_keys);
+            const assetData = CustomFieldUtils.getFilteredAssets(
+              finalAssets?.acceptedAssets,
+              keys
+            );
+            handleUniqueSelectedData(assetData);
+          } else {
+            handleUniqueSelectedData(finalAssets?.acceptedAssets);
+          }
         }
 
         if (finalAssets?.rejectedAssets?.length) {
