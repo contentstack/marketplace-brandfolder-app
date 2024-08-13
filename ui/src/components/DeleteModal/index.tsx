@@ -10,9 +10,6 @@ import {
 import localeTexts from "../../common/locale/en-us";
 import { Props } from "../../common/types";
 
-// const removeHTMLTags = (description: string) =>
-//   description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
-
 const DeleteModal: React.FC<Props> = function ({
   remove,
   id,
