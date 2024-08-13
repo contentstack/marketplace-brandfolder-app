@@ -48,7 +48,9 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
   };
 
   const onSaveConfiguration = () => {
-    const trimmedEnteredConfigName = enteredConfigName?.replace(/\s+/g, " ")?.trim();
+    const trimmedEnteredConfigName = enteredConfigName
+      ?.replace(/\s+/g, " ")
+      ?.trim();
     handleMultiConfig(trimmedEnteredConfigName);
     closeModal();
   };
