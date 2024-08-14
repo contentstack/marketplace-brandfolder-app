@@ -10,9 +10,6 @@ import {
 import localeTexts from "../../common/locale/en-us";
 import { Props } from "../../common/types";
 
-const removeHTMLTags = (description: string) =>
-  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
-
 const DeleteModal: React.FC<Props> = function ({
   remove,
   id,
@@ -44,26 +41,37 @@ const DeleteModal: React.FC<Props> = function ({
         closeModal={props.closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p>
-          {localeTexts.DeleteModal.bodyBeforePlaceholder}
-          <b>{removeHTMLTags(itemName)}</b>
-          {localeTexts.DeleteModal.bodyAfterPlaceholder}
-        </p>
-        <TextInput
-          required
-          maxLength={50}
-          showCharacterCount
-          hideCharCountError={false}
-          placeholder={
-            configLocation
-              ? localeTexts.ConfigFields.DeleteModal.textPlaceholder
-              : localeTexts.CustomFields.DeleteModal.textPlaceholder
-          }
-          name="deleteConfirmationName"
-          value={deleteConfirmationName}
-          onChange={handleDeleteInput}
-          version="v2"
+        <p
+          dangerouslySetInnerHTML={{
+            __html: `${
+              configLocation
+                ? localeTexts.ConfigFields.DeleteModal.body.replace(
+                    /\$/g,
+                    itemName
+                  )
+                : localeTexts.CustomFields.DeleteModal.body.replace(
+                    /\$/g,
+                    itemName
+                  )
+            }`,
+          }}
         />
+        {configLocation && (
+          <>
+            <br />
+            <TextInput
+              required
+              maxLength={50}
+              showCharacterCount
+              hideCharCountError={false}
+              placeholder={localeTexts.ConfigFields.DeleteModal.textPlaceholder}
+              name="deleteConfirmationName"
+              value={deleteConfirmationName}
+              onChange={handleDeleteInput}
+              version="v2"
+            />
+          </>
+        )}
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
@@ -88,7 +96,7 @@ const DeleteModal: React.FC<Props> = function ({
             }}
             size="small"
             version="v2"
-            disabled={deleteBtnDisable}
+            disabled={configLocation && deleteBtnDisable}
             onClick={useCallback(() => {
               props.closeModal();
               setTimeout(() => {

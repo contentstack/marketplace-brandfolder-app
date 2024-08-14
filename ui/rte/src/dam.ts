@@ -177,7 +177,8 @@ const saveData = (event: any) => {
 
       if (itemCount === validationCount) {
         acceptedAssets?.push(asset);
-
+        asset.rte_resource_type = rteConfig?.getAssetType?.(asset);
+        asset.rte_display_url = rteConfig?.getDisplayUrl?.(asset);
         asset.height = null;
         asset.width = null;
 
@@ -220,8 +221,8 @@ const saveData = (event: any) => {
           },
         },
         notifyProps: {
+          autoClose: true,
           hideProgressBar: true,
-          closeButton: true,
         },
         type: "error",
       });
