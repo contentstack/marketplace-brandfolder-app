@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {
-  TextInput,
   Button,
   ButtonGroup,
   ModalBody,
@@ -14,19 +13,6 @@ const removeHTMLTags = (description) =>
   description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
 
 const DeleteModal = function ({ remove, name: itemName, closeModal }) {
-  const [deleteConfirmationName, setDeleteConfirmationName] = useState("");
-  const [deleteBtnDisable, setDeleteBtnDisable] = useState(true);
-
-  const handleDeleteInput = (e) => {
-    const inputValue = e?.target?.value?.trim();
-    if (inputValue === itemName) {
-      setDeleteConfirmationName(inputValue);
-      setDeleteBtnDisable(false);
-    } else {
-      setDeleteBtnDisable(true);
-    }
-  };
-
   return (
     <>
       <ModalHeader
@@ -34,19 +20,10 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
         closeModal={closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p>
-          {localeTexts.DeleteModal.bodyBeforePlaceholder}
-          <b>{removeHTMLTags(itemName)}</b>
-          {localeTexts.DeleteModal.bodyAfterPlaceholder}
-        </p>
-        <br />
-        <TextInput
-          required
-          placeholder={localeTexts.DeleteModal.textPlaceholder}
-          name="deleteConfirmationName"
-          value={deleteConfirmationName}
-          onChange={handleDeleteInput}
-          version="v2"
+        <p
+          dangerouslySetInnerHTML={{
+            __html: `${localeTexts.DeleteModal.body.replace(/\$/g, itemName)}`,
+          }}
         />
       </ModalBody>
       <ModalFooter>
@@ -68,7 +45,6 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
             }}
             size="small"
             version="v2"
-            disabled={deleteBtnDisable}
             onClick={() => {
               remove();
               closeModal();
