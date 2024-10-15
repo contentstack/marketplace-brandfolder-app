@@ -14,7 +14,7 @@ const MarketplaceAppProvider: React.FC = function ({ children }) {
     ContentstackAppSDK.init()
       .then(async (appSDK: any) => {
         await setAppSdk(appSDK);
-        await appSDK?.location?.CustomField?.frame?.updateHeight(200);
+        await appSDK?.location?.CustomField?.frame?.enableAutoResizing();
         const appSdkConfig = await appSDK?.getConfig();
         await setAppConfig(appSdkConfig);
       })

@@ -252,15 +252,6 @@
 
 .ReactModal__Overlay .ReactModal__Content .ReactModal__Content__body {
   max-height: unset !important;
-
-  .Select .Select__menu {
-    margin-top: 5px !important;
-    height: 180px !important;
-
-    & .Select__menu-list {
-      height: 173px !important;
-    }
-  }
 }
 
 .edit-modal-properties {
@@ -270,14 +261,4 @@
 .rte-prop-toggle-wrap {
   margin: 8px 0;
   padding: 8px;
-}
-
-.Toastify__toast-container .Toastify__toast-wrapper {
-  width: 100% !important;
-
-  & .Toastify__toast-displayMessage__title {
-    word-break: break-all !important;
-    white-space: normal !important;
-    overflow-wrap: break-word !important;
-  }
 }

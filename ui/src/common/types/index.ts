@@ -64,7 +64,6 @@ export interface TypeConfigComponent {
   objKey: string;
   objValue: any;
   updateConfig?: Function;
-  acckey?: string;
 }
 
 export interface TypeRadioOption {
@@ -87,19 +86,11 @@ export interface TypeRootDamEnv {
   PANEL_LOADING_ERR: string;
   INCORRECT_CONFIG_ERR: string;
   CONFIG_FIELDS: string[];
-  SELECTOR_CONFIG_CHECK_FIELDS: string[];
-  REQUIRED_CONFIG_FIELDS: string[];
   ASSET_UNIQUE_ID: string;
   DAM_SCRIPT_URL?: string;
   SELECTOR_PAGE_LOGO?: any;
   DIRECT_SELECTOR_PAGE: string;
-  ADVANCED_ASSET_PARAMS?: {
-    ASSET_NAME?: string;
-    SIZE_NAME?: string;
-    SIZE_UNIT?: string;
-    HEIGHT_NAME?: string;
-    WIDTH_NAME?: string;
-  };
+  REQUIRED_CONFIG_FIELDS: string[];
 }
 
 export interface TypeRootConfigSreen {
@@ -127,8 +118,8 @@ export interface TypeRootSelector {
 export interface TypeRootConfig {
   damEnv: TypeRootDamEnv;
   configureConfigScreen?: Function;
-  customConfigComponent?: Function;
   checkConfigValidity?: Function;
+  customConfigComponent?: Function;
   customWholeJson?: Function;
   filterAssetData?: Function;
   getSelectorWindowUrl?: Function;
@@ -164,9 +155,4 @@ export interface TrackProps {
   orgUid: string;
   name: string;
   userUid: string;
-}
-export interface AddMultiConfigurationModalProps {
-  handleMultiConfig: (config: any) => void;
-  multiConfigData: any;
-  closeModal: any;
 }
