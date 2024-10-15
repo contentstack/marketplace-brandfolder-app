@@ -20,20 +20,15 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
         closeModal={closeModal}
       />
       <ModalBody className="deleteModalBody">
-        <p
-          dangerouslySetInnerHTML={{
-            __html: `${localeTexts.DeleteModal.body.replace(/\$/g, itemName)}`,
-          }}
-        />
+        <p>
+          {localeTexts.DeleteModal.bodyBeforePlaceholder}
+          <b>{removeHTMLTags(itemName)}</b>
+          {localeTexts.DeleteModal.bodyAfterPlaceholder}
+        </p>
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
-          <Button
-            buttonType="light"
-            size="small"
-            version="v2"
-            onClick={closeModal}
-          >
+          <Button buttonType="light" onClick={closeModal}>
             {localeTexts.DeleteModal.cancelButton}
           </Button>
           <Button
@@ -43,8 +38,6 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
               size: "mini",
               className: "remove-modal-icon",
             }}
-            size="small"
-            version="v2"
             onClick={() => {
               remove();
               closeModal();

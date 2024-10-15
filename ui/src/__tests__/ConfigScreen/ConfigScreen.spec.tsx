@@ -97,6 +97,7 @@ const { saveInConfig, saveInServerConfig } =
   ConfigScreenUtils.getSaveConfigOptions(ConfigScreenObj);
 
 const ConfigContextValue = {
+  errorState: [],
   installationData: {},
   setInstallationData: jest.fn(),
   appConfig: {},

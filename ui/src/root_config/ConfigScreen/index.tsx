@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable arrow-body-style */
-
 /* NOTE: Remove Functions which are not used */
 import React, { useEffect, useRef } from "react";
 import {
@@ -43,57 +41,19 @@ const configureConfigScreen = () =>
       inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
       saveInConfig: true,
       saveInServerConfig: false,
-      isAccordianConfig: true,
     },
   });
-
-// Function to extract apiKey values into key-value pairs array
-const getApiKeyPairs = (config: any) => {
-  const keys = Object.keys(config?.multi_config_keys);
-  const keyValuePairs: any = [];
-  keys.forEach((key) => {
-    const apiKey = config?.multi_config_keys?.[key]?.apiKey;
-    keyValuePairs.push(apiKey);
-  });
-  return keyValuePairs;
-};
 
 // eslint-disable-next-line
 const checkConfigValidity = async (config: any, serverConfig: any) => {
   // return value of the function is object which takes disableSave[type=boolean] and message[type=string]. Assigning "true" to disableSave will disable the button and "false" will enable to button.
-
   if (config?.apiKey) {
-    const response = {
-      Default: {
-        apiKey: config?.apiKey,
-      },
-    };
     try {
-      const isValid = await services.checkApiKeyValidity(response);
-      if (!isValid?.isValid) {
+      const isValid = await services.checkApiKeyValidity(config.apiKey);
+      if (!isValid) {
         return {
           disableSave: true,
           message: localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg,
-        };
-      }
-    } catch (error) {
-      return {
-        disableSave: true,
-        message: localeTexts.ConfigFields.ErrorMessages.errorKeyMsg,
-      };
-    }
-  }
-
-  if (config?.multi_config_keys) {
-    try {
-      const isValid = await services.checkApiKeyValidity(
-        config?.multi_config_keys
-      );
-      if (!isValid?.isValid) {
-        return {
-          disableSave: true,
-          // eslint-disable-next-line
-          message: `${localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg}in field ${isValid?.key}`,
         };
       }
     } catch (error) {

@@ -2,37 +2,15 @@ import rootConfig from "../../../root_config";
 
 const localeTexts = {
   ConfigFields: {
-    AccordianConfig: {
-      mainName: "Configuration",
-      multiConfigLabel: `Configure your ${rootConfig?.damEnv?.DAM_APP_NAME} credentials`,
-      accActions: {
-        default: "Set as Default",
-        delete: "Delete Configuration",
-      },
-      defaultLabel: "Default",
-      checkboxText: "Set as Default",
-      btnText: "New Configuration",
-    },
-    accModal: {
-      header: "Add Configuration",
-      textLabel: "Configuration Name",
-      textPlaceholder: "Enter Configuration Name",
-      duplicateError:
-        "Configuration label name already exists. Please use a different name and try again.",
-      nameLengthError:
-        "Configuration Name length should be between 1 to 50 characters.",
-      legacyNameError: `"legacy_config" is a reserved configuration name. Please use a
-      different name.`,
-      cancelBtn: "Cancel",
-      addBtn: "Add",
-    },
-    DeleteModal: {
-      header: "Confirm Deletion",
-      body: "Are you sure you want to delete <b>&apos;$&apos;</b> configuration? If yes, type the name of the configuration and press Delete.",
-      textPlaceholder: "Enter configuration name for confirmation",
-      cancelButton: "Cancel",
-      confirmButton: "Delete",
-      removeFilled: "RemoveFilled",
+    isExtension: {
+      label: "Enable Extension Support",
+      instruction:
+        "If this toggle is enabled, you will be able to get the asset JSON data similar to the Brandfolder Extension",
+      legacyInfo:
+        "Legacy settings allow you to use the Brandfolder app with Extension support, enabling you to get asset JSON data similar to that of the Brandfolder Extension. However, if you prefer to use the latest Brandfolder app, you can skip configuring the Legacy settings.",
+      legacy_title: "Legacy Settings",
+      warning_note:
+        "Note: When you toggle between App and Extension settings, please note that the data variation may occur.",
     },
     entrySaveRadioButton: {
       label: "Choose the Brandfolder Keys to Save In Entry",
@@ -90,12 +68,13 @@ const localeTexts = {
         },
       },
       notification: {
-        error: `The option "$var" already exists`,
-        limitError: "Error: Limit of 150 options exceeded",
+        errorS: "The option",
+        errorE: "already exists",
       },
     },
-    missingCredentials: "Missing Required Fields",
+    invalidCredentials: "Invalid Configuration",
     emptyValue: "Field Value Missing",
+    missingCredentials: "Missing Required Fields",
   },
 
   CustomFields: {
@@ -104,10 +83,6 @@ const localeTexts = {
         "You cannot choose assets as the maximum limit has been reached.",
       notificationMsg:
         "The maximum asset limit has been reached! You cannot add more assets than the preconfigured limit.",
-    },
-    assetValidation: {
-      errorStatement:
-        "Error: $var cannot be added as it does not match the asset constraints provided.",
     },
     button: {
       btnText: "Choose Asset(s)",
@@ -120,6 +95,7 @@ const localeTexts = {
         drag: "Reorder",
       },
     },
+    AssetNotAddedText: "No assets have been added",
     header: {
       asset: {
         singular: "Asset",
@@ -137,14 +113,6 @@ const localeTexts = {
       list: "List",
       content: "Asset Image Not Available",
     },
-    DeleteModal: {
-      header: "Remove Asset from Contentstack Entry",
-      body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
-      textPlaceholder: "Enter asset name for confirmation",
-      cancelButton: "Cancel",
-      confirmButton: "Remove",
-    },
-    AssetNotAddedText: "No assets have been added",
   },
   SelectorPage: {
     title: rootConfig?.damEnv?.DAM_APP_NAME,

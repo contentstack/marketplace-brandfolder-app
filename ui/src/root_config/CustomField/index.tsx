@@ -9,7 +9,7 @@ import {
   TypeRootCustomField,
 } from "../../common/types";
 import DamEnvVariables from "../DamEnv";
-import utils from "../../common/utils";
+import utils from "../utils";
 import constants from "../../common/constants";
 
 const filterAssetData = (assets: any[]) => {
@@ -79,8 +79,10 @@ const handleSelectorWindow = (
 };
 
 const handleAuthWindow = (
-  config: any,
-  contentTypeConfig: any,
+  configObj: {
+    config: any;
+    contentTypeConfig: any;
+  },
   resolve: Function,
   reject: Function
 ) => {
