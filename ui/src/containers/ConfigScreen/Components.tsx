@@ -5,6 +5,7 @@ import {
   Field,
   FieldLabel,
   TextInput,
+  Line,
   InstructionText,
   Help,
   Select,
@@ -38,63 +39,52 @@ export const TextInputField = function ({
   objKey,
   objValue,
   updateConfig,
-  acckey,
 }: TypeConfigComponent) {
-  const { installationData, appConfig } = useContext(AppConfigContext);
-  let fieldValue = "";
-  if (objValue?.saveInConfig || objValue?.saveInServerConfig) {
-    fieldValue = acckey
-      ? installationData?.[
-          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
-        ]?.multi_config_keys?.[acckey]?.[objKey]
-      : installationData?.[
-          objValue?.saveInConfig ? "configuration" : "serverConfiguration"
-        ]?.[objKey];
-  }
-
-  const onChange = (arg: any) => {
-    appConfig?.current?.setValidity(false);
-    if (updateConfig) {
-      updateConfig(arg);
-    }
-  };
-
+  const { installationData } = useContext(AppConfigContext);
   return (
-    <Field>
-      <FieldLabel
-        required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
-        htmlFor={`${objKey}-id`}
-        data-testid="text_label"
-        version="v2"
-      >
-        {" "}
-        {objValue?.labelText}
-      </FieldLabel>
-      {objValue?.helpText && (
-        <Help text={objValue?.helpText} data-testid="text_help" />
-      )}
-      <TextInput
-        id={`${objKey}-id`}
-        value={fieldValue}
-        maxLength={250}
-        showCharacterCount
-        hideCharCountError={false}
-        placeholder={objValue?.placeholderText}
-        name={`${acckey}$--${objKey}`}
-        onChange={onChange}
-        type={objValue?.inputFieldType}
-        canShowPassword
-        data-testid="text_input"
-        version="v2"
-      />
-      <InstructionText data-testid="text_instruction">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: objValue?.instructionText,
-          }}
+    <>
+      <Field>
+        <FieldLabel
+          required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
+          htmlFor={`${objKey}-id`}
+          data-testid="text_label"
+          version="v2"
+        >
+          {" "}
+          {/* Change the label caption as per your requirement */}
+          {objValue?.labelText}
+        </FieldLabel>
+        {objValue?.helpText && (
+          <Help text={objValue?.helpText} data-testid="text_help" />
+        )}
+        {/* Change the help caption as per your requirement */}
+        <TextInput
+          id={`${objKey}-id`}
+          required
+          value={
+            // eslint-disable-next-line
+            objValue?.saveInConfig
+              ? installationData?.configuration?.[objKey]
+              : objValue?.saveInServerConfig
+              ? installationData?.serverConfiguration?.[objKey]
+              : ""
+          }
+          placeholder={objValue?.placeholderText}
+          name={objKey}
+          onChange={updateConfig}
+          type={objValue?.inputFieldType}
+          canShowPassword
+          data-testid="text_input"
+          version="v2"
+          maxLength="250"
+          showCharacterCount
         />
-      </InstructionText>
-    </Field>
+        <InstructionText data-testid="text_instruction">
+          <div>{objValue?.instructionText}</div>
+        </InstructionText>
+      </Field>
+      <Line type="dashed" />
+    </>
   );
 };
 
@@ -128,49 +118,43 @@ export const RadioOption = function ({
 export const RadioInputField = function ({
   objKey,
   objValue,
-  acckey,
 }: TypeConfigComponent) {
   const {
     RadioInputContext: { radioInputValues, updateRadioOptions },
   } = useContext(ConfigStateContext);
 
   return (
-    <Field>
-      <FieldLabel
-        required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
-        htmlFor={`${objKey}_options`}
-        data-testid="radio_label"
-        version="v2"
-      >
-        {objValue?.labelText}
-      </FieldLabel>
-      {objValue?.helpText && (
-        <Help text={objValue?.helpText} data-testid="radio_help" />
-      )}
-      <div className="Radio-wrapper" data-testid="radio_wrapper">
-        {objValue?.options?.map((option: TypeOption, index: number) => (
-          <RadioOption
-            key={option?.value}
-            fieldName={`${acckey}$--${objKey}`}
-            mode={option}
-            index={index}
-            radioOption={
-              acckey
-                ? radioInputValues?.[`${acckey}$:${objKey}`]
-                : radioInputValues?.[objKey]
-            }
-            updateRadioOptions={updateRadioOptions}
-          />
-        ))}
-      </div>
-      <InstructionText data-testid="radio_instruction">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: objValue?.instructionText,
-          }}
-        />
-      </InstructionText>
-    </Field>
+    <>
+      <Field>
+        <FieldLabel
+          required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
+          htmlFor={`${objKey}_options`}
+          data-testid="radio_label"
+          version="v2"
+        >
+          {objValue?.labelText}
+        </FieldLabel>
+        {objValue?.helpText && (
+          <Help text={objValue?.helpText} data-testid="radio_help" />
+        )}
+        <div className="Radio-wrapper" data-testid="radio_wrapper">
+          {objValue?.options?.map((option: TypeOption, index: number) => (
+            <RadioOption
+              key={option?.value}
+              fieldName={objKey}
+              mode={option}
+              index={index}
+              radioOption={radioInputValues?.[objKey]}
+              updateRadioOptions={updateRadioOptions}
+            />
+          ))}
+        </div>
+        <InstructionText data-testid="radio_instruction">
+          <div>{objValue?.instructionText}</div>
+        </InstructionText>
+      </Field>
+      <Line type="dashed" />
+    </>
   );
 };
 
@@ -178,46 +162,39 @@ export const RadioInputField = function ({
 export const SelectInputField = function ({
   objKey,
   objValue,
-  acckey,
 }: TypeConfigComponent) {
   const {
     SelectInputContext: { selectInputValues, updateSelectConfig },
   } = useContext(ConfigStateContext);
-  const fieldValue = acckey
-    ? selectInputValues?.[`${acckey}$:${objKey}`]
-    : selectInputValues?.[objKey];
   return (
-    <Field>
-      <FieldLabel
-        required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
-        htmlFor={`${objKey}-id`}
-        data-testid="select_label"
-        version="v2"
-      >
-        {objValue?.labelText}
-      </FieldLabel>
-      {objValue?.helpText && (
-        <Help text={objValue?.helpText} data-testid="select_help" />
-      )}
-      <Select
-        onChange={(e: TypeOption) =>
-          updateSelectConfig(e, `${acckey}$--${objKey}`)
-        }
-        options={objValue?.options}
-        placeholder={objValue?.placeholderText}
-        value={fieldValue}
-        name={`${objKey}-id`}
-        data-testid="select_input"
-        version="v2"
-      />
-      <InstructionText data-testid="select_instruction">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: objValue?.instructionText,
-          }}
+    <>
+      <Field>
+        <FieldLabel
+          required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
+          htmlFor={`${objKey}-id`}
+          data-testid="select_label"
+          version="v2"
+        >
+          {objValue?.labelText}
+        </FieldLabel>
+        {objValue?.helpText && (
+          <Help text={objValue?.helpText} data-testid="select_help" />
+        )}
+        <Select
+          onChange={(e: TypeOption) => updateSelectConfig(e, objKey)}
+          options={objValue?.options}
+          placeholder={objValue?.placeholderText}
+          value={selectInputValues?.[objKey]}
+          name={`${objKey}-id`}
+          data-testid="select_input"
+          version="v2"
         />
-      </InstructionText>
-    </Field>
+        <InstructionText data-testid="select_instruction">
+          <div>{objValue?.instructionText}</div>
+        </InstructionText>
+      </Field>
+      <Line type="dashed" />
+    </>
   );
 };
 
@@ -231,10 +208,7 @@ const checkModalValue = ({ modalValue, customOptions }: any) => {
     Notification({
       displayContent: {
         error: {
-          error_message: `${localeTexts.ConfigFields.customWholeJson.notification.error.replace(
-            "$var",
-            modalValue
-          )}`,
+          error_message: `${localeTexts.ConfigFields.customWholeJson.notification.errorS} "${modalValue}" ${localeTexts.ConfigFields.customWholeJson.notification.errorE}`,
         },
       },
       notifyProps: {
@@ -274,11 +248,9 @@ export const ModalComponent = function ({ closeModal, handleModalValue }: any) {
     if (updatedValue?.length) {
       setOptions([...options, ...updatedValue]);
       setSelectOptions([...selectOptions, ...updatedValue]);
-      if ([...options, ...selectOptions, ...updatedValue]?.length <= 150) {
-        ConfigScreenUtils.toastMessage(
-          localeTexts.ConfigFields.customWholeJson.modal.successToast
-        );
-      }
+      ConfigScreenUtils.toastMessage(
+        localeTexts.ConfigFields.customWholeJson.modal.successToast
+      );
     }
     if (action === "create") {
       setModalValue("");
@@ -306,9 +278,6 @@ export const ModalComponent = function ({ closeModal, handleModalValue }: any) {
             <TextInput
               required
               autoFocus
-              maxLength={250}
-              showCharacterCount
-              hideCharCountError={false}
               value={modalValue}
               placeholder={
                 localeTexts.ConfigFields.customWholeJson.modal.placeholder
@@ -378,6 +347,7 @@ export const JsonComponent = function () {
 
   return (
     <>
+      <Line type="dashed" />
       <Field className="json-field">
         <FieldLabel required htmlFor="is_custom_json" version="v2">
           {localeTexts.ConfigFields.entrySaveRadioButton.label}

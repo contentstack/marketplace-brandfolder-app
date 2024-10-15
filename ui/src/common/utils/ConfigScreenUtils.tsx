@@ -118,15 +118,13 @@ const getIntialValueofComponents = ({
   const radioValuesObj: any = {};
   const selectValuesObj: any = {};
   Object.keys(savedData)?.forEach((item: string) => {
-    let itemKey = item;
-    if (item?.includes("$:")) itemKey = item?.split("$:")?.[1];
-    if (radioValuesKeys?.includes(itemKey)) {
-      radioValuesObj[item] = configInputFields?.[itemKey]?.options?.filter(
+    if (radioValuesKeys?.includes(item)) {
+      radioValuesObj[item] = configInputFields?.[item]?.options?.filter(
         (v: TypeOption) => v?.value === savedData?.[item]
       )?.[0];
     }
-    if (selectValuesKeys?.includes(itemKey)) {
-      selectValuesObj[item] = configInputFields?.[itemKey]?.options?.filter(
+    if (selectValuesKeys?.includes(item)) {
+      selectValuesObj[item] = configInputFields?.[item]?.options?.filter(
         (v: TypeOption) => v?.value === savedData?.[item]
       )?.[0];
     }

@@ -135,7 +135,7 @@ beforeEach(() => {
   };
   let appcontextValue = { appSdk: {}, appConfig: {}, appFailed: false };
 
-  if (testName?.includes("**")) {
+  if (testName.includes("**")) {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() => useStateMock(false));
@@ -153,7 +153,7 @@ beforeEach(() => {
       },
       currentLocale: "",
     };
-  } else if (testName?.includes("AssetList")) {
+  } else if (testName.includes("AssetList")) {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() => useStateMock({ value: "list" }));
@@ -171,7 +171,7 @@ beforeEach(() => {
       },
       currentLocale: "",
     };
-  } else if (testName?.includes("*")) {
+  } else if (testName.includes("*")) {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() => useStateMock(false));
@@ -181,17 +181,17 @@ beforeEach(() => {
       .mockImplementationOnce(() => useStateMock(true));
   }
 
-  if (testName?.includes("AppFailed")) {
+  if (testName.includes("AppFailed")) {
     appcontextValue = { appSdk: {}, appConfig: {}, appFailed: true };
   }
 
-  if (testName?.includes("AssetList")) {
+  if (testName.includes("AssetList")) {
     CustomFieldRenderedDOM = render(
       <CustomFieldContext.Provider value={mockContextValue}>
         <AssetContainer />
       </CustomFieldContext.Provider>
     );
-  } else if (testName?.includes("DeleteModal")) {
+  } else if (testName.includes("DeleteModal")) {
     CustomFieldRenderedDOM = render(
       <DeleteModal
         remove={removeAsset}
@@ -312,9 +312,7 @@ describe("Rendered DeleteModal Component", () => {
     const deleteBtn =
       CustomFieldRenderedDOM?.container?.querySelector(`.Button--delete`);
     fireEvent.click(deleteBtn);
-    setTimeout(() => {
-      expect(removeAsset).toHaveBeenCalled();
-    }, 300);
+    expect(removeAsset).toHaveBeenCalled();
     expect(closeModal).toHaveBeenCalled();
   });
 

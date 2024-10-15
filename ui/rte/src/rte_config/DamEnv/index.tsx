@@ -19,14 +19,7 @@ const DamEnvVariables = {
       />
     </svg>
   ),
-  DIRECT_SELECTOR_PAGE: "novalue", // possible values "url", "window", default => "novalue",
-  ADVANCED_ASSET_PARAMS: {
-    ASSET_NAME: "name", // add property name for NAME. If present in nested structure, add nested structure reference.
-    SIZE_NAME: "sizeInBytes", // add property name for SIZE. If present in nested structure, add nested structure reference.
-    SIZE_UNIT: "BYTES", // possible values "BYTES"(default), "KB", "MB", "GB", "TB". Mention the unit for asset size provided by third-party dam.
-    HEIGHT_NAME: "dimensions.height", // add property name for HEIGHT. If present in nested structure, add nested structure reference.
-    WIDTH_NAME: "dimensions.width", // add property name for WIDTH. If present in nested structure, add nested structure reference.
-  },
+  DIRECT_SELECTOR_PAGE: "novalue", // possible values "url", "window", "authWindow", default => "novalue"
 };
 
 export default DamEnvVariables;
