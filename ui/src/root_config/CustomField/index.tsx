@@ -38,7 +38,7 @@ const filterAssetData = (assets: any[]) => {
       size: sizeInBytes, // add size in bytes as string eg.'416246'
       thumbnailUrl: asset?.apiDto?.attributes?.cdn_url || asset?.cdn_url || url,
       previewUrl: previewAllField || previewExtension || url, // add this parameter if you want "Preview" in tooltip action items
-      platformUrl: '', // add this parameter if you want "Open in DAM" in tooltip action items
+      platformUrl: "", // add this parameter if you want "Open in DAM" in tooltip action items
     };
   });
 
