@@ -72,7 +72,7 @@ const getViewIconforTooltip = (type: string) => {
   */
   return {
     preview: PREVIEW_ICON,
-    openInDam: NEWTAB_ICON,
+    openInDam: '',
   };
 };
 
