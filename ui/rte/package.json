@@ -37,7 +37,7 @@
     "@babel/preset-react": "^7.17.12",
     "@contentstack/app-sdk": "^2.0.0",
     "@contentstack/venus-components": "^2.2.5",
-    "@emotion/core": "^10.0.22",
+    "@emotion/core": "^11.0.0",
     "@emotion/css": "^11.9.0",
     "babel-loader": "^9.1.2",
     "dotenv": "^16.0.1",
