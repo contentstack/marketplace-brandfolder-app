@@ -5,7 +5,6 @@ import {
   Field,
   FieldLabel,
   TextInput,
-  Line,
   InstructionText,
   Help,
   Select,
@@ -18,6 +17,8 @@ import {
   Icon,
   Notification,
 } from "@contentstack/venus-components";
+import parse from "html-react-parser";
+import { debounce } from "lodash";
 /* Import our modules */
 import {
   TypeConfigComponent,
@@ -25,8 +26,7 @@ import {
   TypeRadioOption,
 } from "../../common/types";
 import localeTexts from "../../common/locale/en-us";
-import WarningMessage from "../../components/WarningMessage";
-import constants from "../../common/constants";
+import InfoMessage from "../../components/InfoMessage";
 import AppConfigContext from "../../common/contexts/AppConfigContext";
 import ConfigStateContext from "../../common/contexts/ConfigStateContext";
 import ConfigScreenUtils from "../../common/utils/ConfigScreenUtils";
@@ -38,53 +38,53 @@ import rootConfig from "../../root_config";
 export const TextInputField = function ({
   objKey,
   objValue,
-  updateConfig,
+  updateConfig = () => {},
+  acckey,
 }: TypeConfigComponent) {
   const { installationData } = useContext(AppConfigContext);
+  let fieldValue = "";
+  if (objValue?.saveInConfig || objValue?.saveInServerConfig) {
+    fieldValue = acckey
+      ? installationData?.[
+          objValue.saveInConfig ? "configuration" : "serverConfiguration"
+        ]?.multi_config_keys?.[acckey]?.[objKey]
+      : installationData?.[
+          objValue.saveInConfig ? "configuration" : "serverConfiguration"
+        ]?.[objKey];
+  }
+
   return (
-    <>
-      <Field>
-        <FieldLabel
-          required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
-          htmlFor={`${objKey}-id`}
-          data-testid="text_label"
-          version="v2"
-        >
-          {" "}
-          {/* Change the label caption as per your requirement */}
-          {objValue?.labelText}
-        </FieldLabel>
-        {objValue?.helpText && (
-          <Help text={objValue?.helpText} data-testid="text_help" />
-        )}
-        {/* Change the help caption as per your requirement */}
-        <TextInput
-          id={`${objKey}-id`}
-          required
-          value={
-            // eslint-disable-next-line
-            objValue?.saveInConfig
-              ? installationData?.configuration?.[objKey]
-              : objValue?.saveInServerConfig
-              ? installationData?.serverConfiguration?.[objKey]
-              : ""
-          }
-          placeholder={objValue?.placeholderText}
-          name={objKey}
-          onChange={updateConfig}
-          type={objValue?.inputFieldType}
-          canShowPassword
-          data-testid="text_input"
-          version="v2"
-          maxLength="250"
-          showCharacterCount
-        />
-        <InstructionText data-testid="text_instruction">
-          <div>{objValue?.instructionText}</div>
-        </InstructionText>
-      </Field>
-      <Line type="dashed" />
-    </>
+    <Field>
+      <FieldLabel
+        required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
+        htmlFor={`${objKey}-id`}
+        data-testid="text_label"
+        version="v2"
+      >
+        {" "}
+        {objValue?.labelText}
+      </FieldLabel>
+      {objValue?.helpText && (
+        <Help text={objValue?.helpText} data-testid="text_help" />
+      )}
+      <TextInput
+        id={`${objKey}-id`}
+        value={fieldValue}
+        maxLength={250}
+        showCharacterCount
+        hideCharCountError={false}
+        placeholder={objValue?.placeholderText}
+        name={`${acckey}$--${objKey}`}
+        onChange={updateConfig}
+        type={objValue?.inputFieldType}
+        canShowPassword
+        data-testid="text_input"
+        version="v2"
+      />
+      <InstructionText data-testid="text_instruction">
+        <div>{parse(objValue?.instructionText ?? "")}</div>
+      </InstructionText>
+    </Field>
   );
 };
 
@@ -118,43 +118,45 @@ export const RadioOption = function ({
 export const RadioInputField = function ({
   objKey,
   objValue,
+  acckey,
 }: TypeConfigComponent) {
   const {
     RadioInputContext: { radioInputValues, updateRadioOptions },
   } = useContext(ConfigStateContext);
 
   return (
-    <>
-      <Field>
-        <FieldLabel
-          required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
-          htmlFor={`${objKey}_options`}
-          data-testid="radio_label"
-          version="v2"
-        >
-          {objValue?.labelText}
-        </FieldLabel>
-        {objValue?.helpText && (
-          <Help text={objValue?.helpText} data-testid="radio_help" />
-        )}
-        <div className="Radio-wrapper" data-testid="radio_wrapper">
-          {objValue?.options?.map((option: TypeOption, index: number) => (
-            <RadioOption
-              key={option?.value}
-              fieldName={objKey}
-              mode={option}
-              index={index}
-              radioOption={radioInputValues?.[objKey]}
-              updateRadioOptions={updateRadioOptions}
-            />
-          ))}
-        </div>
-        <InstructionText data-testid="radio_instruction">
-          <div>{objValue?.instructionText}</div>
-        </InstructionText>
-      </Field>
-      <Line type="dashed" />
-    </>
+    <Field>
+      <FieldLabel
+        required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
+        htmlFor={`${objKey}_options`}
+        data-testid="radio_label"
+        version="v2"
+      >
+        {objValue?.labelText}
+      </FieldLabel>
+      {objValue?.helpText && (
+        <Help text={objValue?.helpText} data-testid="radio_help" />
+      )}
+      <div className="Radio-wrapper" data-testid="radio_wrapper">
+        {objValue?.options?.map((option: TypeOption, index: number) => (
+          <RadioOption
+            key={option?.value}
+            fieldName={`${acckey}$--${objKey}`}
+            mode={option}
+            index={index}
+            radioOption={
+              acckey
+                ? radioInputValues?.[`${acckey}$:${objKey}`]
+                : radioInputValues?.[objKey]
+            }
+            updateRadioOptions={updateRadioOptions}
+          />
+        ))}
+      </div>
+      <InstructionText data-testid="radio_instruction">
+        <div>{parse(objValue?.instructionText ?? "")}</div>
+      </InstructionText>
+    </Field>
   );
 };
 
@@ -162,53 +164,67 @@ export const RadioInputField = function ({
 export const SelectInputField = function ({
   objKey,
   objValue,
+  acckey,
 }: TypeConfigComponent) {
   const {
     SelectInputContext: { selectInputValues, updateSelectConfig },
   } = useContext(ConfigStateContext);
+  const fieldValue = acckey
+    ? selectInputValues?.[`${acckey}$:${objKey}`]
+    : selectInputValues?.[objKey];
   return (
-    <>
-      <Field>
-        <FieldLabel
-          required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
-          htmlFor={`${objKey}-id`}
-          data-testid="select_label"
-          version="v2"
-        >
-          {objValue?.labelText}
-        </FieldLabel>
-        {objValue?.helpText && (
-          <Help text={objValue?.helpText} data-testid="select_help" />
-        )}
-        <Select
-          onChange={(e: TypeOption) => updateSelectConfig(e, objKey)}
-          options={objValue?.options}
-          placeholder={objValue?.placeholderText}
-          value={selectInputValues?.[objKey]}
-          name={`${objKey}-id`}
-          data-testid="select_input"
-          version="v2"
-        />
-        <InstructionText data-testid="select_instruction">
-          <div>{objValue?.instructionText}</div>
-        </InstructionText>
-      </Field>
-      <Line type="dashed" />
-    </>
+    <Field>
+      <FieldLabel
+        required={rootConfig.damEnv.REQUIRED_CONFIG_FIELDS?.includes(objKey)}
+        htmlFor={`${objKey}-id`}
+        data-testid="select_label"
+        version="v2"
+      >
+        {objValue?.labelText}
+      </FieldLabel>
+      {objValue?.helpText && (
+        <Help text={objValue?.helpText} data-testid="select_help" />
+      )}
+      <Select
+        onChange={(e: TypeOption) =>
+          updateSelectConfig(e, `${acckey}$--${objKey}`)
+        }
+        options={objValue?.options}
+        placeholder={objValue?.placeholderText}
+        value={fieldValue}
+        name={`${objKey}-id`}
+        data-testid="select_input"
+        version="v2"
+      />
+      <InstructionText data-testid="select_instruction">
+        <div>{parse(objValue?.instructionText ?? "")}</div>
+      </InstructionText>
+    </Field>
   );
 };
 
-const checkModalValue = ({ modalValue, customOptions }: any) => {
-  let returnValue: any[] = [];
+const checkModalValue = ({
+  modalValue,
+  customOptions,
+}: {
+  modalValue: string;
+  customOptions: TypeOption[];
+}) => {
+  let returnValue: TypeOption[] = [];
   modalValue = modalValue?.trim();
-  const matchValue = customOptions?.find((i: any) => i?.value === modalValue);
+  const matchValue = customOptions?.find(
+    (i: TypeOption) => i?.value === modalValue
+  );
   if (!matchValue) {
     returnValue = [{ label: modalValue, value: modalValue }];
   } else {
     Notification({
       displayContent: {
         error: {
-          error_message: `${localeTexts.ConfigFields.customWholeJson.notification.errorS} "${modalValue}" ${localeTexts.ConfigFields.customWholeJson.notification.errorE}`,
+          error_message: `${localeTexts.ConfigFields.customWholeJson.notification.error.replace(
+            "$var",
+            modalValue
+          )}`,
         },
       },
       notifyProps: {
@@ -221,16 +237,22 @@ const checkModalValue = ({ modalValue, customOptions }: any) => {
   return returnValue;
 };
 
-export const ModalComponent = function ({ closeModal, handleModalValue }: any) {
+export const ModalComponent = function ({
+  closeModal,
+  handleModalValue,
+}: {
+  closeModal: () => void;
+  handleModalValue: Function;
+}) {
   const {
     CustomOptionsContext: { customOptions },
   } = useContext(ConfigStateContext);
   const [modalValue, setModalValue] = useState("");
-  const [selectOptions, setSelectOptions] = useState<any[]>([]);
-  const [options, setOptions] = useState<any>([...customOptions]);
+  const [selectOptions, setSelectOptions] = useState<TypeOption[]>([]);
+  const [options, setOptions] = useState<TypeOption[]>([...customOptions]);
   const [isEmptySpace, setIsEmptySpace] = useState<boolean>(false);
 
-  const handleChange = async (e: any) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e?.target?.value?.trim();
     if (/\s/.test(value) || value === "") {
       setIsEmptySpace(true);
@@ -248,9 +270,11 @@ export const ModalComponent = function ({ closeModal, handleModalValue }: any) {
     if (updatedValue?.length) {
       setOptions([...options, ...updatedValue]);
       setSelectOptions([...selectOptions, ...updatedValue]);
-      ConfigScreenUtils.toastMessage(
-        localeTexts.ConfigFields.customWholeJson.modal.successToast
-      );
+      if ([...options, ...selectOptions, ...updatedValue]?.length <= 150) {
+        ConfigScreenUtils.toastMessage(
+          localeTexts.ConfigFields.customWholeJson.modal.successToast
+        );
+      }
     }
     if (action === "create") {
       setModalValue("");
@@ -278,13 +302,16 @@ export const ModalComponent = function ({ closeModal, handleModalValue }: any) {
             <TextInput
               required
               autoFocus
+              maxLength={250}
+              showCharacterCount
+              hideCharCountError={false}
               value={modalValue}
               placeholder={
                 localeTexts.ConfigFields.customWholeJson.modal.placeholder
               }
               name="label"
               autoComplete="off"
-              onChange={handleChange}
+              onChange={debounce(handleChange, 300)}
               version="v2"
             />
             <InstructionText>
@@ -316,7 +343,7 @@ export const ModalComponent = function ({ closeModal, handleModalValue }: any) {
                 disabled={!modalValue?.length || isEmptySpace}
                 version="v2"
               >
-                <Icon icon="CheckedPurple" />
+                <Icon icon={localeTexts.Icons.checkedPurple} />
                 {localeTexts.ConfigFields.customWholeJson.modal.btn.create}
               </Button>
               <Button
@@ -325,7 +352,7 @@ export const ModalComponent = function ({ closeModal, handleModalValue }: any) {
                 disabled={!modalValue?.length || isEmptySpace}
                 onClick={() => handleValueCreate("createApply")}
               >
-                <Icon icon="CheckedWhite" />
+                <Icon icon={localeTexts.Icons.checkedWhite} />
                 {localeTexts.ConfigFields.customWholeJson.modal.btn.apply}
               </Button>
             </ButtonGroup>
@@ -347,17 +374,11 @@ export const JsonComponent = function () {
 
   return (
     <>
-      <Line type="dashed" />
       <Field className="json-field">
         <FieldLabel required htmlFor="is_custom_json" version="v2">
           {localeTexts.ConfigFields.entrySaveRadioButton.label}
         </FieldLabel>
         <Help text={localeTexts.ConfigFields.entrySaveRadioButton.help} />
-        <br />
-        <br />
-        <WarningMessage
-          content={localeTexts.ConfigFields.entrySaveRadioButton.notetext}
-        />
         <div className="Radio-wrapper">
           <Radio
             id="wholeJSON"
@@ -379,17 +400,16 @@ export const JsonComponent = function () {
           />
         </div>
         <InstructionText>
-          {localeTexts.ConfigFields.entrySaveRadioButton.instruction}{" "}
-          {localeTexts.ConfigFields.entrySaveRadioButton.referS}{" "}
-          <a
-            href={constants.limitationsDocUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {localeTexts.ConfigFields.entrySaveRadioButton.custom}
-          </a>{" "}
-          {localeTexts.ConfigFields.entrySaveRadioButton.referE}
+          {!isCustom
+            ? localeTexts.ConfigFields.entrySaveRadioButton
+                .all_field_instruction
+            : localeTexts.ConfigFields.entrySaveRadioButton
+                .custom_field_instruction}
         </InstructionText>
+        <br />
+        <InfoMessage
+          content={localeTexts.ConfigFields.entrySaveRadioButton.notetext}
+        />
       </Field>
       {isCustom && (
         <Field className="dam-keys">
@@ -408,7 +428,7 @@ export const JsonComponent = function () {
             className="dam-keys-select"
             addOptionText={
               <>
-                <Icon icon="Plus" />
+                <Icon icon={localeTexts.Icons.plus} />
                 {localeTexts.ConfigFields.customWholeJson.modal.addOption}
               </>
             }

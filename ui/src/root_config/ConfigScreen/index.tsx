@@ -32,7 +32,7 @@ const configureConfigScreen = () =>
 
   ({
     apiKey: {
-      type: "textInputFields",
+      type: "textInputField",
       labelText: "Brandfolder API Key",
       helpText:
         "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
@@ -41,6 +41,7 @@ const configureConfigScreen = () =>
       inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
       saveInConfig: true,
       saveInServerConfig: false,
+      isMultiConfig: true,
     },
   });
 
