@@ -1,5 +1,5 @@
 import { Notification } from "@contentstack/venus-components";
-import { TypeOption } from "../types";
+import { Configurations, Props, TypeOption } from "../types";
 import rootConfig from "../../root_config";
 
 // function to merge 2 objects
@@ -13,11 +13,11 @@ const mergeObjects = (target: any, source: any) => {
   });
 
   // Join `target` and modified `source`
-  Object.assign(target || {}, source);
+  Object.assign(target ?? {}, source);
   return target;
 };
 
-const toastMessage = ({ type, text }: any) => {
+const toastMessage = ({ type, text }: Props) => {
   Notification({
     notificationContent: {
       text,
@@ -30,7 +30,7 @@ const toastMessage = ({ type, text }: any) => {
   });
 };
 
-const getOptions = (arr: string[], defaultFeilds?: any[]) =>
+const getOptions = (arr: string[], defaultFeilds?: string[]) =>
   arr?.map((option: string) => ({
     label: option,
     value: option,
@@ -39,34 +39,36 @@ const getOptions = (arr: string[], defaultFeilds?: any[]) =>
 
 const configRootUtils = () => {
   // custom whole json options from rootconfig
-  // eslint-disable-next-line
-  let { customJsonOptions, defaultFeilds } =
+  const { customJsonOptions, defaultFeilds } =
     rootConfig?.customWholeJson?.() ?? {};
-  let customJsonConfigObj: any = {};
-  let jsonOptions: any[] = [];
+  let defaultFeildsVal = [...defaultFeilds];
+  let customJsonConfigObj:
+    | { is_custom_json: boolean; dam_keys: TypeOption[] }
+    | {} = {};
+  let jsonOptions: TypeOption[] | [] = [];
 
   // create actual options for select field
   if (customJsonOptions?.length && defaultFeilds?.length) {
     jsonOptions = getOptions(customJsonOptions, defaultFeilds);
-    defaultFeilds = getOptions(defaultFeilds);
+    defaultFeildsVal = getOptions(defaultFeilds);
     customJsonConfigObj = {
       is_custom_json: false,
-      dam_keys: defaultFeilds,
+      dam_keys: defaultFeildsVal,
     };
   }
 
   return {
     jsonOptions,
-    defaultFeilds,
+    defaultFeilds: defaultFeildsVal,
     customJsonConfigObj,
   };
 };
 
-const getSaveConfigOptions = (configInputFields: any) => {
+const getSaveConfigOptions = (configInputFields: Configurations) => {
   // config objs to be saved in configuration
-  const saveInConfig: any = {};
+  const saveInConfig: Configurations = {};
   // config objs to be saved in serverConfiguration
-  const saveInServerConfig: any = {};
+  const saveInServerConfig: Configurations = {};
 
   Object.keys(configInputFields)?.forEach((field: string) => {
     if (configInputFields?.[field]?.saveInConfig)
@@ -81,25 +83,25 @@ const getSaveConfigOptions = (configInputFields: any) => {
   };
 };
 
-const getDefaultInputValues = (configInputFields: any) => {
+const getDefaultInputValues = (configInputFields: Configurations) => {
   const { saveInConfig, saveInServerConfig } =
     getSaveConfigOptions(configInputFields);
 
-  const radioValuesKeys = [
+  const radioValuesKeys: string[] = [
     ...(Object.keys(saveInConfig)?.filter(
-      (value) => saveInConfig?.[value]?.type === "radioInputFields"
+      (value) => saveInConfig?.[value]?.type === "radioInputField"
     ) ?? []),
     ...(Object.keys(saveInServerConfig)?.filter(
-      (value) => saveInServerConfig?.[value]?.type === "radioInputFields"
+      (value) => saveInServerConfig?.[value]?.type === "radioInputField"
     ) ?? []),
   ];
 
-  const selectValuesKeys = [
+  const selectValuesKeys: string[] = [
     ...(Object.keys(saveInConfig)?.filter(
-      (value) => saveInConfig?.[value]?.type === "selectInputFields"
+      (value) => saveInConfig?.[value]?.type === "selectInputField"
     ) ?? []),
     ...(Object.keys(saveInServerConfig)?.filter(
-      (value) => saveInServerConfig?.[value]?.type === "selectInputFields"
+      (value) => saveInServerConfig?.[value]?.type === "selectInputField"
     ) ?? []),
   ];
 
@@ -114,19 +116,28 @@ const getIntialValueofComponents = ({
   radioValuesKeys,
   selectValuesKeys,
   configInputFields,
-}: any) => {
-  const radioValuesObj: any = {};
-  const selectValuesObj: any = {};
+}: {
+  savedData: Props;
+  radioValuesKeys: string[];
+  selectValuesKeys: string[];
+  configInputFields: Configurations;
+}) => {
+  const radioValuesObj: Record<string, TypeOption> = {};
+  const selectValuesObj: Record<string, TypeOption> = {};
   Object.keys(savedData)?.forEach((item: string) => {
-    if (radioValuesKeys?.includes(item)) {
-      radioValuesObj[item] = configInputFields?.[item]?.options?.filter(
+    let itemKey = item;
+    if (item?.includes("$:")) itemKey = item?.split("$:")?.[1];
+    if (radioValuesKeys?.includes(itemKey)) {
+      const radioValue = configInputFields?.[itemKey]?.options?.filter(
         (v: TypeOption) => v?.value === savedData?.[item]
       )?.[0];
+      if (radioValue) radioValuesObj[item] = radioValue;
     }
-    if (selectValuesKeys?.includes(item)) {
-      selectValuesObj[item] = configInputFields?.[item]?.options?.filter(
+    if (selectValuesKeys?.includes(itemKey)) {
+      const selectValue = configInputFields?.[itemKey]?.options?.filter(
         (v: TypeOption) => v?.value === savedData?.[item]
       )?.[0];
+      if (selectValue) selectValuesObj[item] = selectValue;
     }
   });
 
