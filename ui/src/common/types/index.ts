@@ -273,5 +273,11 @@ export interface TypeIconElement {
   type: string;
   thumbnailUrl: string;
   handleImageError: () => void;
-  isConfigAvailable: boolean;
+  isConfigEnabled: boolean;
+}
+
+export interface TypeState {
+  config?: {
+    multi_config_keys?: Record<string, boolean>;
+  };
 }

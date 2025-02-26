@@ -7,6 +7,7 @@ import {
   TypeIconElement,
   TypeOption,
   TypePopupWindowDetails,
+  TypeState,
 } from "../types";
 import localeTexts from "../locale/en-us";
 import rootConfig from "../../root_config";
@@ -302,7 +303,7 @@ const flatten = (data: any) => {
       result[prop] = cur;
     } else if (Array.isArray(cur)) {
       const l = cur?.length;
-      for (let i = 0; i < l; i += 1) recurse(cur?.[i], `${prop}[${i}]`);
+      for (let i = 0; i < l; i = i + 1) recurse(cur?.[i], `${prop}[${i}]`);
       if (l === 0) result[prop] = [];
     } else {
       let isEmpty = true;
@@ -404,9 +405,9 @@ const getIconElement = ({
   type,
   thumbnailUrl,
   handleImageError,
-  isConfigAvailable,
+  isConfigEnabled,
 }: TypeIconElement) => {
-  if (!isConfigAvailable) {
+  if (!isConfigEnabled) {
     return (
       <div className="rowImage noImage">
         <Tooltip
@@ -535,6 +536,16 @@ const getIconElement = ({
   return returnEl;
 };
 
+// function to check if multi-config is available
+const isConfigAvailable = (state: TypeState, asset: TypeAsset) => {
+  const configLabel = asset?.cs_metadata?.config_label ?? "legacy_config";
+  const isMultiConfig = state?.config?.multi_config_keys || false;
+
+  if (!isMultiConfig) return true;
+
+  return state?.config?.multi_config_keys?.[configLabel] ?? false;
+};
+
 const CustomFieldUtils = {
   popupWindow,
   getHoverActions,
@@ -552,6 +563,7 @@ const CustomFieldUtils = {
   advancedFilters,
   noAssetElement,
   getIconElement,
+  isConfigAvailable,
 };
 
 export default CustomFieldUtils;

@@ -43,11 +43,9 @@ const AssetCard: React.FC<TypeAssetCard> = function ({ id }) {
     size = asset?.size;
   }
 
-  const configLabel = asset?.cs_metadata?.config_label ?? "legacy_config";
-  let isConfigAvailable: boolean =
-    state?.config?.multi_config_keys?.[configLabel] || false;
-  const isMultiConfig = state?.config?.multi_config_keys || false;
-  if (!isMultiConfig) isConfigAvailable = true;
+  const isConfigEnabled: boolean = asset
+    ? CustomFieldUtils.isConfigAvailable(state, asset)
+    : false;
 
   const {
     attributes,
@@ -83,14 +81,14 @@ const AssetCard: React.FC<TypeAssetCard> = function ({ id }) {
       ) : (
         <AssetCardVertical
           title={name?.charAt(0)?.toUpperCase() + name?.slice(1)}
-          assetType={isConfigAvailable ? type?.toLowerCase() : "image"}
+          assetType={isConfigEnabled ? type?.toLowerCase() : "image"}
           assetUrl={
-            (isConfigAvailable
+            (isConfigEnabled
               ? thumbnailUrl ?? utils.getNoImageUrl(constants.NoImg)
               : utils.getNoImageUrl(constants.NoConfigImg)) ?? ""
           }
           hoverText={
-            (!isConfigAvailable &&
+            (!isConfigEnabled &&
               localeTexts.CustomFields.assetCard.configDeletedImg) ||
             (!thumbnailUrl && localeTexts.CustomFields.assetCard.noImage)
           }

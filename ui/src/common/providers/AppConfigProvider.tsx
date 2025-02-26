@@ -47,7 +47,7 @@ const AppConfigProvider: React.FC = function ({ children }) {
 
     Object.entries(flatStructure)?.forEach(
       ([objKey, objValue]: [string, string]) => {
-        const key = objKey.split(".")?.at(-1);
+        const key = objKey?.split(".")?.at(-1);
         if (key && requiredFields?.includes(key)) {
           const value =
             typeof objValue === "boolean" ? `${objValue}` : objValue;
@@ -240,7 +240,8 @@ const AppConfigProvider: React.FC = function ({ children }) {
       serverConfiguration?.multi_config_keys ?? {}
     );
     const invalidServerConfigValues = rawServerConfigKeys?.filter(
-      (key) => key?.trim() === "" || key === "null" || key === "undefined"
+      (key) =>
+        key?.trim() === "" || key === "null" || key === "undefined" || !key
     );
     if (invalidServerConfigValues?.length) {
       isEmptyKeyPresent = true;

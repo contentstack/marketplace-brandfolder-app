@@ -30,11 +30,9 @@ const AssetList: React.FC<TypeAssetList> = function ({ id }) {
     platformUrl = asset?.platformUrl ?? "";
   }
 
-  const configLabel = asset?.cs_metadata?.config_label ?? "legacy_config";
-  let isConfigAvailable: boolean =
-    state?.config?.multi_config_keys?.[configLabel] || false;
-  const isMultiConfig = state?.config?.multi_config_keys || false;
-  if (!isMultiConfig) isConfigAvailable = true;
+  const isConfigEnabled: boolean = asset
+    ? CustomFieldUtils.isConfigAvailable(state, asset)
+    : false;
 
   const {
     attributes,
@@ -87,7 +85,7 @@ const AssetList: React.FC<TypeAssetList> = function ({ id }) {
                   type,
                   thumbnailUrl,
                   handleImageError,
-                  isConfigAvailable,
+                  isConfigEnabled,
                 })
               : CustomFieldUtils.noAssetElement}
           </div>
