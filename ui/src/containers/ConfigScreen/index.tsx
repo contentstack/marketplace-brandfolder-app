@@ -37,6 +37,7 @@ import {
   TypeUpdateTrigger,
   Props,
   TypeOption,
+  TypeCustomConfigUpdateParams,
 } from "../../common/types";
 /* Import our CSS */
 import "./styles.scss";
@@ -61,7 +62,6 @@ const ConfigScreen: React.FC = function () {
   // default multiconfig key
   const [defaultKey, setDefaultKey] = React.useState<string>();
 
-  // updating the custom config state
   const handleCustomConfigUpdate = (...args: TypeFnHandleCustomConfigProps) => {
     const [
       configLabel,
@@ -311,6 +311,18 @@ const ConfigScreen: React.FC = function () {
       target: { name: configName, value: configValue },
     };
     updateConfig(value, inConfig, inServerConfig, isMultiConfig);
+  };
+
+  // updating the custom config state
+  const handleExtensionConfig = ({
+    fieldName,
+    fieldValue,
+    saveConfig,
+    saveServerConfig,
+  }: TypeCustomConfigUpdateParams) => {
+    const configObj: any = {};
+    configObj.target = { name: fieldName, value: fieldValue };
+    updateConfig(configObj, saveConfig, saveServerConfig);
   };
 
   useEffect(() => {
@@ -608,7 +620,7 @@ const ConfigScreen: React.FC = function () {
 
     return renderValue;
   };
-
+  console.info("rootConfig", rootConfig);
   /* If need to get any data from API then use,
   getDataFromAPI({queryParams, headers, method, body}) function.
   Refer services/index.ts for more details and update the API
@@ -626,11 +638,9 @@ const ConfigScreen: React.FC = function () {
               {rootConfig?.customConfigComponent?.(
                 installationData?.configuration,
                 installationData?.serverConfiguration,
-                handleCustomConfigUpdate
+                handleExtensionConfig
               )}
-              {installationData?.configuration?.is_extension ? (
-                ""
-              ) : (
+              {!installationData?.configuration?.is_extension && (
                 <JsonComponent />
               )}
             </div>
