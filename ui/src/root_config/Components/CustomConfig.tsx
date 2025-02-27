@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Field, Select } from "@contentstack/venus-components";
 import { TypeCustomConfig, TypeOption } from "../../common/types";
 import "../styles.scss";
+import localeTexts from "../../common/locale/en-us";
 
 const CustomConfig: React.FC<TypeCustomConfig> = function ({
   customConfig,
@@ -45,8 +46,8 @@ const CustomConfig: React.FC<TypeCustomConfig> = function ({
   return (
     <Field>
       <Select
-        selectLabel="Sample Multiple Select"
-        placeholder="Select Multiple Options"
+        selectLabel={localeTexts.ConfigFields.selectField.label}
+        placeholder={localeTexts.ConfigFields.selectField.placeholder}
         value={selectValues}
         isMulti
         isClearable

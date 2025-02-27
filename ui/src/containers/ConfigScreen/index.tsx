@@ -565,7 +565,7 @@ const ConfigScreen: React.FC = function () {
               acckey && accordianInstance(acckey, accordianFields)
           )}
           <Tooltip
-            content="Maximum Limit Reached"
+            content={localeTexts.ConfigFields.AccordianConfig.tooltip}
             position="right"
             disabled={!isAddBtnDisble}
           >
@@ -620,7 +620,6 @@ const ConfigScreen: React.FC = function () {
 
     return renderValue;
   };
-  console.info("rootConfig", rootConfig);
   /* If need to get any data from API then use,
   getDataFromAPI({queryParams, headers, method, body}) function.
   Refer services/index.ts for more details and update the API

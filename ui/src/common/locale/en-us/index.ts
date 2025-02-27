@@ -12,6 +12,7 @@ const localeTexts = {
       defaultLabel: "Default",
       checkboxText: "Set as Default",
       btnText: "New Configuration",
+      tooltip: "Maximum Limit Reached",
     },
     accModal: {
       header: "Add Configuration",
@@ -82,6 +83,10 @@ const localeTexts = {
     },
     missingCredentials: "Missing Required Fields",
     emptyValue: "Field Value Missing",
+    selectField: {
+      label: "Multiple Select",
+      placeholder: "Select Multiple Options",
+    },
   },
   CustomFields: {
     assetLimit: {

@@ -262,7 +262,7 @@ const ImageElement = function ({
               <div
                 ref={imgRef}
                 contentEditable={false}
-                style={{ width: "100%", height: "100%" }}
+                className="scrte--img-inner"
               >
                 {isConfigAvailable && (
                   <div className={tooltipclass}>
@@ -316,7 +316,7 @@ const ImageElement = function ({
                         localeTexts.RTE.assetValidation.configDeletedImg
                       }
                       tooltipPosition="top"
-                      style={{ borderRadius: "10px" }}
+                      className="embed-warning-icon"
                     />
                   </div>
                 )}

@@ -226,7 +226,8 @@ const AppConfigProvider: React.FC = function ({ children }) {
       configuration?.multi_config_keys ?? {}
     );
     const invalidConfigValues = rawConfigKeys?.filter(
-      (key) => key?.trim() === "" || key === "null" || key === "undefined"
+      (key) =>
+        key?.trim() === "" || key === "null" || key === "undefined" || !key
     );
     if (invalidConfigValues?.length) {
       isEmptyKeyPresent = true;
