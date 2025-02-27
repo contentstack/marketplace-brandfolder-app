@@ -67,10 +67,14 @@ const flatten = (data: any) => {
     if (Object(cur) !== cur) {
       result[prop] = cur;
     } else if (Array.isArray(cur)) {
-      let l;
-      for (let i = 0, l = cur?.length; i < l; i++)
-        recurse(cur?.[i], `${prop}[${i}]`);
-      if (l === 0) result[prop] = [];
+      const l = cur?.length;
+      if (l === 0) {
+        result[prop] = [];
+      } else {
+        for (let i = 0; i < l; i = i + 1) {
+          recurse(cur?.[i], `${prop}[${i}]`);
+        }
+      }
     } else {
       let isEmpty = true;
       for (const p in cur) {

@@ -154,7 +154,7 @@ const uniqBy = (arr: any[], iteratee: any) => {
   for (let i = arr?.length - 1; i >= 0; i -= 1) {
     const item = arr?.[i];
     const key = iteratee(item);
-    if (!seen?.has(key) && item !== null) {
+    if (!seen?.has(key) && item !== null && item !== undefined) {
       seen?.add(key);
       result?.unshift(item);
     }
@@ -303,8 +303,13 @@ const flatten = (data: any) => {
       result[prop] = cur;
     } else if (Array.isArray(cur)) {
       const l = cur?.length;
-      for (let i = 0; i < l; i = i + 1) recurse(cur?.[i], `${prop}[${i}]`);
-      if (l === 0) result[prop] = [];
+      if (l === 0) {
+        result[prop] = [];
+      } else {
+        for (let i = 0; i < l; i = i + 1) {
+          recurse(cur?.[i], `${prop}[${i}]`);
+        }
+      }
     } else {
       let isEmpty = true;
       // eslint-disable-next-line
