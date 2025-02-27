@@ -262,7 +262,7 @@ const ImageElement = function ({
               <div
                 ref={imgRef}
                 contentEditable={false}
-                className="scrte--img-inner"
+                className="scrte--img-div"
               >
                 {isConfigAvailable && (
                   <div className={tooltipclass}>
@@ -270,10 +270,7 @@ const ImageElement = function ({
                       <img
                         src={RTE_DISPLAY_URL}
                         onError={utils.handleImageError}
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
+                        className="scrte--img-inner"
                         alt={element?.attrs?.["asset-alt"]}
                         title={
                           element?.attrs?.[rteConfig?.damEnv?.ASSET_NAME_PARAM]
