@@ -181,7 +181,7 @@ const ConfigStateProvider: React.FC<ConfigStateProviderProps> = function ({
   const transformObject = (input: any) =>
     Object.keys(input)?.reduce((output: any, key) => {
       const prefix = `${key}$:`;
-      Object.keys(input[key]).forEach((nestedKey) => {
+      Object.keys(input?.[key])?.forEach((nestedKey) => {
         const newKey = prefix + nestedKey;
         output[newKey] = input?.[key]?.[nestedKey];
       });
