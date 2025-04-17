@@ -7,10 +7,8 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@contentstack/venus-components";
+import parse from "html-react-parser";
 import localeTexts from "../../common/locale/en-us";
-
-const removeHTMLTags = (description) =>
-  description ? description.toString().replace(/(<([^>]+)>)/gi, " ") : "";
 
 const DeleteModal = function ({ remove, name: itemName, closeModal }) {
   return (
@@ -21,23 +19,28 @@ const DeleteModal = function ({ remove, name: itemName, closeModal }) {
       />
       <ModalBody className="deleteModalBody">
         <p>
-          {localeTexts.DeleteModal.bodyBeforePlaceholder}
-          <b>{removeHTMLTags(itemName)}</b>
-          {localeTexts.DeleteModal.bodyAfterPlaceholder}
+          {parse(localeTexts.DeleteModal.body.replace(/\$/g, itemName) ?? "")}
         </p>
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
-          <Button buttonType="light" onClick={closeModal}>
+          <Button
+            buttonType="light"
+            size="small"
+            version="v2"
+            onClick={closeModal}
+          >
             {localeTexts.DeleteModal.cancelButton}
           </Button>
           <Button
             buttonType="delete"
-            icon="RemoveFilled"
+            icon={localeTexts.Icons.removeFilled}
             iconProps={{
               size: "mini",
               className: "remove-modal-icon",
             }}
+            size="small"
+            version="v2"
             onClick={() => {
               remove();
               closeModal();
