@@ -32,7 +32,7 @@ const configureConfigScreen = () =>
 
   ({
     apiKey: {
-      type: "textInputFields",
+      type: "textInputField",
       labelText: "Brandfolder API Key",
       helpText:
         "The API key can be found under Profile > Integrations when you are logged into Brandfolder",
@@ -41,6 +41,7 @@ const configureConfigScreen = () =>
       inputFieldType: "password", // type: 'text' | 'password' | 'email' | 'number' | 'search' | 'url' | 'date' | 'time' | string;
       saveInConfig: true,
       saveInServerConfig: false,
+      isMultiConfig: true,
     },
   });
 
@@ -69,9 +70,7 @@ const checkConfigValidity = async (config: any, serverConfig: any) => {
 const customConfigComponent = (
   config: any,
   serverConfig: any,
-  handleCustomConfigUpdate: (
-    updateConfigObj: TypeCustomConfigUpdateParams
-  ) => void
+  handleExtensionConfig: (updateConfigObj: TypeCustomConfigUpdateParams) => void
 ) => {
   const { location } = useAppLocation();
   const appConfig = useRef<any>();
@@ -100,8 +99,7 @@ const customConfigComponent = (
     const newIsExtension = !isExtension;
     setIsExtension(newIsExtension);
     e.target = { name: "is_extension", value: newIsExtension };
-    // handleCustomConfigUpdate(e)
-    handleCustomConfigUpdate({
+    handleExtensionConfig({
       fieldName: "is_extension",
       fieldValue: newIsExtension,
       saveConfig: true,
@@ -110,7 +108,7 @@ const customConfigComponent = (
 
     // On enabling the isExtension here we are setting custom json value to false
     if (newIsExtension) {
-      handleCustomConfigUpdate({
+      handleExtensionConfig({
         fieldName: "is_custom_json",
         fieldValue: false,
         saveConfig: true,

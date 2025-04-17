@@ -12,11 +12,18 @@ const ASSET_AUDIO_TYPE = "Audio";
 const PREVIEW_ICON = "Eye";
 const NEWTAB_ICON = "OpenURL";
 
-const getDisplayUrl = (asset: any) => asset?.url;
+const getDisplayUrl = (asset: any) => {
+  /* 
+    Returns an object with either or both preview and openInDam properties.
+    Note: The values of the properties are url values for preview and openInDam.
+  */
+  return {
+    preview: asset?.url ?? "", // preview_url present in asset object
+    openInDam: "", // openInDAM_url present in asset object
+  };
+};
 
 const getAssetType = (asset: any) => {
-  /* possible return values ==> Document, Image, Pdf, Archive, Video, Audio */
-
   /* possible return values ==> Document, Image, Pdf, Archive, Video, Audio */
   const { extension } = asset;
   let assetType = ASSET_DOCUMENT_TYPE;
@@ -72,11 +79,11 @@ const getViewIconforTooltip = (type: string) => {
   */
   return {
     preview: PREVIEW_ICON,
-    openInDam: "",
+    openInDam: NEWTAB_ICON,
   };
 };
 
-const getSelectorWindowUrl = (config: any) => {
+const getSelectorWindowUrl = (config: any, contentTypeConfig: any) => {
   return ""; // return url to be opened as selector page
 };
 
@@ -84,13 +91,27 @@ const handleSelectorPageData = (event: any) => {
   return []; // return array of asset objects which are selected
 };
 
-const handleSelectorWindow = (config: any) => {
+const handleSelectorWindow = (config: any, contentTypeConfig: any) => {
   /* code logic to open the DAM selector page */
 };
 
-const handleAuthWindow = (config: any, resolve: Function, reject: Function) => {
+const handleAuthWindow = (
+  config: any,
+  contentTypeConfig: any,
+  resolve: Function,
+  reject: Function
+) => {
   /* code logic to open the DAM auth window */
   resolve(); // if authentication is success, call resolve() | if failed, call reject(error) with error
+};
+
+const handleConfigtoSelectorPage = (
+  config: any,
+  contentTypeConfig: any,
+  currentLocale: string
+) => {
+  /* Return Config to be used on selector page */
+  return {};
 };
 
 const rteFunctions: any = {
@@ -101,6 +122,7 @@ const rteFunctions: any = {
   handleSelectorPageData,
   handleSelectorWindow,
   handleAuthWindow,
+  handleConfigtoSelectorPage,
 };
 
 export default rteFunctions;
