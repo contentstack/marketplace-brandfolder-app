@@ -8,7 +8,7 @@ const localeTexts = {
         "Legacy settings allows you to use the Brandfolder app with Extension support to retrieve asset JSON data, similar to the Brandfolder Extension. If you are using the latest Brandfolder app, you can skip configuring these settings.",
       legacy_title: "Legacy Settings",
       warning_note:
-        "Legacy settings allow you to use the Brandfolder app with Extension support to retrieve asset JSON data, similar to the Brandfolder Extension. If you are using the latest Brandfolder app, you can skip these settings.<br/><b>Note:</b> Toggling between aApp and eExtension settings may result in data variation",
+        "Legacy settings allow you to use the Brandfolder app with Extension support to retrieve asset JSON data, similar to the Brandfolder Extension. If you are using the latest Brandfolder app, you can skip these settings.<br/><b>Note:</b> Toggling between app and extension settings may result in data variation",
       info_note:
         "Toggling between App and Extension settings may result in data variation.",
     },
