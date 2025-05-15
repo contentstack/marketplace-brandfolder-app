@@ -7,7 +7,7 @@ const localeTexts = {
       multiConfigLabel: `Configure your ${rootConfig?.damEnv?.DAM_APP_NAME} credentials`,
       accActions: {
         default: "Set as Default",
-        delete: "Delete Configuration",
+        delete: "Delete",
       },
       defaultLabel: "Default",
       checkboxText: "Set as Default",
@@ -17,35 +17,35 @@ const localeTexts = {
     accModal: {
       header: "Add Configuration",
       textLabel: "Configuration Name",
-      textPlaceholder: "Enter Configuration Name",
+      textPlaceholder: "Enter configuration name",
       duplicateError:
         "Configuration label name already exists. Please use a different name and try again.",
       nameLengthError:
-        "Configuration Name length should be between 1 to 50 characters.",
+        "Configuration name length must be between 1 to 50 characters.",
       legacyNameError: `"legacy_config" is a reserved configuration name. Please use a
       different name.`,
-      nullundefinedError: `"null" or "undefined" cannot be used as configuration name`,
+      nullundefinedError: `"null" or "undefined" cannot be used as a configuration name`,
       cancelBtn: "Cancel",
       addBtn: "Add",
     },
     DeleteModal: {
       header: "Confirm Deletion",
-      body: "Are you sure you want to delete <b>&apos;$&apos;</b> configuration? If yes, type the name of the configuration and press Delete.",
-      textPlaceholder: "Enter configuration name for confirmation",
+      body: "You are about to delete the <b>&apos;$&apos;</b> configuration. To proceed, type the name of the configuration and press Delete.",
+      textPlaceholder: "Enter the configuration name for confirmation",
       cancelButton: "Cancel",
       confirmButton: "Delete",
     },
     entrySaveRadioButton: {
-      label: "Save In Entry",
-      help: `You can select how you want to save the data you get from ${rootConfig.damEnv.DAM_APP_NAME}.`,
+      label: "Choose the Brandfolder Keys to save in the entry",
+      help: `Select how you want to save the data from ${rootConfig.damEnv.DAM_APP_NAME}.`,
       placeholder:
-        "Enter the structure of the data you want to save in the entry",
+        "Enter the data structure to save in the entry",
       all_field_instruction:
-        "The 'All Fields' option allows you to add a limited number of assets based on the asset's JSON data.",
+        "The “All Fields” option lets you add a limited number of assets using their JSON data.",
       custom_field_instruction:
-        "The 'Custom Fields' option allows you to define and select the JSON data you want to save in the entry.",
+        "The “Custom Fields” option lets you define and select specific JSON fields to save in the entry.",
       notetext:
-        "<b>Note:</b> Switching between 'All' and 'Custom' Fields only affects the newly added assets, whereas the old assets use the previous configuration.",
+        "<b>Note:</b> Switching between “All” and “Custom” Fields only affects newly added assets. Existing assets will continue to follow the previous configuration.",
       wholeJson: "All Fields",
       customJson: "Custom Fields",
     },
@@ -61,9 +61,9 @@ const localeTexts = {
         label: "Key Path",
         placeholder: "Enter Key Path",
         instructionS:
-          'Use the dot format to enter nested objects, for eg: "file.url".',
+          'Use the dot format to enter nested objects, for example: "file.url".',
         instructionE:
-          "Label already created/added in the dropdown will not be created.",
+          "Labels already added in the dropdown will not be created again.",
         note: "Note: ",
         btn: {
           cancel: "Cancel",
@@ -73,7 +73,7 @@ const localeTexts = {
         addOption: "New Key Field",
         successToast: {
           type: "success",
-          text: "Successfully added key path to options",
+          text: "Key path added successfully.",
         },
       },
       notification: {
@@ -91,13 +91,13 @@ const localeTexts = {
   CustomFields: {
     assetLimit: {
       btnTooltip:
-        "You cannot choose assets as the maximum limit has been reached.",
+        "Asset limit reached. Unable to select more assets.",
       notificationMsg:
-        "The maximum asset limit has been reached! You cannot add more assets than the preconfigured limit.",
+        "Asset limit reached. You cannot add more assets",
     },
     assetValidation: {
       errorStatement:
-        "Error: $var cannot be added as it does not match the asset constraints provided.",
+        "Error: The selected '$var' cannot be added because it is not a supported file type.",
     },
     button: {
       btnText: "Choose Asset(s)",
@@ -111,7 +111,7 @@ const localeTexts = {
       },
       noImage: "No image available",
       configDeletedImg:
-        "We are unable to access the image url. The link could be broken, the asset might be deleted or you do not have access to it.",
+        "We are unable to access the image URL. The link may be broken, the asset might have been deleted, or you may not have access to it.",
     },
     header: {
       asset: {
@@ -128,12 +128,12 @@ const localeTexts = {
     toolTip: {
       thumbnail: "Thumbnail",
       list: "List",
-      content: "Asset Image Not Available",
+      content: "Image not available for this asset",
     },
     DeleteModal: {
       header: "Remove Asset from Contentstack Entry",
       body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
-      textPlaceholder: "Enter asset name for confirmation",
+      textPlaceholder: "Enter the asset name for confirmation",
       cancelButton: "Cancel",
       confirmButton: "Remove",
     },
@@ -143,12 +143,12 @@ const localeTexts = {
     title: rootConfig?.damEnv?.DAM_APP_NAME,
   },
   Warnings: {
-    incorrectConfig: `The credentials you entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} App" are invalid or missing. Please update the configuration details and try again.`,
+    incorrectConfig: `The credentials entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} app" are invalid or missing. Update the configuration details and try again.`,
   },
   AppFailed: {
-    Message1: "App Location Iniailization Failed.",
-    Message2: "Please reload the location and Try Again!",
-    body: "For Assistance, please reach out to us at support@contentstack.com",
+    Message1: "App location Initialization Failed.",
+    Message2: "Reload the location and Try Again!",
+    body: "For assistance, contact us at support@contentstack.com",
     button: {
       text: "Learn More",
       url: "https://www.contentstack.com/docs/developers/developer-hub/marketplace-dam-app-boilerplate",
