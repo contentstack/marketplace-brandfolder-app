@@ -10,7 +10,7 @@ const localeTexts = {
       warning_note:
         "Legacy settings allow you to use the Brandfolder app with Extension support to retrieve asset JSON data, similar to the Brandfolder Extension. If you are using the latest Brandfolder app, you can skip these settings.<br/><b>Note:</b> Toggling between app and extension settings may result in data variation",
       info_note:
-        "Toggling between App and Extension settings may result in data variation.",
+        "Toggling between app and extension settings may result in data variation.",
     },
     ErrorMessages: {
       inValidKeyMsg: "Invalid API Key",
