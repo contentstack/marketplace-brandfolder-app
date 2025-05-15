@@ -143,8 +143,8 @@ const localeTexts = {
     incorrectConfig: `The credentials entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} app" are invalid or missing. Update the configuration details and try again.`,
   },
   AppFailed: {
-    Message1: "App location Initialization Failed.",
-    Message2: "Reload the location and Try Again!",
+    Message1: "App location initialization failed.",
+    Message2: "Reload the location and try again!",
     body: "For assistance, contact us at support@contentstack.com",
     button: {
       text: "Learn More",
