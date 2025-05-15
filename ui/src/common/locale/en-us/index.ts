@@ -38,8 +38,7 @@ const localeTexts = {
     entrySaveRadioButton: {
       label: "Choose the Brandfolder Keys to save in the entry",
       help: `Select how you want to save the data from ${rootConfig.damEnv.DAM_APP_NAME}.`,
-      placeholder:
-        "Enter the data structure to save in the entry",
+      placeholder: "Enter the data structure to save in the entry",
       all_field_instruction:
         "The “All Fields” option lets you add a limited number of assets using their JSON data.",
       custom_field_instruction:
@@ -90,10 +89,8 @@ const localeTexts = {
   },
   CustomFields: {
     assetLimit: {
-      btnTooltip:
-        "Asset limit reached. Unable to select more assets.",
-      notificationMsg:
-        "Asset limit reached. You cannot add more assets",
+      btnTooltip: "Asset limit reached. Unable to select more assets.",
+      notificationMsg: "Asset limit reached. You cannot add more assets",
     },
     assetValidation: {
       errorStatement:
