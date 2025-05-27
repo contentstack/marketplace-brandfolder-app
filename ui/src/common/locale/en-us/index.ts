@@ -7,7 +7,7 @@ const localeTexts = {
       multiConfigLabel: `Configure your ${rootConfig?.damEnv?.DAM_APP_NAME} credentials`,
       accActions: {
         default: "Set as Default",
-        delete: "Delete",
+        delete: "Delete Configuration",
       },
       defaultLabel: "Default",
       checkboxText: "Set as Default",
