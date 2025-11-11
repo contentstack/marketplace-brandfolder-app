@@ -57,11 +57,8 @@ const ConfigScreen: React.FC = function () {
     useState<TypeUpdateTrigger>({} as TypeUpdateTrigger);
   // state for disabling multi-config Add Btn
   const [isAddBtnDisble, setIsAddBtnDisble] = useState<boolean>(false);
-  // state for rendering multi-config name modal
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  // default multiconfig key
-  const [defaultKey, setDefaultKey] = React.useState<string>();
 
+  // updating the custom config state
   const handleCustomConfigUpdate = (...args: TypeFnHandleCustomConfigProps) => {
     const [
       configLabel,
@@ -90,6 +87,11 @@ const ConfigScreen: React.FC = function () {
     }
   );
 
+  // state for rendering multi-config name modal
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  // default multiconfig key
+  const [defaultKey, setDefaultKey] = React.useState<string>();
+
   const handleDefaultConfigFn = (
     e: React.ChangeEvent<HTMLInputElement> | { target: { checked: boolean } },
     acckey: string
@@ -107,8 +109,13 @@ const ConfigScreen: React.FC = function () {
   };
 
   useEffect(() => {
+    const multiConfigKeys = installationData?.configuration?.multi_config_keys;
+
     const defaultLabel =
-      installationData?.configuration?.default_multi_config_key;
+      installationData?.configuration?.default_multi_config_key ??
+      (multiConfigKeys && "legacy_config" in multiConfigKeys
+        ? "legacy_config"
+        : undefined);
     if (defaultLabel) {
       handleDefaultConfigFn({ target: { checked: true } }, defaultLabel);
     }
@@ -157,26 +164,26 @@ const ConfigScreen: React.FC = function () {
       const updatedServerConfig = installationData?.serverConfiguration ?? {};
 
       const descructValue = fieldName?.split("$--");
-      let mutiConfigName: string | undefined = descructValue?.[0];
+      let multiConfigName: string | undefined = descructValue?.[0];
       let configFieldName: string | undefined = descructValue?.[1];
 
       if (descructValue?.length === 1) {
-        mutiConfigName = undefined;
+        multiConfigName = undefined;
         configFieldName = descructValue?.[0];
       }
 
       if (inConfig !== undefined && inServerConfig !== undefined) {
-        mutiConfigName = undefined;
+        multiConfigName = undefined;
         configFieldName = fieldName;
       }
 
       if (inConfig || configInputFields?.[configFieldName]?.saveInConfig) {
         if (
-          (inConfig && isMultiConfig && mutiConfigName) ||
+          (inConfig && isMultiConfig && multiConfigName) ||
           (configInputFields?.[configFieldName]?.isMultiConfig &&
-            mutiConfigName)
+            multiConfigName)
         ) {
-          updatedConfig.multi_config_keys[mutiConfigName][configFieldName] =
+          updatedConfig.multi_config_keys[multiConfigName][configFieldName] =
             fieldValue;
         } else {
           updatedConfig[configFieldName] = fieldValue;
@@ -188,11 +195,11 @@ const ConfigScreen: React.FC = function () {
         configInputFields?.[configFieldName]?.saveInServerConfig
       ) {
         if (
-          (inServerConfig && isMultiConfig && mutiConfigName) ||
+          (inServerConfig && isMultiConfig && multiConfigName) ||
           (configInputFields?.[configFieldName]?.isMultiConfig &&
-            mutiConfigName)
+            multiConfigName)
         ) {
-          updatedServerConfig.multi_config_keys[mutiConfigName][
+          updatedServerConfig.multi_config_keys[multiConfigName][
             configFieldName
           ] = fieldValue;
         } else {
@@ -410,14 +417,13 @@ const ConfigScreen: React.FC = function () {
     delete serverMultiConfigData[configKey];
 
     if (defaultConfig === configKey) {
-      defaultConfig = Object.keys(multiConfigData)?.[0];
+      defaultConfig = "";
       setDefaultKey(defaultConfig);
     }
 
     handleMultiConfigLimit(multiConfigData ?? serverMultiConfigData);
 
-    setInstallationData({
-      ...installationData,
+    const finaldata = {
       configuration: {
         ...installationData?.configuration,
         multi_config_keys: { ...multiConfigData },
@@ -427,6 +433,12 @@ const ConfigScreen: React.FC = function () {
         ...installationData?.serverConfiguration,
         multi_config_keys: { ...serverMultiConfigData },
       },
+    };
+
+    checkConfigFields(finaldata);
+    setInstallationData({
+      ...installationData,
+      ...finaldata,
     });
   };
 
