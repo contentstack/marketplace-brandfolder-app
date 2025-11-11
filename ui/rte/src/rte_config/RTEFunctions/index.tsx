@@ -19,7 +19,6 @@ const getDisplayUrl = (asset: any) => {
   */
   return {
     preview: asset?.url ?? "", // preview_url present in asset object
-    openInDam: "", // openInDAM_url present in asset object
   };
 };
 
@@ -79,7 +78,6 @@ const getViewIconforTooltip = (type: string) => {
   */
   return {
     preview: PREVIEW_ICON,
-    openInDam: NEWTAB_ICON,
   };
 };
 
