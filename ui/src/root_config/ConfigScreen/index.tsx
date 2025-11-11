@@ -189,6 +189,7 @@ const customWholeJson = () => {
     "isProcessing",
     "mediaType",
     "supported",
+    "cs_metadata",
   ];
 
   const defaultFeilds: string[] = [
@@ -201,6 +202,7 @@ const customWholeJson = () => {
     "sizeInBytes",
     "dimensions",
     "apiDto.attributes.cdn_url",
+    "cs_metadata",
   ];
 
   return {
