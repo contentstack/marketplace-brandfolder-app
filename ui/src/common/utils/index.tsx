@@ -124,7 +124,7 @@ const utils = {
   getItemStatusMap,
   EmptySearch,
   getNoImageUrl,
-  toastMessage
+  toastMessage,
 };
 
 export default utils;

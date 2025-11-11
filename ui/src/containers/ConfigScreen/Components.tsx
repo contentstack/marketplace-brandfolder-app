@@ -81,8 +81,8 @@ export const TextInputField = function ({
         canShowPassword
         data-testid="text_input"
         version="v2"
-        showTooltipText='Show api key'
-        hideTooltipText='Hide api key'
+        showTooltipText="Show api key"
+        hideTooltipText="Hide api key"
       />
       <InstructionText data-testid="text_instruction">
         <div>{parse(objValue?.instructionText ?? "")}</div>
