@@ -24,6 +24,8 @@ const localeTexts = {
         "Configuration name length must be between 1 to 50 characters.",
       legacyNameError: `"legacy_config" is a reserved configuration name. Please use a
       different name.`,
+      specialCharacterError:
+        "Special characters are not allowed in the configuration name, except for '-' and '_'.",
       nullundefinedError: `"null" or "undefined" cannot be used as a configuration name`,
       cancelBtn: "Cancel",
       addBtn: "Add",

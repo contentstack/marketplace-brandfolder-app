@@ -413,11 +413,11 @@ const ConfigScreen: React.FC = function () {
     let defaultConfig =
       installationData?.configuration?.default_multi_config_key ?? "";
 
-    delete multiConfigData[configKey];
-    delete serverMultiConfigData[configKey];
+    delete multiConfigData?.[configKey];
+    delete serverMultiConfigData?.[configKey];
 
     if (defaultConfig === configKey) {
-      defaultConfig = "";
+      defaultConfig = Object.keys(multiConfigData)?.[0];
       setDefaultKey(defaultConfig);
     }
 
