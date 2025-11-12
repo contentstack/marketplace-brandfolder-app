@@ -96,7 +96,8 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
                 hasDuplicateName ||
                 nameLengthError ||
                 hasLegacyName ||
-                hasNullUndefined || hasSpecialChar
+                hasNullUndefined ||
+                hasSpecialChar
               }
               version="v2"
             />
@@ -115,7 +116,7 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
                 {localeTexts.ConfigFields.accModal.legacyNameError}
               </InstructionText>
             )}
-             {hasSpecialChar && (
+            {hasSpecialChar && (
               <InstructionText className="multiConfig--warn">
                 {localeTexts.ConfigFields.accModal.specialCharacterError}
               </InstructionText>
@@ -137,7 +138,8 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
                   !enteredConfigName ||
                   hasDuplicateName ||
                   nameLengthError ||
-                  hasLegacyName || hasSpecialChar
+                  hasLegacyName ||
+                  hasSpecialChar
                 }
               >
                 {localeTexts.ConfigFields.accModal.addBtn}
