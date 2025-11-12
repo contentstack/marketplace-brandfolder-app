@@ -23,6 +23,7 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
   const [nameLengthError, setNameLengthError] = useState<boolean>(false);
   const [hasLegacyName, setHasLegacyName] = useState<boolean>(false);
   const [hasNullUndefined, setHasNullUndefined] = useState<boolean>(false);
+  const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const enteredValue = e?.target?.value?.trim();
@@ -36,6 +37,13 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
       setHasLegacyName(true);
     } else {
       setHasLegacyName(false);
+    }
+
+    const specialCharRegex = /^[a-zA-Z0-9-_ ]*$/;
+    if (!specialCharRegex.test(enteredValue)) {
+      setHasSpecialChar(true);
+    } else {
+      setHasSpecialChar(false);
     }
 
     if (
@@ -88,7 +96,8 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
                 hasDuplicateName ||
                 nameLengthError ||
                 hasLegacyName ||
-                hasNullUndefined
+                hasNullUndefined ||
+                hasSpecialChar
               }
               version="v2"
             />
@@ -105,6 +114,11 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
             {hasLegacyName && (
               <InstructionText className="multiConfig--warn">
                 {localeTexts.ConfigFields.accModal.legacyNameError}
+              </InstructionText>
+            )}
+            {hasSpecialChar && (
+              <InstructionText className="multiConfig--warn">
+                {localeTexts.ConfigFields.accModal.specialCharacterError}
               </InstructionText>
             )}
             {hasNullUndefined && (
@@ -124,7 +138,8 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
                   !enteredConfigName ||
                   hasDuplicateName ||
                   nameLengthError ||
-                  hasLegacyName
+                  hasLegacyName ||
+                  hasSpecialChar
                 }
               >
                 {localeTexts.ConfigFields.accModal.addBtn}
