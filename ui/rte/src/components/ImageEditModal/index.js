@@ -66,7 +66,7 @@ const ImageEditModal = function (props) {
     closeModal();
     let node = rte?.getNode(rte?.getPath(element));
     let newNode = cloneDeep(node[0]);
-    newNode.attrs = { ...(state ?? {}) };
+    newNode.attrs = { ...(state || {}) };
     if (state?.inline) {
       if (rte?._adv?.editor?.isInline(element)) {
         rte?._adv?.Transforms?.setNodes(
@@ -204,10 +204,10 @@ const ImageEditModal = function (props) {
     const fname = attr[fieldName];
     await setState((prevState) => ({
       ...prevState,
-      [fname]: fieldValue ?? undefined,
+      [fname]: fieldValue || undefined,
       "redactor-attributes": {
         ...prevState["redactor-attributes"],
-        [fieldName]: fieldValue ?? undefined,
+        [fieldName]: fieldValue || undefined,
       },
     }));
   };
@@ -284,8 +284,8 @@ const ImageEditModal = function (props) {
               <Select
                 selectLabel={constantValues.constants.alignment.label}
                 value={{
-                  label: state?.position ?? "none",
-                  value: state?.position ?? "none",
+                  label: state?.position || "none",
+                  value: state?.position || "none",
                   type: "select",
                 }}
                 onChange={updateData}

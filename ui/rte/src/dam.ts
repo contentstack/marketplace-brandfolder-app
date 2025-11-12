@@ -143,6 +143,8 @@ const saveData = (event: any) => {
     });
 
     dataArr?.forEach((asset: any) => {
+      asset.rte_resource_type = rteConfig?.getAssetType?.(asset);
+      asset.rte_display_url = rteConfig?.getDisplayUrl?.(asset);
       if (Object.keys(config?.multi_config_keys ?? {})?.length) {
         const configLabel = getCurrentConfigLabel();
         asset.cs_metadata = {
