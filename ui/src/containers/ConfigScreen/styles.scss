@@ -2,7 +2,7 @@
   margin: 0 0 10px 0;
 
   & .TextInput__input {
-    width: 97% !important;
+    width: 95% !important;
   }
 
   & .Field {
@@ -262,7 +262,7 @@
 .TextInput--suffix
   .TextInput__suffix__wrapper.TextInput__password
   + .TextInput__input {
-  padding-right: 10px !important;
+  padding-right:2.125rem !important;
 }
 
 .deleteModalBody {
@@ -308,4 +308,18 @@
       }
     }
   }
+}
+
+.TextInput--suffix .TextInput__suffix__wrapper svg {
+  vertical-align: middle;
+  margin-left: 0.9rem;
+}
+
+.Icon--v2.Icon--medium {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.Icon--medium {
+  height: 1.5rem;
+  width: 1.5rem;
 }
