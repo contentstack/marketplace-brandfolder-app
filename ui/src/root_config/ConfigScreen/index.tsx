@@ -48,7 +48,7 @@ const configureConfigScreen = () =>
 // eslint-disable-next-line
 const checkConfigValidity = async (config: any, serverConfig: any) => {
   // return value of the function is object which takes disableSave[type=boolean] and message[type=string]. Assigning "true" to disableSave will disable the button and "false" will enable to button.
-  
+
   // Backward compatibility: Check for old config.apiKey structure
   if (config?.apiKey) {
     try {
@@ -68,26 +68,30 @@ const checkConfigValidity = async (config: any, serverConfig: any) => {
   }
 
   // New structure: Check for multi_config_keys
-  if (config?.multi_config_keys && Object.keys(config.multi_config_keys).length > 0) {
+  if (
+    config?.multi_config_keys &&
+    Object.keys(config.multi_config_keys).length > 0
+  ) {
     const multiConfigKeys = config.multi_config_keys;
-    
+
     // Validate all API keys in multi_config_keys
     const validationPromises = Object.values(multiConfigKeys)
       .filter((configValue: any) => configValue?.apiKey)
-      .map((configValue: any) => 
-        services.checkApiKeyValidity(configValue.apiKey)
+      .map((configValue: any) =>
+        services
+          .checkApiKeyValidity(configValue.apiKey)
           .then((isValid) => ({ isValid, error: null }))
           .catch(() => ({ isValid: false, error: true }))
       );
-    
+
     try {
       const results = await Promise.all(validationPromises);
       const invalidKey = results.find((result) => !result.isValid);
-      
+
       if (invalidKey) {
         return {
           disableSave: true,
-          message: invalidKey.error 
+          message: invalidKey.error
             ? localeTexts.ConfigFields.ErrorMessages.errorKeyMsg
             : localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg,
         };
