@@ -160,7 +160,6 @@ const CustomField: React.FC = function () {
         }));
       }
       const assetLimit = state?.contentTypeConfig?.advanced?.max_limit;
-      console.info("assetLimit", assetLimit);
       let finalAssets = CustomFieldUtils.uniqBy(
         [
           ...(Array.isArray(selectedAssets) ? selectedAssets : []),
