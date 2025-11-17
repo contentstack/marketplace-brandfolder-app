@@ -117,6 +117,7 @@ const CustomFieldProvider: React.FC = function ({ children }) {
       currentLocale,
       handleBtnDisable,
       isBtnDisable,
+      setIsBtnDisable,
     }),
     [
       renderAssets,
@@ -130,6 +131,7 @@ const CustomFieldProvider: React.FC = function ({ children }) {
       currentLocale,
       handleBtnDisable,
       isBtnDisable,
+      setIsBtnDisable,
     ]
   );
 

@@ -1,7 +1,7 @@
 /* Import React modules */
 import React, { useCallback, useContext, useState } from "react";
 /* Import ContentStack modules */
-import { Button, Notification, Tooltip } from "@contentstack/venus-components";
+import { Button, Tooltip } from "@contentstack/venus-components";
 /* Import our modules */
 import localeTexts from "../../common/locale/en-us";
 import CustomFieldUtils from "../../common/utils/CustomFieldUtils";
@@ -13,6 +13,7 @@ import { MarketplaceAppContext } from "../../common/contexts/MarketplaceAppConte
 import CustomFieldContext from "../../common/contexts/CustomFieldContext";
 import { TypeErrorFn } from "../../common/types";
 import constants from "../../common/constants";
+import utils from "../../common/utils";
 /* Import our CSS */
 import "./styles.scss";
 
@@ -40,6 +41,8 @@ const CustomField: React.FC = function () {
   const [warningText, setWarningText] = useState<string>(
     localeTexts.Warnings.incorrectConfig
   );
+  // state to track if button should be disabled after click
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   // window variable for selector page
   let selectorPageWindow: any;
 
@@ -51,6 +54,32 @@ const CustomField: React.FC = function () {
       finalConfigLabel = locale?.[currentLocale]?.config_label?.[0];
     }
     return finalConfigLabel;
+  };
+
+  // function to validate configuration
+  const isValidConfig = (): boolean => {
+    const { config_label: configLabel, locale } = state?.contentTypeConfig;
+
+    // Check if config_label exists in contentTypeConfig
+    let finalConfigLabel = configLabel?.[0];
+    if (locale?.[currentLocale]?.config_label?.length) {
+      finalConfigLabel = locale?.[currentLocale]?.config_label?.[0];
+    }
+
+    // If config_label is explicitly set (not using default), verify it exists in multi_config_keys
+    if (finalConfigLabel) {
+      const multiConfigKeys = state?.config?.multi_config_keys ?? {};
+
+      // Check if multi_config_keys exists and has the config label
+      if (
+        Object.keys(multiConfigKeys).length > 0 &&
+        !multiConfigKeys[finalConfigLabel]
+      ) {
+        return false; // Config label exists but config is missing/deleted
+      }
+    }
+
+    return true;
   };
 
   const getConfig = () => {
@@ -93,12 +122,22 @@ const CustomField: React.FC = function () {
         (selectedAssets as any[])?.map((item: any) => item?.[uniqueID])
       );
       const finalConfig = getConfig();
-      const assetsToSave =
+      let assetsToSave =
         rootConfig?.modifyAssetsToSave?.(
           finalConfig?.config,
           finalConfig?.contentTypeConfig,
           selectedAssets
         ) ?? selectedAssets;
+
+      // Remove cs_metadata if is_extension is true
+      if (finalConfig?.config?.is_extension) {
+        assetsToSave = assetsToSave?.map((asset: any) => {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          const { cs_metadata, ...rest } = asset;
+          return rest;
+        });
+      }
+
       state?.location?.field?.setData(assetsToSave);
     }
   }, [
@@ -108,7 +147,10 @@ const CustomField: React.FC = function () {
   const handleUniqueSelectedData = (dataArr: any[]) => {
     if (dataArr?.length) {
       let modifiedAssetsData = dataArr;
-      if (Object.keys(state?.config?.multi_config_keys ?? {})?.length) {
+      if (
+        Object.keys(state?.config?.multi_config_keys ?? {})?.length &&
+        !state?.config?.is_extension
+      ) {
         const configLabel = getCurrentConfigLabel();
         modifiedAssetsData = dataArr?.map((asset: any) => ({
           ...asset,
@@ -118,6 +160,7 @@ const CustomField: React.FC = function () {
         }));
       }
       const assetLimit = state?.contentTypeConfig?.advanced?.max_limit;
+      console.info("assetLimit", assetLimit);
       let finalAssets = CustomFieldUtils.uniqBy(
         [
           ...(Array.isArray(selectedAssets) ? selectedAssets : []),
@@ -127,25 +170,25 @@ const CustomField: React.FC = function () {
       );
       if (assetLimit && finalAssets?.length > assetLimit) {
         finalAssets = finalAssets?.slice(0, assetLimit);
-        Notification({
-          displayContent: {
+        utils.toastMessage({
+          type: "error",
+          content: {
             error: {
               error_message:
                 localeTexts.CustomFields.assetLimit.notificationMsg,
             },
           },
-          notifyProps: {
-            hideProgressBar: true,
-          },
-          type: "error",
         });
       }
       if (finalAssets?.length) {
         setSelectedAssets(finalAssets); // selectedAssets is array of assets selected in selectorpage
-        handleBtnDisable(
-          finalAssets,
-          state?.contentTypeConfig?.advanced?.max_limit
-        );
+        // Only update button disable state if button is not disabled by click
+        if (!isButtonDisabled) {
+          handleBtnDisable(
+            finalAssets,
+            state?.contentTypeConfig?.advanced?.max_limit
+          );
+        }
       }
     }
   };
@@ -238,22 +281,24 @@ const CustomField: React.FC = function () {
             )}`;
           }
 
-          Notification({
-            displayContent: {
+          utils.toastMessage({
+            type: "error",
+            content: {
               error: {
                 error_message: message,
               },
             },
-            notifyProps: {
-              autoClose: true,
-              hideProgressBar: true,
-            },
-            type: "error",
           });
         }
       } else if (data?.message === "close") {
         window.removeEventListener("message", saveData, false);
         selectorPageWindow = undefined;
+        // Re-enable button when selector closes, restore based on asset limit
+        setIsButtonDisabled(false);
+        handleBtnDisable(
+          selectedAssets,
+          state?.contentTypeConfig?.advanced?.max_limit
+        );
       }
     },
     [state?.config, handleUniqueSelectedData]
@@ -272,6 +317,26 @@ const CustomField: React.FC = function () {
   // function called onClick of "add asset" button. Handles opening of modal and selector window
   const openDAMSelectorPage = useCallback(() => {
     if (state?.appSdkInitialized && !selectorPageWindow) {
+      // Set button as clicked to disable it immediately
+      setIsButtonDisabled(true);
+
+      // Validate configuration before opening selector
+      if (!isValidConfig()) {
+        utils.toastMessage({
+          type: "error",
+          content: {
+            error: {
+              error_message: localeTexts.Warnings.invalidAdvancedConfig,
+            },
+          },
+        });
+        // Re-enable button after showing error (allow user to try again)
+        setTimeout(() => {
+          setIsButtonDisabled(false);
+        }, 2000); // Re-enable after 2 seconds
+        return;
+      }
+
       const finalConfig = getConfig();
       if (rootConfig?.damEnv?.DIRECT_SELECTOR_PAGE === "novalue") {
         handleSelectorOpen();
@@ -289,6 +354,12 @@ const CustomField: React.FC = function () {
           })
           .catch((error) => {
             console.error("Error: Authentication Failed in Auth Window", error);
+            // Re-enable button if auth fails, restore based on asset limit
+            setIsButtonDisabled(false);
+            handleBtnDisable(
+              selectedAssets,
+              state?.contentTypeConfig?.advanced?.max_limit
+            );
           });
       } else {
         if (rootConfig?.damEnv?.DIRECT_SELECTOR_PAGE === "window") {
@@ -349,7 +420,9 @@ const CustomField: React.FC = function () {
                     version="v2"
                     onClick={openDAMSelectorPage}
                     data-testid="add-btn"
-                    disabled={renderAssets?.length && isBtnDisable}
+                    disabled={
+                      (renderAssets?.length && isBtnDisable) || isButtonDisabled
+                    }
                   >
                     {localeTexts.CustomFields.button.btnText}
                   </Button>

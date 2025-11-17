@@ -417,7 +417,7 @@ const ConfigScreen: React.FC = function () {
     delete serverMultiConfigData?.[configKey];
 
     if (defaultConfig === configKey) {
-      defaultConfig = Object.keys(multiConfigData)?.[0];
+      defaultConfig = "";
       setDefaultKey(defaultConfig);
     }
 

@@ -4,6 +4,7 @@
 /* NOTE: Remove Functions which are not used */
 
 import {
+  Props,
   TypeAsset,
   TypeErrorFn,
   TypeRootCustomField,
@@ -15,16 +16,8 @@ import constants from "../../common/constants";
 const filterAssetData = (assets: any[]) => {
   const filterAssetArray: TypeAsset[] = assets?.map((asset) => {
     // Enter your code for filteration of assets to the specified format
-    const {
-      id,
-      dimensions,
-      sizeInBytes,
-      url,
-      name,
-      extension,
-      filename,
-      relationships,
-    } = asset;
+    const { id, dimensions, sizeInBytes, url, name, extension, filename } =
+      asset;
 
     const previewAllField = asset?.apiDto?.attributes?.cdn_url;
     const previewExtension = asset?.cdn_url;
@@ -47,36 +40,34 @@ const filterAssetData = (assets: any[]) => {
 };
 
 const handleConfigtoSelectorPage = (
-  config: any,
-  contentTypeConfig: any,
+  config: Props,
+  contentTypeConfig: Props,
   currentLocale: string
 ) => {
   /* Return Config to be used on selector page */
   return {};
 };
 
-const getSelectorWindowUrl = (config: any, contentTypeConfig: any) => {
+const getSelectorWindowUrl = (config: Props, contentTypeConfig: Props) => {
   return ""; // return url to be opened as selector page
 };
 
-const handleSelectorPageData = (event: any) => {
+const handleSelectorPageData = (event: MessageEvent) => {
   // "event" is the event object which is received from your opened selector page
   return []; // return array of asset objects which are selected
 };
 
 const handleSelectorWindow = (
-  config: any,
-  contentTypeConfig: any,
+  config: Props,
+  contentTypeConfig: Props,
   setError: (errObj: TypeErrorFn) => void
 ) => {
   /* code logic to open the DAM selector window */
 };
 
 const handleAuthWindow = (
-  configObj: {
-    config: any;
-    contentTypeConfig: any;
-  },
+  config: Props,
+  contentTypeConfig: Props,
   resolve: Function,
   reject: Function
 ) => {

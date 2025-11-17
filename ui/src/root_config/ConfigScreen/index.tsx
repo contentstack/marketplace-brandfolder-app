@@ -14,6 +14,7 @@ import CustomComponent from "../CustomComponent";
 import WarningMessage from "../../components/WarningMessage";
 import {
   TypeErrorFn,
+  TypedefaultOp,
   TypeCustomConfigUpdateParams,
   TypeRootConfigSreen,
 } from "../../common/types";
@@ -75,13 +76,13 @@ const checkConfigValidity = async (config: any, serverConfig: any) => {
     const multiConfigKeys = config.multi_config_keys;
 
     // Validate all API keys in multi_config_keys
-    const validationPromises = Object.values(multiConfigKeys)
-      .filter((configValue: any) => configValue?.apiKey)
-      .map((configValue: any) =>
+    const validationPromises = Object.entries(multiConfigKeys)
+      .filter(([, configValue]: [string, any]) => configValue?.apiKey)
+      .map(([configKey, configValue]: [string, any]) =>
         services
           .checkApiKeyValidity(configValue.apiKey)
-          .then((isValid) => ({ isValid, error: null }))
-          .catch(() => ({ isValid: false, error: true }))
+          .then((isValid) => ({ configKey, isValid, error: null }))
+          .catch(() => ({ configKey, isValid: false, error: true }))
       );
 
     try {
@@ -89,11 +90,12 @@ const checkConfigValidity = async (config: any, serverConfig: any) => {
       const invalidKey = results.find((result) => !result.isValid);
 
       if (invalidKey) {
+        const baseMessage = invalidKey.error
+          ? localeTexts.ConfigFields.ErrorMessages.errorKeyMsg
+          : localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg;
         return {
           disableSave: true,
-          message: invalidKey.error
-            ? localeTexts.ConfigFields.ErrorMessages.errorKeyMsg
-            : localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg,
+          message: `${baseMessage} for config "${invalidKey.configKey}"`,
         };
       }
     } catch (error) {
@@ -243,9 +245,25 @@ const customWholeJson = () => {
     "apiDto.attributes.cdn_url",
   ];
 
+  const conditionalFieldExec = (config: any, serverConfig: any) => {
+    const options = ["option 10"];
+    const defaultOpObj: TypedefaultOp = { operation: "add", options };
+    const conditionalDefaults: TypedefaultOp[] = [];
+
+    // if (option add condition) {
+    //   conditionalDefaults?.push(defaultOpObj);
+    // } else { // option remove condition
+    //   defaultOpObj.operation = "remove";
+    //   conditionalDefaults?.push(defaultOpObj);
+    // }
+
+    return conditionalDefaults;
+  };
+
   return {
     customJsonOptions,
     defaultFeilds,
+    conditionalFieldExec,
   };
 };
 
