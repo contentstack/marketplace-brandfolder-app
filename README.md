@@ -53,14 +53,24 @@ npm i
   ```
   npm run start
   ```
+- For Linux / MacOS
+
+  ```
+  npm run start
+  ```
 
 - For Windows
 
   ```
   npm run winStart
   ```
+- For Windows
 
-The UI server will start at port 4000.
+  ```
+  npm run winStart
+  ```
+
+The UI server will start on port 4000.
 
 - To install the necessary packages for rte , navigate to the rte folder
 
@@ -79,35 +89,41 @@ npm run start
 
 ````
 
-The webpack server will start at port 1268.
+The RTE webpack server will start on port 1268.
 
 ## Providers (Use of React's Contexts)
 
+- `<MarketplaceAppProvider>`: The MarketplaceAppProvider uses `MarketplaceAppContext` and initializes the Contentstack App SDK and shares its instance and configuration across components using the useContext hook, eliminating the need for prop drilling.
 - `<MarketplaceAppProvider>`: The MarketplaceAppProvider uses `MarketplaceAppContext` and initializes the Contentstack App SDK and shares its instance and configuration across components using the useContext hook, eliminating the need for prop drilling.
 
 - `<AppConfigProvider>`:
 The AppConfigProvider uses `AppConfigContext` and generates dynamic state values based on the rootConfig's configuration and manages installation data, providing centralized state accessible via the useContext hook for child components.
 
 - `<ConfigStateProvider>`: The ConfigStateProvider uses `ConfigStateContext` and handles local state management for ConfigScreen UI Location, accessed by sub-components.
+- `<ConfigStateProvider>`: The ConfigStateProvider uses `ConfigStateContext` and handles local state management for ConfigScreen UI Location, accessed by sub-components.
 
+- `<CustomFieldProvider>`: The CustomFieldProvider uses `CustomFieldContext` and consolidates the management of state and rendering data, distributing it to multiple child components. It is responsible for both retrieving and updating this data.
 - `<CustomFieldProvider>`: The CustomFieldProvider uses `CustomFieldContext` and consolidates the management of state and rendering data, distributing it to multiple child components. It is responsible for both retrieving and updating this data.
 
 ## Hooks
 
 - `useAppLocation`: The useAppLocation hook retrieves the location instance from the app-sdk by accessing the MarketplaceAppContext. It returns the location name (e.g., "CustomField") and the location instance.
+- `useAppLocation`: The useAppLocation hook retrieves the location instance from the app-sdk by accessing the MarketplaceAppContext. It returns the location name (e.g., "CustomField") and the location instance.
 
 ## Routes
 
-Each route represents one location. It is recommended to lazy load the route components to reduce the bundle
-size.
+Each route corresponds to a specific UI location. Lazy loading route components are recommended to reduce the bundle size.
 
 #### Existing Routes
 
 - ConfigScreen `(path = "/config")`
 - CustomField `(path = "/custom-field")`
 - SelectorPage `(path = "/selector-page")`
+- ConfigScreen `(path = "/config")`
+- CustomField `(path = "/custom-field")`
+- SelectorPage `(path = "/selector-page")`
 
-#### Adding new route
+#### Adding a New Route
 
 - Create a new Route component inside route. Use default export
 - Inside `ui/src/containers/App/index.tsx`, lazy load the route component. Example:
@@ -132,6 +148,7 @@ size.
 ## Styling
 
 - This setup uses basic SCSS for styling
+- This setup uses basic SCSS for styling
 
 ## Creating an app in Developer Hub/Marketplace
 
@@ -144,6 +161,7 @@ size.
 - Open the UI Locations tab and add the URL of your app.
 For e.g. : https://localhost:4000
 
+- From Available location(s) , add App Configuration, Custom Field and JSON RTE.
 - From Available location(s) , add App Configuration, Custom Field and JSON RTE.
 
 - For App Configuration, add path. The value of path is the route added for ConfigScreen in `<APP_DIRECTORY>/ui/src/containers/App/index.tsx`. Also we are using HashRouter for routing. So the value of path should be `/#/config`.
@@ -160,8 +178,9 @@ For all locations, Switch on the toggle for `Signed` if required. Switch on the 
 > - The App will now work on a different port but use the same configuration saved on configscreen. Here, the Configscreen and Customfield location will not be visible.
 
 - Now install the app by clicking the Install App button at top right. From the next window, select the stack in which you want to install the app.
+- Now install the app by clicking the Install App button at top right. From the next window, select the stack in which you want to install the app.
 
-> Note : You can give any path values but make sure the path value in `<APP_DIRECTORY>/ui/src/containers/App/index.tsx` and in UI location should be the same.
+> Note : Ensure the paths defined in `<APP_DIRECTORY>/ui/src/containers/App/index.tsx` match exactly with those set in the Developer Hub UI Location settings.
 
 ## Source code file locations for various ui location
 
@@ -192,6 +211,7 @@ After the execution of the build script, the build folder will get created insid
 If you don’t want to use build script, then use below command
 
 - To create build for ui, navigate to ui
+- To create build for ui, navigate to ui
 
 ```
 
@@ -200,6 +220,7 @@ npm run build
 
 ```
 
+- To create build for rte, navigate to rte
 - To create build for rte, navigate to rte
 
 ```
@@ -213,7 +234,7 @@ You need to upload all the files from the build folder on AWS S3 or any static f
 
 ## Steps for Developing Marketplace Brandfolder App
 
-Please refer to the [`TEMPLATE.md`](./TEMPLATE.md) file placed in `<APP_DIRECTORY>/TEMPLATE.md`, for more details.
+Refer to the [`TEMPLATE.md`](./TEMPLATE.md) file located at `<APP_DIRECTORY>/TEMPLATE.md`, for more details.
 
 ## Reference to DAM boilerplate documentation
 

@@ -14,6 +14,7 @@ import CustomComponent from "../CustomComponent";
 import WarningMessage from "../../components/WarningMessage";
 import {
   TypeErrorFn,
+  TypedefaultOp,
   TypeCustomConfigUpdateParams,
   TypeRootConfigSreen,
 } from "../../common/types";
@@ -48,6 +49,8 @@ const configureConfigScreen = () =>
 // eslint-disable-next-line
 const checkConfigValidity = async (config: any, serverConfig: any) => {
   // return value of the function is object which takes disableSave[type=boolean] and message[type=string]. Assigning "true" to disableSave will disable the button and "false" will enable to button.
+
+  // Backward compatibility: Check for old config.apiKey structure
   if (config?.apiKey) {
     try {
       const isValid = await services.checkApiKeyValidity(config.apiKey);
@@ -64,6 +67,45 @@ const checkConfigValidity = async (config: any, serverConfig: any) => {
       };
     }
   }
+
+  // New structure: Check for multi_config_keys
+  if (
+    config?.multi_config_keys &&
+    Object.keys(config.multi_config_keys).length > 0
+  ) {
+    const multiConfigKeys = config.multi_config_keys;
+
+    // Validate all API keys in multi_config_keys
+    const validationPromises = Object.entries(multiConfigKeys)
+      .filter(([, configValue]: [string, any]) => configValue?.apiKey)
+      .map(([configKey, configValue]: [string, any]) =>
+        services
+          .checkApiKeyValidity(configValue.apiKey)
+          .then((isValid) => ({ configKey, isValid, error: null }))
+          .catch(() => ({ configKey, isValid: false, error: true }))
+      );
+
+    try {
+      const results = await Promise.all(validationPromises);
+      const invalidKey = results.find((result) => !result.isValid);
+
+      if (invalidKey) {
+        const baseMessage = invalidKey.error
+          ? localeTexts.ConfigFields.ErrorMessages.errorKeyMsg
+          : localeTexts.ConfigFields.ErrorMessages.inValidKeyMsg;
+        return {
+          disableSave: true,
+          message: `${baseMessage} for config "${invalidKey.configKey}"`,
+        };
+      }
+    } catch (error) {
+      return {
+        disableSave: true,
+        message: localeTexts.ConfigFields.ErrorMessages.errorKeyMsg,
+      };
+    }
+  }
+
   return { disableSave: false };
 };
 
@@ -189,7 +231,6 @@ const customWholeJson = () => {
     "isProcessing",
     "mediaType",
     "supported",
-    "cs_metadata",
   ];
 
   const defaultFeilds: string[] = [
@@ -202,12 +243,27 @@ const customWholeJson = () => {
     "sizeInBytes",
     "dimensions",
     "apiDto.attributes.cdn_url",
-    "cs_metadata",
   ];
+
+  const conditionalFieldExec = (config: any, serverConfig: any) => {
+    const options = ["option 10"];
+    const defaultOpObj: TypedefaultOp = { operation: "add", options };
+    const conditionalDefaults: TypedefaultOp[] = [];
+
+    // if (option add condition) {
+    //   conditionalDefaults?.push(defaultOpObj);
+    // } else { // option remove condition
+    //   defaultOpObj.operation = "remove";
+    //   conditionalDefaults?.push(defaultOpObj);
+    // }
+
+    return conditionalDefaults;
+  };
 
   return {
     customJsonOptions,
     defaultFeilds,
+    conditionalFieldExec,
   };
 };
 

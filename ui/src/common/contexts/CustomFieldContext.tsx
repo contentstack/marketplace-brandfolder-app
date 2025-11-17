@@ -13,6 +13,7 @@ interface TypeCustomFieldContext {
   currentLocale: string;
   handleBtnDisable: Function;
   isBtnDisable: boolean;
+  setIsBtnDisable: Function;
 }
 
 const CustomFieldContext = createContext<TypeCustomFieldContext>({
@@ -32,6 +33,7 @@ const CustomFieldContext = createContext<TypeCustomFieldContext>({
   currentLocale: "",
   handleBtnDisable: () => {},
   isBtnDisable: false,
+  setIsBtnDisable: () => {},
 });
 
 export default CustomFieldContext;

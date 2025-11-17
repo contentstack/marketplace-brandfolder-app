@@ -25,15 +25,15 @@ const localeTexts = {
       legacyNameError: `"legacy_config" is a reserved configuration name. Please use a
       different name.`,
       specialCharacterError:
-        "Special characters are not allowed in the configuration name, except for '-' and '_'.",
+        "Special characters,space and numeric-only name is not allowed in the configuration name, except for '-' and '_'.",
       nullundefinedError: `"null" or "undefined" cannot be used as a configuration name`,
       cancelBtn: "Cancel",
       addBtn: "Add",
     },
     DeleteModal: {
       header: "Confirm Deletion",
-      body: "You are about to delete the <b>&apos;$&apos;</b> configuration. To proceed, type the name of the configuration and press Delete.",
-      textPlaceholder: "Enter the configuration name for confirmation",
+      body: "Are you sure you want to delete <b>&apos;$&apos;</b> configuration? If yes, type the name of the configuration and press Delete.",
+      textPlaceholder: "Enter configuration name for confirmation",
       cancelButton: "Cancel",
       confirmButton: "Delete",
     },
@@ -60,7 +60,7 @@ const localeTexts = {
       modal: {
         header: "Add Key Path",
         label: "Key Path",
-        placeholder: "Enter Key Path",
+        placeholder: "Enter key path",
         instructionS:
           'Use the dot format to enter nested objects, for example: "file.url".',
         instructionE:
@@ -84,6 +84,8 @@ const localeTexts = {
     },
     missingCredentials: "Missing Required Fields",
     emptyValue: "Field Value Missing",
+    noSelectedDefault: "Select at least one default configuration",
+    noConfiguration: "Add at least one configuration",
     selectField: {
       label: "Multiple Select",
       placeholder: "Select Multiple Options",
@@ -143,6 +145,7 @@ const localeTexts = {
   },
   Warnings: {
     incorrectConfig: `The credentials entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} app" are invalid or missing. Update the configuration details and try again.`,
+    invalidAdvancedConfig: "The added configuration is invalid or deleted",
   },
   AppFailed: {
     Message1: "App location initialization failed.",

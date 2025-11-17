@@ -303,13 +303,8 @@ const flatten = (data: any) => {
       result[prop] = cur;
     } else if (Array.isArray(cur)) {
       const l = cur?.length;
-      if (l === 0) {
-        result[prop] = [];
-      } else {
-        for (let i = 0; i < l; i = i + 1) {
-          recurse(cur?.[i], `${prop}[${i}]`);
-        }
-      }
+      for (let i = 0; i < l; i += 1) recurse(cur?.[i], `${prop}[${i}]`);
+      if (l === 0) result[prop] = [];
     } else {
       let isEmpty = true;
       // eslint-disable-next-line

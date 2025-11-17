@@ -1,6 +1,6 @@
 * @contentstack/tso-integration-pr-reviewers
-.github/workflows/sca-scan.yml @contentstack/security-admin
 
+.github/workflows/sca-scan.yml @contentstack/security-admin
 
 **/.snyk @contentstack/security-admin
 

@@ -22,9 +22,9 @@ const localeTexts = {
     },
     assetValidation: {
       errorStatement:
-        "Error: $var cannot be added as it does not match the asset constraints provided.",
+        "Error: $var cannot be added as it does not meet the asset constraints.",
       configDeletedImg:
-        "Unable to access the image url. The link might be broken, the asset may have been deleted, or you do not have access to it.",
+        "Unable to access the image url. The link may be broken, the asset may have been deleted or you may not have the permission to view it.",
     },
   },
   DeleteModal: {
