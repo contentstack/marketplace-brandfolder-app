@@ -21,8 +21,7 @@ const ImageElement = function ({
   ...props
 }) {
   const RTE_RESOURCE_TYPE = rteConfig?.getAssetType?.(element?.attrs) ?? "";
-  const { preview: RTE_DISPLAY_URL, openInDam: RTE_OPENDAM_URL } =
-    rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
+  const RTE_DISPLAY_URL = rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
   const configLabel = attrs?.cs_metadata?.config_label ?? "legacy_config";
   let isConfigAvailable = false;
   if (Array.isArray(availableConfig)) {

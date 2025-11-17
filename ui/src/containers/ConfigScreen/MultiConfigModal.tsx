@@ -39,7 +39,7 @@ const MultiConfigModal: React.FC<AddMultiConfigurationModalProps> = function ({
       setHasLegacyName(false);
     }
 
-    const specialCharRegex = /^[a-zA-Z0-9-_ ]*$/;
+    const specialCharRegex = /^(?!^\d+$)[a-zA-Z0-9-_]+$/;
     if (!specialCharRegex.test(enteredValue)) {
       setHasSpecialChar(true);
     } else {

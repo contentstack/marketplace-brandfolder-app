@@ -41,8 +41,8 @@ export interface TypeAsset {
   size?: any;
   height?: any;
   width?: any;
-  previewUrl?: string; // if you don't want "preview" platform option don't provide this parameter
-  platformUrl?: string; // if you don't want "open in DAM" platform option don't provide this parameter
+  previewUrl?: string;
+  platformUrl?: string;
   cs_metadata?: Props;
 }
 
@@ -170,8 +170,7 @@ export type TypeFnHandleCustomConfigProps = [
   fieldValue: any,
   saveInConfig?: boolean,
   saveInServerConfig?: boolean,
-  isMultiConfig?: boolean,
-  isExtension?: boolean
+  isMultiConfig?: boolean
 ];
 
 export interface TypeCustomConfigParams {
@@ -236,7 +235,6 @@ export interface TypeUpdateTrigger {
   saveInConfig?: boolean;
   saveInServerConfig?: boolean;
   isMultiConfig?: boolean;
-  isExtension?: boolean;
 }
 
 export interface ConfigStateProviderProps {
@@ -280,4 +278,9 @@ export interface TypeState {
   config?: {
     multi_config_keys?: Record<string, boolean>;
   };
+}
+
+export interface TypedefaultOp {
+  operation: "add" | "remove";
+  options: string[];
 }
