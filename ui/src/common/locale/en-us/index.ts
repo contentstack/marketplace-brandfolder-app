@@ -20,8 +20,7 @@ const localeTexts = {
       textPlaceholder: "Enter configuration name",
       duplicateError:
         "This name already exists. Enter a different name and try again.",
-      nameLengthError:
-        "Configuration name must be between 1 to 50 characters.",
+      nameLengthError: "Configuration name must be between 1 to 50 characters.",
       legacyNameError: `"legacy_config" is a reserved configuration name. Please use a
       different name.`,
       specialCharacterError:
@@ -93,7 +92,7 @@ const localeTexts = {
   },
   CustomFields: {
     assetLimit: {
-    btnTooltip:
+      btnTooltip:
         "Asset selection is unavailable as the maximum limit has been reached.",
       notificationMsg:
         "The maximum asset limit has been reached. You cannot add more assets beyond the preconfigured limit.",

@@ -404,9 +404,15 @@ const CustomField: React.FC = function () {
                   </div>
                 )}
                 <Tooltip
-                  content={isButtonDisabled ? localeTexts.Warnings.invalidAdvancedConfig  :localeTexts.CustomFields.assetLimit.btnTooltip}
+                  content={
+                    isButtonDisabled
+                      ? localeTexts.Warnings.invalidAdvancedConfig
+                      : localeTexts.CustomFields.assetLimit.btnTooltip
+                  }
                   position="top"
-                  disabled={!isButtonDisabled &&!(renderAssets?.length && isBtnDisable)}
+                  disabled={
+                    !isButtonDisabled && !(renderAssets?.length && isBtnDisable)
+                  }
                   style={constants.constantStyles.addBtnTooltip}
                 >
                   <Button
