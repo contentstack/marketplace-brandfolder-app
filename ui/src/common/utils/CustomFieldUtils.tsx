@@ -258,7 +258,7 @@ const getFilteredAssets = (assets: any[], keyArray: string[]) =>
 
     keyArray?.forEach((key: string) => {
       const result = navigateObject(asset, key?.split("."));
-      if (result) {
+      if (result !== undefined && result !== null) {
         if (key?.includes(".") || key?.includes("[")) {
           const response = convertStringAndMergeToObject(
             key,

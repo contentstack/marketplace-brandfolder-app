@@ -59,6 +59,8 @@ const CustomField: React.FC = function () {
   // function to validate configuration
   const isValidConfig = (): boolean => {
     const { config_label: configLabel, locale } = state?.contentTypeConfig;
+    if (configLabel === "undefined") return false;
+    if (configLabel?.[0] === "") return false;
 
     // Check if config_label exists in contentTypeConfig
     let finalConfigLabel = configLabel?.[0];
@@ -317,7 +319,6 @@ const CustomField: React.FC = function () {
   const openDAMSelectorPage = useCallback(() => {
     if (state?.appSdkInitialized && !selectorPageWindow) {
       // Set button as clicked to disable it immediately
-      setIsButtonDisabled(true);
 
       // Validate configuration before opening selector
       if (!isValidConfig()) {
@@ -329,6 +330,7 @@ const CustomField: React.FC = function () {
             },
           },
         });
+        setIsButtonDisabled(true);
         return;
       }
 
