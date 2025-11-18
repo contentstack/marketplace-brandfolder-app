@@ -329,10 +329,6 @@ const CustomField: React.FC = function () {
             },
           },
         });
-        // Re-enable button after showing error (allow user to try again)
-        setTimeout(() => {
-          setIsButtonDisabled(false);
-        }, 2000); // Re-enable after 2 seconds
         return;
       }
 
@@ -408,9 +404,15 @@ const CustomField: React.FC = function () {
                   </div>
                 )}
                 <Tooltip
-                  content={localeTexts.CustomFields.assetLimit.btnTooltip}
+                  content={
+                    isButtonDisabled
+                      ? localeTexts.Warnings.invalidAdvancedConfig
+                      : localeTexts.CustomFields.assetLimit.btnTooltip
+                  }
                   position="top"
-                  disabled={!(renderAssets?.length && isBtnDisable)}
+                  disabled={
+                    !isButtonDisabled && !(renderAssets?.length && isBtnDisable)
+                  }
                   style={constants.constantStyles.addBtnTooltip}
                 >
                   <Button

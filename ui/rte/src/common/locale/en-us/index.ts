@@ -22,14 +22,14 @@ const localeTexts = {
     },
     assetValidation: {
       errorStatement:
-        "Error: $var cannot be added as it does not meet the asset constraints.",
+        "Error: $var cannot be added. It does not meet the asset constraints.",
       configDeletedImg:
-        "Unable to access the image url. The link may be broken, the asset may have been deleted or you may not have the permission to view it.",
+        "Cannot access image URL. It may be broken, deleted, or you may not have the permissions to view it.",
     },
   },
   DeleteModal: {
-    header: "Remove Asset from Contentstack Entry",
-    body: "Are you sure you want to remove <b>&apos;$&apos;</b> from Contentstack Entry?",
+    header: "Remove Asset from Entry",
+    body: "This will remove <b>'$'</b> from the entry. This action cannot be undone.",
     textPlaceholder: "Enter the asset name for confirmation",
     cancelButton: "Cancel",
     confirmButton: "Remove",
