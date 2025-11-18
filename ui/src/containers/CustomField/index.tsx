@@ -59,8 +59,8 @@ const CustomField: React.FC = function () {
   // function to validate configuration
   const isValidConfig = (): boolean => {
     const { config_label: configLabel, locale } = state?.contentTypeConfig;
-    if (configLabel === "undefined") return false;
-    if (configLabel?.[0] === "") return false;
+
+    if (configLabel === "undefined" || configLabel?.[0] === "") return false;
 
     // Check if config_label exists in contentTypeConfig
     let finalConfigLabel = configLabel?.[0];
