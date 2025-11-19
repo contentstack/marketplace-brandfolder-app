@@ -59,16 +59,21 @@ const CustomField: React.FC = function () {
   // function to validate configuration
   const isValidConfig = (): boolean => {
     const { config_label: configLabel, locale } = state?.contentTypeConfig;
-
-    if (configLabel === "undefined" || configLabel?.[0] === "") return false;
-
-    // Check if config_label exists in contentTypeConfig
-    let finalConfigLabel = configLabel?.[0];
-    if (locale?.[currentLocale]?.config_label?.length) {
+    let finalConfigLabel: string | undefined;
+    const hasLocaleSpecificConfig = locale?.[currentLocale]?.config_label?.length;
+    
+    if (hasLocaleSpecificConfig) {
       finalConfigLabel = locale?.[currentLocale]?.config_label?.[0];
+    } else {
+      if (configLabel === "undefined") {
+        return false;
+      }
+      finalConfigLabel = configLabel?.[0];
+    }
+    if (finalConfigLabel === "" || !finalConfigLabel) {
+      return false;
     }
 
-    // If config_label is explicitly set (not using default), verify it exists in multi_config_keys
     if (finalConfigLabel) {
       const multiConfigKeys = state?.config?.multi_config_keys ?? {};
 
@@ -296,10 +301,6 @@ const CustomField: React.FC = function () {
         selectorPageWindow = undefined;
         // Re-enable button when selector closes, restore based on asset limit
         setIsButtonDisabled(false);
-        handleBtnDisable(
-          selectedAssets,
-          state?.contentTypeConfig?.advanced?.max_limit
-        );
       }
     },
     [state?.config, handleUniqueSelectedData]
@@ -353,10 +354,6 @@ const CustomField: React.FC = function () {
             console.error("Error: Authentication Failed in Auth Window", error);
             // Re-enable button if auth fails, restore based on asset limit
             setIsButtonDisabled(false);
-            handleBtnDisable(
-              selectedAssets,
-              state?.contentTypeConfig?.advanced?.max_limit
-            );
           });
       } else {
         if (rootConfig?.damEnv?.DIRECT_SELECTOR_PAGE === "window") {
