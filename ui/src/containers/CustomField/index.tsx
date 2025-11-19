@@ -60,8 +60,9 @@ const CustomField: React.FC = function () {
   const isValidConfig = (): boolean => {
     const { config_label: configLabel, locale } = state?.contentTypeConfig;
     let finalConfigLabel: string | undefined;
-    const hasLocaleSpecificConfig = locale?.[currentLocale]?.config_label?.length;
-    
+    const hasLocaleSpecificConfig =
+      locale?.[currentLocale]?.config_label?.length;
+
     if (hasLocaleSpecificConfig) {
       finalConfigLabel = locale?.[currentLocale]?.config_label?.[0];
     } else {
