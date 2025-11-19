@@ -71,7 +71,7 @@ const CustomField: React.FC = function () {
       }
       finalConfigLabel = configLabel?.[0];
     }
-    if (finalConfigLabel === "" || !finalConfigLabel) {
+    if (finalConfigLabel === "") {
       return false;
     }
 
