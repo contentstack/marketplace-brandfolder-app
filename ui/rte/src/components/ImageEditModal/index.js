@@ -23,8 +23,7 @@ import localeTexts from "../../common/locale/en-us/index";
 
 const ImageEditModal = function (props) {
   const { element, rte, icon, closeModal, path, isConfigAvailable } = props;
-  const { preview: RTE_DISPLAY_URL } =
-    rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
+  const RTE_DISPLAY_URL = rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
   const [state, setState] = useState({});
   let modalTitle;
   switch (icon) {

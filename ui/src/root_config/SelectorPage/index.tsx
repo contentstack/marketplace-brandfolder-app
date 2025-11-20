@@ -3,6 +3,7 @@
 /* NOTE: Remove Functions which are not used */
 
 import React from "react";
+import { isEmpty } from "lodash";
 import {
   Props,
   TypeErrorFn,
@@ -11,6 +12,7 @@ import {
 } from "../../common/types";
 import CustomSelector from "../Components/CustomSelector";
 import DamEnv from "../DamEnv";
+import localeTexts from "../locale/en-us";
 
 /* These variables are to be used in openCompactView function. The developer should change these variables according to the DAM platform that is being implemented */
 declare global {
@@ -39,15 +41,27 @@ const customSelectorComponent = (
   successFn: (assets: any[]) => void,
   closeFn: () => void,
   selectedAssetIds: string[]
-) => (
-  <CustomSelector
-    config={config}
-    setError={setError}
-    successFn={successFn}
-    closeFn={closeFn}
-    damEnv={DamEnv}
-  />
-);
+) => {
+  let configObj = config;
+  if (config?.selected_config) {
+    configObj = config?.selected_config;
+  }
+  if (isEmpty(configObj)) {
+    setError({
+      isErr: true,
+      errorText: localeTexts.ConfigFields.ErrorMessages.configDelete,
+    });
+  }
+  return (
+    <CustomSelector
+      config={config}
+      setError={setError}
+      successFn={successFn}
+      closeFn={closeFn}
+      damEnv={DamEnv}
+    />
+  );
+};
 
 const rootSelectorPage: TypeRootSelector = {
   openComptactView,

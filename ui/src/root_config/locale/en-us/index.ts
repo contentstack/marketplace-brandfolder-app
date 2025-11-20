@@ -15,6 +15,8 @@ const localeTexts = {
     ErrorMessages: {
       inValidKeyMsg: "Invalid API Key",
       errorKeyMsg: "Error validating the API key",
+      configDelete:
+        "Error: The added config label is either empty or has been deleted",
     },
   },
 };
