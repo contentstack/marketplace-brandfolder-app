@@ -170,6 +170,7 @@ const SelectorPage: React.FC = function () {
           </div>
         ) : (
           !rootConfig?.damEnv?.IS_DAM_SCRIPT &&
+          config &&
           // If there is no script custom component will be added
           rootConfig?.customSelectorComponent?.(
             config,
