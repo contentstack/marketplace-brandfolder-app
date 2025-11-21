@@ -130,7 +130,7 @@ const CustomField: React.FC = function () {
         (selectedAssets as any[])?.map((item: any) => item?.[uniqueID])
       );
       const finalConfig = getConfig();
-     const assetsToSave =
+      const assetsToSave =
         rootConfig?.modifyAssetsToSave?.(
           finalConfig?.config,
           finalConfig?.contentTypeConfig,
