@@ -130,21 +130,12 @@ const CustomField: React.FC = function () {
         (selectedAssets as any[])?.map((item: any) => item?.[uniqueID])
       );
       const finalConfig = getConfig();
-      let assetsToSave =
+     const assetsToSave =
         rootConfig?.modifyAssetsToSave?.(
           finalConfig?.config,
           finalConfig?.contentTypeConfig,
           selectedAssets
         ) ?? selectedAssets;
-
-      // Remove cs_metadata if is_extension is true
-      if (finalConfig?.config?.is_extension) {
-        assetsToSave = assetsToSave?.map((asset: any) => {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          const { cs_metadata, ...rest } = asset;
-          return rest;
-        });
-      }
 
       state?.location?.field?.setData(assetsToSave);
     }
