@@ -348,16 +348,6 @@ export const ModalComponent = function ({
                 {localeTexts.ConfigFields.customWholeJson.modal.btn.cancel}
               </Button>
               <Button
-                onClick={() => handleValueCreate("create")}
-                buttonType="secondary"
-                size="small"
-                disabled={!modalValue?.length || isEmptySpace}
-                version="v2"
-              >
-                <Icon icon={localeTexts.Icons.checkedPurple} />
-                {localeTexts.ConfigFields.customWholeJson.modal.btn.create}
-              </Button>
-              <Button
                 version="v2"
                 size="small"
                 disabled={!modalValue?.length || isEmptySpace}

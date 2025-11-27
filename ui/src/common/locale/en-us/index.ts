@@ -68,7 +68,7 @@ const localeTexts = {
         btn: {
           cancel: "Cancel",
           create: "Create",
-          apply: "Create and Apply",
+          apply: "Create",
         },
         addOption: "New Key Field",
         successToast: {
