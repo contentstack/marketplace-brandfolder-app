@@ -92,10 +92,8 @@ const localeTexts = {
   },
   CustomFields: {
     assetLimit: {
-      btnTooltip:
-        "Asset limit reached. Cannot select more assets.",
-      notificationMsg:
-        "Asset limit reached. You cannot add more assets.",
+      btnTooltip: "Asset limit reached. Cannot select more assets.",
+      notificationMsg: "Asset limit reached. You cannot add more assets.",
     },
     assetValidation: {
       errorStatement:
@@ -146,7 +144,8 @@ const localeTexts = {
   },
   Warnings: {
     incorrectConfig: `The credentials for the "${rootConfig?.damEnv?.DAM_APP_NAME} app" are invalid or missing. Update the configuration and try again.`,
-    invalidAdvancedConfig: "The added configuration is invalid or has been deleted.",
+    invalidAdvancedConfig:
+      "The added configuration is invalid or has been deleted.",
   },
   AppFailed: {
     Message1: "App location initialization failed.",
