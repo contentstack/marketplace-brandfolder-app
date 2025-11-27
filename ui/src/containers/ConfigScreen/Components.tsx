@@ -281,7 +281,8 @@ export const ModalComponent = function ({
         utils.toastMessage({
           type: "success",
           content: {
-            text: localeTexts.ConfigFields.customWholeJson.modal.successToast,
+            text: localeTexts.ConfigFields.customWholeJson.modal.successToast
+              .text,
           },
         });
       }
