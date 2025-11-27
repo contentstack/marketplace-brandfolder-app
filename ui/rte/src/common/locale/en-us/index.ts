@@ -7,7 +7,7 @@ const localeTexts = {
   RTE: {
     ToolTip: {
       viewIcon: "Preview",
-      openInDAM: `Open In ${rteConfig?.damEnv?.DAM_APP_NAME}`,
+      openInDAM: `Open in ${rteConfig?.damEnv?.DAM_APP_NAME}`,
     },
     title: `Choose assets from ${rteConfig?.damEnv?.DAM_APP_NAME}`,
     button: {

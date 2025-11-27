@@ -21,10 +21,10 @@ const localeTexts = {
       duplicateError:
         "This name already exists. Enter a different name and try again.",
       nameLengthError: "Configuration name must be between 1 to 50 characters.",
-      legacyNameError: `"legacy_config" is a reserved configuration name. Please use a
+      legacyNameError: `"legacy_config" is a reserved configuration name. Use a
       different name.`,
       specialCharacterError:
-        "Special characters,space and numeric-only name is not allowed in the configuration name, except for '-' and '_'.",
+        "Configuration names cannot contain special characters or spaces, and cannot be numbers only. Hyphens (-) and underscores (_) are allowed.",
       nullundefinedError: `"null" or "undefined" cannot be used as a configuration name`,
       cancelBtn: "Cancel",
       addBtn: "Add",
@@ -59,7 +59,7 @@ const localeTexts = {
       modal: {
         header: "Add Key Path",
         label: "Key Path",
-        placeholder: "Enter key path",
+        placeholder: "Enter Key Path",
         instructionS:
           'Use the dot format to enter nested objects, for example: "file.url".',
         instructionE:
@@ -93,9 +93,9 @@ const localeTexts = {
   CustomFields: {
     assetLimit: {
       btnTooltip:
-        "Asset selection is unavailable as the maximum limit has been reached.",
+        "Asset limit reached. Cannot select more assets.",
       notificationMsg:
-        "The maximum asset limit has been reached. You cannot add more assets beyond the preconfigured limit.",
+        "Asset limit reached. You cannot add more assets.",
     },
     assetValidation: {
       errorStatement:
@@ -146,7 +146,7 @@ const localeTexts = {
   },
   Warnings: {
     incorrectConfig: `The credentials for the "${rootConfig?.damEnv?.DAM_APP_NAME} app" are invalid or missing. Update the configuration and try again.`,
-    invalidAdvancedConfig: "The added configuration is invalid or deleted",
+    invalidAdvancedConfig: "The added configuration is invalid or has been deleted.",
   },
   AppFailed: {
     Message1: "App location initialization failed.",
