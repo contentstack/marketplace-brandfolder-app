@@ -23,7 +23,7 @@ const CustomSelector: React.FC<TypeCustomComponent> = function ({
 
   useEffect(() => {
     try {
-      const authToken = config?.selected_config?.apiKey ?? "";
+      const authToken = config?.apiKey ?? config?.selected_config?.apiKey ?? "";
       if (!authToken) {
         localStorage.removeItem("IDENTITY_STORE_KEY");
       }
