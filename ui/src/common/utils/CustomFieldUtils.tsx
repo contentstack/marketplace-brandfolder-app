@@ -538,6 +538,9 @@ const getIconElement = ({
 
 // function to check if multi-config is available
 const isConfigAvailable = (state: TypeState, asset: TypeAsset) => {
+  if (asset?.cs_metadata === undefined) {
+    return true;
+  }
   const configLabel = asset?.cs_metadata?.config_label ?? "legacy_config";
   const isMultiConfig = state?.config?.multi_config_keys || false;
 
