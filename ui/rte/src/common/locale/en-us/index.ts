@@ -18,13 +18,19 @@ const localeTexts = {
       remove: "Remove",
       edit: "Edit Properties",
       preview: "Preview Asset",
-      openInDAM: `Open in ${rteConfig?.damEnv?.DAM_APP_NAME}`,
+      openInDAM: `Open In ${rteConfig?.damEnv?.DAM_APP_NAME}`,
+    },
+    assetValidation: {
+      errorStatement:
+        "Error: $var cannot be added. It does not meet the asset constraints.",
+      configDeletedImg:
+        "Cannot access image URL. It may be broken, deleted, or you may not have the permissions to view it.",
     },
   },
   DeleteModal: {
-    header: "Remove Asset from Contentstack Entry",
-    bodyBeforePlaceholder: "Are you sure you want to remove  ",
-    bodyAfterPlaceholder: " from Contentstack Entry?",
+    header: "Remove Asset from Entry",
+    body: "This will remove <b>'$'</b> from the entry. This action cannot be undone.",
+    textPlaceholder: "Enter the asset name for confirmation",
     cancelButton: "Cancel",
     confirmButton: "Remove",
   },
@@ -33,6 +39,14 @@ const localeTexts = {
     audio: "Edit Audio Properties",
     image: "Edit Image Properties",
     default: "Edit Asset Properties",
+  },
+  Icons: {
+    embed: "Embed",
+    dontSave: "DontSave",
+    imageSettings: "ImageSettings",
+    addPlus: "AddPlus",
+    saveWhite: "SaveWhite",
+    removeFilled: "RemoveFilled",
   },
 };
 

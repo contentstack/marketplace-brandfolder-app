@@ -2,29 +2,50 @@ import rootConfig from "../../../root_config";
 
 const localeTexts = {
   ConfigFields: {
-    isExtension: {
-      label: "Enable Extension Support",
-      instruction:
-        "If this toggle is enabled, you will be able to get the asset JSON data similar to the Brandfolder Extension",
-      legacyInfo:
-        "Legacy settings allow you to use the Brandfolder app with Extension support, enabling you to get asset JSON data similar to that of the Brandfolder Extension. However, if you prefer to use the latest Brandfolder app, you can skip configuring the Legacy settings.",
-      legacy_title: "Legacy Settings",
-      warning_note:
-        "Note: When you toggle between App and Extension settings, please note that the data variation may occur.",
+    AccordianConfig: {
+      mainName: "Configuration",
+      multiConfigLabel: `Configure your ${rootConfig?.damEnv?.DAM_APP_NAME} credentials`,
+      accActions: {
+        default: "Set as Default",
+        delete: "Delete Configuration",
+      },
+      defaultLabel: "Default",
+      checkboxText: "Set as Default",
+      btnText: "New Configuration",
+      tooltip: "Limit Reached",
+    },
+    accModal: {
+      header: "Add Configuration",
+      textLabel: "Configuration Name",
+      textPlaceholder: "Enter configuration name",
+      duplicateError:
+        "This name already exists. Enter a different name and try again.",
+      nameLengthError: "Configuration name must be between 1 to 50 characters.",
+      legacyNameError: `"legacy_config" is a reserved configuration name. Use a
+      different name.`,
+      specialCharacterError:
+        "Configuration names cannot contain special characters or spaces, and cannot be numbers only. Hyphens (-) and underscores (_) are allowed.",
+      nullundefinedError: `"null" or "undefined" cannot be used as a configuration name`,
+      cancelBtn: "Cancel",
+      addBtn: "Add",
+    },
+    DeleteModal: {
+      header: "Confirm Deletion",
+      body: "This will delete <b>'$'</b>. This action cannot be undone. To proceed, type its name and click Delete.",
+      textPlaceholder: "Enter configuration name for confirmation",
+      cancelButton: "Cancel",
+      confirmButton: "Delete",
     },
     entrySaveRadioButton: {
-      label: "Choose the Brandfolder Keys to Save In Entry",
-      help: `You can select how you want to save the data you get from ${rootConfig.damEnv.DAM_APP_NAME}.`,
-      placeholder:
-        "Enter the structure of the data you want to save in the entry",
-      instruction:
-        "If the 'All Fields' option is selected, you might be able to add limited assets in the custom field depending on the size of the data. If you select the 'Custom Fields' option, you can select the structure of the data you want to save in the entry. ",
-      referS: "(Refer to the",
-      custom: "Custom Fields Limitations",
-      referE:
-        " documentation, for more details). To increase this limit, please contact support.",
+      label: "Choose the Brandfolder Keys to Save in Entry",
+      help: `Select how to save data from ${rootConfig.damEnv.DAM_APP_NAME}.`,
+      placeholder: "Enter the data structure to save in the entry",
+      all_field_instruction:
+        "The “All Fields” option lets you add a limited number of assets using their JSON data.",
+      custom_field_instruction:
+        "The “Custom Fields” option lets you define and select specific JSON fields to save in the entry.",
       notetext:
-        "<b>Note:</b> When you change the settings from All Fields to Custom Fields, and vice versa, the existing assets follow the old configuration settings, whereas new assets added to the entry will store the data according to the updated configuration settings.",
+        "<b>Note:</b> Switching between “All” and “Custom” Fields only affects newly added assets. Existing assets will continue to follow the previous configuration.",
       wholeJson: "All Fields",
       customJson: "Custom Fields",
     },
@@ -33,69 +54,65 @@ const localeTexts = {
       help: "Select the keys you want to save",
       placeholder: "Select keys",
       instruction: "Select the keys you want to save",
-      invalidCredentials: "Invalid Configuration",
-      isExtension: {
-        label: "Enable Extension Support",
-        instruction:
-          "If this toggle is enabled, you will be able to get the asset JSON data similar to the Brandfolder Extension",
-        legacyInfo:
-          "Legacy settings allow you to use the Brandfolder app with Extension support, enabling you to get asset JSON data similar to that of the Brandfolder Extension. However, if you prefer to use the latest Brandfolder app, you can skip configuring the Legacy settings.",
-        legacy_title: "Legacy Settings",
-        warning_note:
-          "Note: When you toggle between App and Extension settings, please note that the data variation may occur.",
-      },
     },
-
     customWholeJson: {
       modal: {
-        header: "Add Brandfolder Key Path",
-        label: "Brandfolder Key Path",
+        header: "Add Key Path",
+        label: "Key Path",
         placeholder: "Enter Key Path",
         instructionS:
-          'Use the dot format to enter nested objects, for eg: "file.url".',
+          'Use the dot format to enter nested objects, for example: "file.url".',
         instructionE:
-          "Label already created/added in the dropdown will not be created.",
+          "Labels already added in the dropdown will not be created again.",
         note: "Note: ",
         btn: {
           cancel: "Cancel",
           create: "Create",
-          apply: "Create and Apply",
+          apply: "Create",
         },
         addOption: "New Key Field",
         successToast: {
           type: "success",
-          text: "Successfully added key path to options",
+          text: "Key path added successfully.",
         },
       },
       notification: {
-        errorS: "The option",
-        errorE: "already exists",
+        error: `The option "$var" already exists`,
+        limitError: "Error: Limit exceeded. You can add up to 150 options",
       },
     },
-    invalidCredentials: "Invalid Configuration",
-    emptyValue: "Field Value Missing",
     missingCredentials: "Missing Required Fields",
+    emptyValue: "Field Value Missing",
+    noSelectedDefault: "Select at least one default configuration",
+    noConfiguration: "Add at least one configuration",
+    selectField: {
+      label: "Multiple Select",
+      placeholder: "Select Multiple Options",
+    },
   },
-
   CustomFields: {
     assetLimit: {
-      btnTooltip:
-        "You cannot choose assets as the maximum limit has been reached.",
-      notificationMsg:
-        "The maximum asset limit has been reached! You cannot add more assets than the preconfigured limit.",
+      btnTooltip: "Asset limit reached. Cannot select more assets.",
+      notificationMsg: "Asset limit reached. You cannot add more assets.",
+    },
+    assetValidation: {
+      errorStatement:
+        "Error: The selected '$var' cannot be added, Unsupported file type",
     },
     button: {
-      btnText: "Choose Asset(s)",
+      btnText: "Choose Assets",
     },
     assetCard: {
       hoverActions: {
         preview: "Preview",
-        platformRedirect: `Open in ${rootConfig?.damEnv?.DAM_APP_NAME}`,
+        platformRedirect: `Open In ${rootConfig?.damEnv?.DAM_APP_NAME}`,
         remove: "Remove",
         drag: "Reorder",
       },
+      noImage: "No image available",
+      configDeletedImg:
+        "Cannot access image URL. It may be broken, deleted, or you may not have the permissions to view it.",
     },
-    AssetNotAddedText: "No assets have been added",
     header: {
       asset: {
         singular: "Asset",
@@ -111,30 +128,59 @@ const localeTexts = {
     toolTip: {
       thumbnail: "Thumbnail",
       list: "List",
-      content: "Asset Image Not Available",
+      content: "No image available for this asset",
     },
+    DeleteModal: {
+      header: "Remove Asset from Entry",
+      body: "This will remove <b>'$'</b> from the entry. This action cannot be undone",
+      textPlaceholder: "Enter the asset name for confirmation",
+      cancelButton: "Cancel",
+      confirmButton: "Remove",
+    },
+    AssetNotAddedText: "No assets added",
   },
   SelectorPage: {
     title: rootConfig?.damEnv?.DAM_APP_NAME,
   },
   Warnings: {
-    incorrectConfig: `The credentials you entered for the "${rootConfig?.damEnv?.DAM_APP_NAME} App" are invalid or missing. Please update the configuration details and try again.`,
-  },
-  DeleteModal: {
-    header: "Remove Asset from Contentstack Entry",
-    bodyBeforePlaceholder: "Are you sure you want to remove  ",
-    bodyAfterPlaceholder: " from Contentstack Entry?",
-    cancelButton: "Cancel",
-    confirmButton: "Remove",
+    incorrectConfig: `The credentials for the "${rootConfig?.damEnv?.DAM_APP_NAME} app" are invalid or missing. Update the configuration and try again.`,
+    invalidAdvancedConfig:
+      "The added configuration is invalid or has been deleted.",
   },
   AppFailed: {
-    Message1: "App Location Iniailization Failed.",
-    Message2: "Please reload the location and Try Again!",
-    body: "For Assistance, please reach out to us at support@contentstack.com",
+    Message1: "App location initialization failed.",
+    Message2: "Reload the app and try again!",
+    body: "Contact us at support@contentstack.com for assistance",
     button: {
       text: "Learn More",
       url: "https://www.contentstack.com/docs/developers/developer-hub/marketplace-dam-app-boilerplate",
     },
+  },
+  Icons: {
+    delete: "Delete",
+    plus: "Plus",
+    checkedWhite: "CheckedWhite",
+    checkedPurple: "CheckedPurple",
+    warning: "Warning",
+    document: "Document",
+    mp3: "MP3",
+    mp4: "MP4",
+    zip: "ZIP",
+    doc2: "DOC2",
+    json: "JSON",
+    ppt: "PPT",
+    xls: "XLS",
+    pdf2: "PDF2",
+    list: "List",
+    thumbnail: "Thumbnail",
+    removeFilled: "RemoveFilled",
+    newTab: "NewTab",
+    view: "View",
+    moveIcon: "MoveIcon",
+    addPlusBold: "AddPlusBold",
+    dotsThreeLargeVertical: "DotsThreeLargeVertical",
+    checkCircleDark: "CheckCircleDark",
+    v2Plus: "v2-Plus",
   },
 };
 

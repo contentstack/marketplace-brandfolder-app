@@ -9,8 +9,6 @@ import DeleteModal from "../DeleteModal";
 import utils from "../../common/utils";
 import rteConfig from "../../rte_config/index";
 import localeTexts from "../../common/locale/en-us";
-import constants from "../../common/constants";
-
 import "../styles.scss";
 
 const ImageElement = function ({
@@ -19,10 +17,19 @@ const ImageElement = function ({
   element,
   attrs,
   rte,
+  availableConfig,
   ...props
 }) {
   const RTE_RESOURCE_TYPE = rteConfig?.getAssetType?.(element?.attrs) ?? "";
   const RTE_DISPLAY_URL = rteConfig?.getDisplayUrl?.(element?.attrs) ?? "";
+  const configLabel = attrs?.cs_metadata?.config_label ?? "legacy_config";
+  let isConfigAvailable = false;
+  if (Array.isArray(availableConfig)) {
+    isConfigAvailable = availableConfig?.includes(configLabel);
+    const isMultiConfig = availableConfig?.length || false;
+    if (!isMultiConfig) isConfigAvailable = true;
+  } else isConfigAvailable = availableConfig;
+
   const isSelected = rte?.selection?.isSelected();
   const isFocused = rte?.selection?.isFocused();
   const isHighlight = isFocused && isSelected;
@@ -36,10 +43,6 @@ const ImageElement = function ({
   const displayType =
     RTE_RESOURCE_TYPE?.toLowerCase() === "image" ? "display" : "download";
   const initialDimensions = utils.getInitialDimensions(element, displayType);
-
-  const platformlUrl = element?.attrs?.assetId
-    ? constants?.constants?.branfolderPortalUrl?.label + element?.attrs?.assetId
-    : "";
 
   useEffect(() => {
     let newAttrs = cloneDeep(element?.attrs);
@@ -102,13 +105,10 @@ const ImageElement = function ({
     }
   }, [element?.attrs?.position, rte?.getPath(element)]);
 
-  const handleView = useCallback(() => {
-    window.open(RTE_DISPLAY_URL);
-  }, [RTE_DISPLAY_URL]);
-
-  const handelOpenInApp = useCallback(() => {
-    window.open(platformlUrl);
-  }, [platformlUrl]);
+  const handleView = (view) => {
+    const url = view === "preview" ? RTE_DISPLAY_URL : RTE_OPENDAM_URL;
+    window.open(url, "_blank", "noreferrer");
+  };
 
   const handleEdit = useCallback(() => {
     cbModal({
@@ -118,6 +118,7 @@ const ImageElement = function ({
           rte,
           icon,
           path: rte?.getPath(element),
+          isConfigAvailable,
           ...compProps,
         }),
     });
@@ -164,26 +165,20 @@ const ImageElement = function ({
       rteConfig?.getViewIconforTooltip?.(RTE_RESOURCE_TYPE);
     return (
       <div contentEditable={false} className="embed--btn-group">
-        {element?.attrs?.extension === "jar" ||
-        element?.attrs?.extension === "xls" ||
-        element?.attrs?.extension === "zip" ||
-        element?.attrs?.extension === "pdf" ||
-        element?.attrs?.extension === "json"
-          ? ""
-          : preview && (
-              <EmbedBtn
-                title={localeTexts.RTE.iconContent.preview}
-                content={utils.getToolTipIconContent(preview)}
-                onClick={handleView}
-              >
-                <Icon icon={preview} size="tiny" version="v2" />
-              </EmbedBtn>
-            )}
+        {preview && (
+          <EmbedBtn
+            title={localeTexts.RTE.iconContent.preview}
+            content={utils.getToolTipIconContent(preview)}
+            onClick={() => handleView("preview")}
+          >
+            <Icon icon={preview} size="tiny" version="v2" />
+          </EmbedBtn>
+        )}
         {openInDam && (
           <EmbedBtn
             title={localeTexts.RTE.iconContent.openInDAM}
             content={utils.getToolTipIconContent(openInDam)}
-            onClick={handelOpenInApp}
+            onClick={() => handleView("openInDAM")}
           >
             <Icon icon={openInDam} size="tiny" version="v2" />
           </EmbedBtn>
@@ -193,14 +188,18 @@ const ImageElement = function ({
           content={localeTexts.RTE.iconContent.edit}
           onClick={handleEdit}
         >
-          <Icon icon="ImageSettings" size="tiny" version="v2" />
+          <Icon
+            icon={localeTexts.Icons.imageSettings}
+            size="tiny"
+            version="v2"
+          />
         </EmbedBtn>
         <EmbedBtn
           title="remove"
           content={localeTexts.RTE.iconContent.remove}
           onClick={handleDelete}
         >
-          <Icon icon="DontSave" size="tiny" version="v2" />
+          <Icon icon={localeTexts.Icons.dontSave} size="tiny" version="v2" />
         </EmbedBtn>
       </div>
     );
@@ -262,40 +261,61 @@ const ImageElement = function ({
               <div
                 ref={imgRef}
                 contentEditable={false}
-                style={{ width: "100%", height: "100%" }}
+                className="scrte--img-div"
               >
-                <div className={tooltipclass}>
-                  {!icon && (
-                    <img
-                      src={RTE_DISPLAY_URL}
-                      onError={utils.handleImageError}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                      }}
-                      alt={element?.attrs?.["asset-alt"]}
-                      title={
-                        element?.attrs?.[rteConfig?.damEnv?.ASSET_NAME_PARAM]
-                      }
-                    />
-                  )}
-                  {!isInline && (
-                    <div className="embed-icon">
-                      <Icon icon="Embed" />
-                    </div>
-                  )}
-                  {icon && (
+                {isConfigAvailable && (
+                  <div className={tooltipclass}>
+                    {!icon && (
+                      <img
+                        src={RTE_DISPLAY_URL}
+                        onError={utils.handleImageError}
+                        className="scrte--img-inner"
+                        alt={element?.attrs?.["asset-alt"]}
+                        title={
+                          element?.attrs?.[rteConfig?.damEnv?.ASSET_NAME_PARAM]
+                        }
+                      />
+                    )}
+                    {!isInline && (
+                      <div className="embed-icon">
+                        <Icon icon={localeTexts.Icons.embed} />
+                      </div>
+                    )}
+                    {icon && (
+                      <Icon
+                        icon={icon}
+                        size="large"
+                        withTooltip
+                        tooltipContent={
+                          attrs?.[rteConfig?.damEnv?.ASSET_NAME_PARAM]
+                        }
+                        tooltipPosition="top"
+                      />
+                    )}
+                  </div>
+                )}
+                {!isConfigAvailable && (
+                  <div
+                    className={`${tooltipclass} embed-download`}
+                    style={{
+                      width: element?.attrs.width ?? "180px",
+                      height: element?.attrs.height ?? "180px",
+                    }}
+                    title={attrs?.[rteConfig?.damEnv?.ASSET_NAME_PARAM]}
+                  >
                     <Icon
-                      icon={icon}
+                      icon="WarningBoldNew"
+                      version="v2"
                       size="large"
                       withTooltip
                       tooltipContent={
-                        attrs?.[rteConfig?.damEnv?.ASSET_NAME_PARAM]
+                        localeTexts.RTE.assetValidation.configDeletedImg
                       }
                       tooltipPosition="top"
+                      className="embed-warning-icon"
                     />
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
               <span
                 contentEditable={false}

@@ -9,23 +9,43 @@ import { TypeAssetCard } from "../../../common/types";
 import constants from "../../../common/constants";
 import CustomFieldUtils from "../../../common/utils/CustomFieldUtils";
 import CustomFieldContext from "../../../common/contexts/CustomFieldContext";
+import utils from "../../../common/utils";
+import localeTexts from "../../../common/locale/en-us";
 /* Import node module CSS */
 /* Import our CSS */
 
 // asset card component which is a dragable component
 const AssetCard: React.FC<TypeAssetCard> = function ({ id }) {
-  const { renderAssets: assets, removeAsset } = useContext(CustomFieldContext);
-  const asset = CustomFieldUtils.findAsset(assets, id);
   const {
-    name,
-    type,
-    thumbnailUrl,
-    width,
-    height,
-    size,
-    platformUrl,
-    previewUrl,
-  } = asset;
+    renderAssets: assets,
+    removeAsset,
+    state,
+  } = useContext(CustomFieldContext);
+  const asset = CustomFieldUtils.findAsset(assets, id);
+
+  let name = "";
+  let type = "";
+  let thumbnailUrl = "";
+  let previewUrl = "";
+  let platformUrl = "";
+  let width = "";
+  let height = "";
+  let size = "";
+
+  if (asset) {
+    name = asset?.name;
+    type = asset?.type;
+    thumbnailUrl = asset?.thumbnailUrl;
+    previewUrl = asset?.previewUrl ?? "";
+    platformUrl = asset?.platformUrl ?? "";
+    width = asset?.width;
+    height = asset?.height;
+    size = asset?.size;
+  }
+
+  const isConfigEnabled: boolean = asset
+    ? CustomFieldUtils.isConfigAvailable(state, asset)
+    : false;
 
   const {
     attributes,
@@ -34,7 +54,7 @@ const AssetCard: React.FC<TypeAssetCard> = function ({ id }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: asset?.id });
+  } = useSortable({ id: asset?.id ?? "" });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -61,13 +81,22 @@ const AssetCard: React.FC<TypeAssetCard> = function ({ id }) {
       ) : (
         <AssetCardVertical
           title={name?.charAt(0)?.toUpperCase() + name?.slice(1)}
-          assetType={type?.toLowerCase()}
-          assetUrl={thumbnailUrl || ""}
+          assetType={isConfigEnabled ? type?.toLowerCase() : "image"}
+          assetUrl={
+            (isConfigEnabled
+              ? thumbnailUrl ?? utils.getNoImageUrl(constants.NoImg)
+              : utils.getNoImageUrl(constants.NoConfigImg)) ?? ""
+          }
+          hoverText={
+            (!isConfigEnabled &&
+              localeTexts.CustomFields.assetCard.configDeletedImg) ||
+            (!thumbnailUrl && localeTexts.CustomFields.assetCard.noImage)
+          }
           key={id}
           canHover
-          width={width || ""}
-          height={height || ""}
-          size={Number(size)}
+          width={width ?? "--"}
+          height={height ?? "--"}
+          size={size ? Number(size) : "--"}
           actions={CustomFieldUtils.getHoverActions(
             type,
             removeAsset,

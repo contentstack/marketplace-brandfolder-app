@@ -14,7 +14,7 @@ import { MarketplaceAppContext } from "../contexts/MarketplaceAppContext";
 
 declare global {
   interface Window {
-    iframeRef: any;
+    iframeRef: HTMLIFrameElement | null;
   }
 }
 
@@ -24,7 +24,7 @@ const CustomFieldProvider: React.FC = function ({ children }) {
   const [state, setState] = React.useState<TypeSDKData>({
     config: {},
     contentTypeConfig: {},
-    location: {},
+    location: null,
     appSdkInitialized: false,
   });
   // state for filtered asset data which is to be rendered
@@ -36,7 +36,7 @@ const CustomFieldProvider: React.FC = function ({ children }) {
   // state to manage disable of "add button"
   const [isBtnDisable, setIsBtnDisable] = useState<boolean>(false);
   // unique param in the asset object
-  const uniqueID = rootConfig?.damEnv?.ASSET_UNIQUE_ID || "id";
+  const uniqueID = rootConfig?.damEnv?.ASSET_UNIQUE_ID ?? "id";
 
   const { location } = useAppLocation();
 
@@ -91,10 +91,10 @@ const CustomFieldProvider: React.FC = function ({ children }) {
 
   // rearrange the order of assets
   const setRearrangedAssets = useCallback(
-    (assets: any[]) => {
+    (assets: TypeAsset[]) => {
       setSelectedAssets(
         assets?.map(
-          (asset: any) =>
+          (asset: TypeAsset) =>
             selectedAssets?.filter(
               (item: any) => item?.[uniqueID] === asset?.id
             )?.[0]
@@ -117,6 +117,7 @@ const CustomFieldProvider: React.FC = function ({ children }) {
       currentLocale,
       handleBtnDisable,
       isBtnDisable,
+      setIsBtnDisable,
     }),
     [
       renderAssets,
@@ -130,6 +131,7 @@ const CustomFieldProvider: React.FC = function ({ children }) {
       currentLocale,
       handleBtnDisable,
       isBtnDisable,
+      setIsBtnDisable,
     ]
   );
 
