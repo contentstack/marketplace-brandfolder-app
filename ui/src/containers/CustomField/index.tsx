@@ -300,7 +300,9 @@ const CustomField: React.FC = function () {
 
   const handleSelectorOpen = () => {
     CustomFieldUtils.popupWindow({
-      url: `${import.meta.env.VITE_CUSTOM_FIELD_URL}/#/selector-page?location=CUSTOM-FIELD`,
+      url: `${
+        import.meta.env.VITE_CUSTOM_FIELD_URL
+      }/#/selector-page?location=CUSTOM-FIELD`,
       title: localeTexts.SelectorPage.title,
       w: 1500,
       h: 800,
