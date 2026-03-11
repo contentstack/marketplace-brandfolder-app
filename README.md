@@ -15,8 +15,8 @@ The repo source folder will be referred to as APP_DIRECTORY from now on.
 - UI ENVIRONMENT VARIABLES (<APP_DIRECTORY>/ui/.env)
 
       ```
-      REACT_APP_CUSTOM_FIELD_URL = YOUR CUSTOM FIELD DOMAIN URL
-      REACT_APP_REGION_MAPPING = '{"NA": {"JSON_RTE_URL": "https://rte-extension.contentstack.com"},"EU": {"JSON_RTE_URL": "https://eu-rte-extension.contentstack.com"},"AZURE_NA": {"JSON_RTE_URL": "https://azure-na-rte-extension.contentstack.com"},"AZURE_EU": {"JSON_RTE_URL": "https://azure-eu-rte-extension.contentstack.com"},"GCP_NA": {"JSON_RTE_URL": "https://gcp-na-rte-extension.contentstack.com"}}'
+      VITE_CUSTOM_FIELD_URL = YOUR CUSTOM FIELD DOMAIN URL
+      VITE_REGION_MAPPING = '{"NA": {"JSON_RTE_URL": "https://rte-extension.contentstack.com"},"EU": {"JSON_RTE_URL": "https://eu-rte-extension.contentstack.com"},"AZURE_NA": {"JSON_RTE_URL": "https://azure-na-rte-extension.contentstack.com"},"AZURE_EU": {"JSON_RTE_URL": "https://azure-eu-rte-extension.contentstack.com"},"GCP_NA": {"JSON_RTE_URL": "https://gcp-na-rte-extension.contentstack.com"}}'
 
 ```
 

@@ -23,6 +23,9 @@ node_modules/
 .vercel
 .eslintcache
 
+# Vite
+ui/.vite/
+
 .env
 .npmrc
 .dccache
