@@ -10,7 +10,7 @@ let isScriptLoaded: boolean = false;
 let url: string = "";
 
 const SelectorPage: React.FC = function () {
-  const {env} = import.meta;
+  const { env } = import.meta;
   // state of isError flag
   const [isErrorPresent, setIsErrorPresent] = React.useState<boolean>(false);
   // config in selector page

@@ -20,7 +20,7 @@ import "./styles.scss";
 /* To add any labels / captions for fields or any inputs, use common/local/en-us/index.ts */
 
 const CustomField: React.FC = function () {
-  const {env} = import.meta;
+  const { env } = import.meta;
   const { appFailed } = useContext(MarketplaceAppContext);
   const {
     renderAssets,
