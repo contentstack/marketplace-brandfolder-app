@@ -20,7 +20,7 @@ import "./styles.scss";
 /* To add any labels / captions for fields or any inputs, use common/local/en-us/index.ts */
 
 const CustomField: React.FC = function () {
-  const env = import.meta.env;
+  const {env} = import.meta;
   const { appFailed } = useContext(MarketplaceAppContext);
   const {
     renderAssets,
@@ -301,9 +301,7 @@ const CustomField: React.FC = function () {
 
   const handleSelectorOpen = () => {
     CustomFieldUtils.popupWindow({
-      url: `${
-        env.VITE_CUSTOM_FIELD_URL
-      }/#/selector-page?location=CUSTOM-FIELD`,
+      url: `${env.VITE_CUSTOM_FIELD_URL}/#/selector-page?location=CUSTOM-FIELD`,
       title: localeTexts.SelectorPage.title,
       w: 1500,
       h: 800,

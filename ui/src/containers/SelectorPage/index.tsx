@@ -10,7 +10,7 @@ let isScriptLoaded: boolean = false;
 let url: string = "";
 
 const SelectorPage: React.FC = function () {
-  const env = import.meta.env;
+  const {env} = import.meta;
   // state of isError flag
   const [isErrorPresent, setIsErrorPresent] = React.useState<boolean>(false);
   // config in selector page
@@ -120,9 +120,7 @@ const SelectorPage: React.FC = function () {
         ?.split("&")?.[0]
         ?.split("=")?.[1];
       let postMessageUrl: string = env.VITE_CUSTOM_FIELD_URL ?? "";
-      const regionMapping = JSON.parse(
-        env.VITE_REGION_MAPPING ?? ""
-      );
+      const regionMapping = JSON.parse(env.VITE_REGION_MAPPING ?? "");
       const appRegion = Object.keys(regionMapping)?.find(
         (region) => queryString === region
       );
