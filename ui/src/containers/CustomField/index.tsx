@@ -20,6 +20,7 @@ import "./styles.scss";
 /* To add any labels / captions for fields or any inputs, use common/local/en-us/index.ts */
 
 const CustomField: React.FC = function () {
+  const env = import.meta.env;
   const { appFailed } = useContext(MarketplaceAppContext);
   const {
     renderAssets,
@@ -225,7 +226,7 @@ const CustomField: React.FC = function () {
   // function called on postmessage from selector page. used in "novalue" and "authWindow" option
   const saveData = useCallback(
     (event: any) => {
-      if (event?.origin !== import.meta.env.VITE_CUSTOM_FIELD_URL) return;
+      if (event?.origin !== env.VITE_CUSTOM_FIELD_URL) return;
       const { data } = event;
       if (data?.message === "openedReady") {
         event?.source?.postMessage(
@@ -235,7 +236,7 @@ const CustomField: React.FC = function () {
             type: rootConfig.damEnv.DAM_APP_NAME,
             selectedIds: selectedAssetIds,
           },
-          `${import.meta.env.VITE_CUSTOM_FIELD_URL}/#/selector-page`
+          `${env.VITE_CUSTOM_FIELD_URL}/#/selector-page`
         );
       } else if (
         data?.message === "add" &&
@@ -301,7 +302,7 @@ const CustomField: React.FC = function () {
   const handleSelectorOpen = () => {
     CustomFieldUtils.popupWindow({
       url: `${
-        import.meta.env.VITE_CUSTOM_FIELD_URL
+        env.VITE_CUSTOM_FIELD_URL
       }/#/selector-page?location=CUSTOM-FIELD`,
       title: localeTexts.SelectorPage.title,
       w: 1500,

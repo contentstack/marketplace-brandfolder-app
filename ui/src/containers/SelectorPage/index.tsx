@@ -10,6 +10,7 @@ let isScriptLoaded: boolean = false;
 let url: string = "";
 
 const SelectorPage: React.FC = function () {
+  const env = import.meta.env;
   // state of isError flag
   const [isErrorPresent, setIsErrorPresent] = React.useState<boolean>(false);
   // config in selector page
@@ -96,7 +97,7 @@ const SelectorPage: React.FC = function () {
   };
 
   const handleMessage = (event: MessageEvent) => {
-    const allowedOrigin = [import.meta.env.VITE_CUSTOM_FIELD_URL, url];
+    const allowedOrigin = [env.VITE_CUSTOM_FIELD_URL, url];
     if (!allowedOrigin?.includes(event?.origin)) return;
     const { data } = event;
     if (data?.config) {
@@ -118,9 +119,9 @@ const SelectorPage: React.FC = function () {
         ?.split("?")?.[1]
         ?.split("&")?.[0]
         ?.split("=")?.[1];
-      let postMessageUrl: string = import.meta.env.VITE_CUSTOM_FIELD_URL ?? "";
+      let postMessageUrl: string = env.VITE_CUSTOM_FIELD_URL ?? "";
       const regionMapping = JSON.parse(
-        import.meta.env.VITE_REGION_MAPPING ?? ""
+        env.VITE_REGION_MAPPING ?? ""
       );
       const appRegion = Object.keys(regionMapping)?.find(
         (region) => queryString === region
