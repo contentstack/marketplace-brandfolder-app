@@ -305,6 +305,8 @@ const AppConfigProvider: React.FC = function ({ children }) {
             );
             setModifiedOptions(modOptions);
             initialState.configuration.dam_keys = modOptions;
+            initialState.configuration.is_extension =
+              installationDataFromSDK?.configuration?.is_extension ?? false;
             await setInstallation(initialState);
 
             setInitialStateLoaded(true);
