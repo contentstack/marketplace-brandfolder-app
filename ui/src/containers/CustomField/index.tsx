@@ -225,7 +225,7 @@ const CustomField: React.FC = function () {
   // function called on postmessage from selector page. used in "novalue" and "authWindow" option
   const saveData = useCallback(
     (event: any) => {
-      if (event?.origin !== process.env.REACT_APP_CUSTOM_FIELD_URL) return;
+      if (event?.origin !== import.meta.env.VITE_CUSTOM_FIELD_URL) return;
       const { data } = event;
       if (data?.message === "openedReady") {
         event?.source?.postMessage(
@@ -235,7 +235,7 @@ const CustomField: React.FC = function () {
             type: rootConfig.damEnv.DAM_APP_NAME,
             selectedIds: selectedAssetIds,
           },
-          `${process.env.REACT_APP_CUSTOM_FIELD_URL}/#/selector-page`
+          `${import.meta.env.VITE_CUSTOM_FIELD_URL}/#/selector-page`
         );
       } else if (
         data?.message === "add" &&
@@ -300,7 +300,9 @@ const CustomField: React.FC = function () {
 
   const handleSelectorOpen = () => {
     CustomFieldUtils.popupWindow({
-      url: `${process.env.REACT_APP_CUSTOM_FIELD_URL}/#/selector-page?location=CUSTOM-FIELD`,
+      url: `${
+        import.meta.env.VITE_CUSTOM_FIELD_URL
+      }/#/selector-page?location=CUSTOM-FIELD`,
       title: localeTexts.SelectorPage.title,
       w: 1500,
       h: 800,
