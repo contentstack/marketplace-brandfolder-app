@@ -1,244 +1,303 @@
-# Contentstack Marketplace Brandfolder App
+# Marketplace Brandfolder App
 
-## Prerequisite
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-C21325?logo=jest&logoColor=white)
 
+A Contentstack marketplace app that integrates Brandfolder DAM with Contentstack's content management system. This React-based application provides App Configuration, Custom Field, Selector Page, and JSON RTE locations for browsing and embedding Brandfolder assets.
+
+## 🎨 Features
+
+- **App Configuration**: Configure app settings and Brandfolder connection from the Config Screen
+- **Custom Field**: Embed and manage Brandfolder assets in entry fields (card and list views)
+- **Selector Page**: Full-page asset picker for choosing Brandfolder assets
+- **JSON RTE**: Rich text editor extension for inserting Brandfolder assets
+- **TypeScript**: Fully typed for better development experience
+- **Testing**: Unit tests with Jest
+- **Modern UI**: Clean interface using Contentstack's Venus components and Brandfolder Panel SDK
+
+## 📋 Prerequisites
+
+- Node.js (v20 or higher)
+- npm
 - [Contentstack Account](https://app.contentstack.com/#!/login)
-- `Nodejs` - v20.10.0 & `NPM` - v10.2.4
-  <br />
+- Brandfolder account (for DAM integration)
 
-The repo source folder will be referred to as APP_DIRECTORY from now on.
+## 🚀 Quick Start
 
-## Environment Variables
+### Installation
 
-- `.env` files are required in both ui and ui/rte. Rename `.env.example` files to `.env` and add the following values.
+```bash
+# Clone the repository
+git clone https://github.com/contentstack/marketplace-brandfolder-app.git
+cd marketplace-brandfolder-app
 
-- UI ENVIRONMENT VARIABLES (<APP_DIRECTORY>/ui/.env)
+# Install dependencies (root)
+npm install
 
-      ```
-      VITE_CUSTOM_FIELD_URL = YOUR CUSTOM FIELD DOMAIN URL
-      VITE_REGION_MAPPING = '{"NA": {"JSON_RTE_URL": "https://rte-extension.contentstack.com"},"EU": {"JSON_RTE_URL": "https://eu-rte-extension.contentstack.com"},"AZURE_NA": {"JSON_RTE_URL": "https://azure-na-rte-extension.contentstack.com"},"AZURE_EU": {"JSON_RTE_URL": "https://azure-eu-rte-extension.contentstack.com"},"GCP_NA": {"JSON_RTE_URL": "https://gcp-na-rte-extension.contentstack.com"}}'
-
+# Install UI dependencies
+cd ui
+npm install
+cd ..
 ```
 
-- RTE ENVIRONMENT VARIABLES (<APP_DIRECTORY>/ui/rte/.env)
-  `REACT_APP_CUSTOM_FIELD_URL = YOUR CUSTOM FIELD DOMAIN URL
-    REACT_APP_REGION_MAPPING = '{"NA": {"JSON_RTE_URL": "https://rte-extension.contentstack.com"},"EU": {"JSON_RTE_URL": "https://eu-rte-extension.contentstack.com"},"AZURE_NA": {"JSON_RTE_URL": "https://azure-na-rte-extension.contentstack.com"},"AZURE_EU": {"JSON_RTE_URL": "https://azure-eu-rte-extension.contentstack.com"},"GCP_NA": {"JSON_RTE_URL": "https://gcp-na-rte-extension.contentstack.com"}}'
+### Environment Variables
 
-   `
+Rename `.env.example` to `.env` in both `ui/` and `ui/rte/`, then set:
 
-## Install Dependencies
-
-- In the terminal go to APP_DIRECTORY and install the necessary packages :
+**UI** (`ui/.env`):
 
 ```
-
-cd <APP_DIRECTORY>
-npm i
-
+VITE_CUSTOM_FIELD_URL=YOUR_CUSTOM_FIELD_DOMAIN_URL
+VITE_REGION_MAPPING='{"NA": {"JSON_RTE_URL": "https://rte-extension.contentstack.com"},"EU": {"JSON_RTE_URL": "https://eu-rte-extension.contentstack.com"},"AZURE_NA": {"JSON_RTE_URL": "https://azure-na-rte-extension.contentstack.com"},"AZURE_EU": {"JSON_RTE_URL": "https://azure-eu-rte-extension.contentstack.com"},"GCP_NA": {"JSON_RTE_URL": "https://gcp-na-rte-extension.contentstack.com"}}'
 ```
 
-- To install the necessary packages for ui , navigate to the ui folder
+**RTE** (`ui/rte/.env`):
 
 ```
-
-cd <APP_DIRECTORY>/ui
-npm i
-
-````
-
-- After you install the packages, run the following command in the ui folder to get started:
-
-- For Linux / MacOS
-
-  ```
-  npm run start
-  ```
-- For Linux / MacOS
-
-  ```
-  npm run start
-  ```
-
-- For Windows
-
-  ```
-  npm run winStart
-  ```
-- For Windows
-
-  ```
-  npm run winStart
-  ```
-
-The UI server will start on port 4000.
-
-- To install the necessary packages for rte , navigate to the rte folder
-
-````
-
-cd <APP_DIRECTORY>/ui/rte
-npm i
-
+REACT_APP_CUSTOM_FIELD_URL=YOUR_CUSTOM_FIELD_DOMAIN_URL
+REACT_APP_REGION_MAPPING='{"NA": {"JSON_RTE_URL": "https://rte-extension.contentstack.com"},"EU": {"JSON_RTE_URL": "https://eu-rte-extension.contentstack.com"},"AZURE_NA": {"JSON_RTE_URL": "https://azure-na-rte-extension.contentstack.com"},"AZURE_EU": {"JSON_RTE_URL": "https://azure-eu-rte-extension.contentstack.com"},"GCP_NA": {"JSON_RTE_URL": "https://gcp-na-rte-extension.contentstack.com"}}'
 ```
 
-- After you install the packages, run the following command in the rte folder to start the webpack server.
+### Development
 
+```bash
+# Start UI development server (from repo root: cd ui first)
+cd ui
+npm start
+# UI runs on port 4000
+
+# Start RTE webpack server (separate terminal, from ui/rte)
+cd ui/rte
+npm install
+npm start
+# RTE runs on port 1268
+
+# Lint and format (from ui/)
+npm run lint:fix
+npm run prettify
 ```
 
-npm run start
+**Windows:** Use `npm run winStart` in `ui/` instead of `npm run start` if needed.
 
-````
 
-The RTE webpack server will start on port 1268.
+### E2E Testing (Playwright)
 
-## Providers (Use of React's Contexts)
+E2E tests run at the repository root and require the main app to be available at `APP_HOST_URL` (e.g. `http://localhost:4000` after `cd ui && npm start`).
 
-- `<MarketplaceAppProvider>`: The MarketplaceAppProvider uses `MarketplaceAppContext` and initializes the Contentstack App SDK and shares its instance and configuration across components using the useContext hook, eliminating the need for prop drilling.
-- `<MarketplaceAppProvider>`: The MarketplaceAppProvider uses `MarketplaceAppContext` and initializes the Contentstack App SDK and shares its instance and configuration across components using the useContext hook, eliminating the need for prop drilling.
+**Required environment variables** (set in `.env` at root or export before running):
 
-- `<AppConfigProvider>`:
-The AppConfigProvider uses `AppConfigContext` and generates dynamic state values based on the rootConfig's configuration and manages installation data, providing centralized state accessible via the useContext hook for child components.
+- `CONTENTSTACK_LOGIN` – Contentstack user email
+- `CONTENTSTACK_PASSWORD` – Contentstack password
+- **If MFA is enabled:** `CONTENTSTACK_MFA_SECRET` (base32 TOTP secret, best for automation) **or** `CONTENTSTACK_TFA_TOKEN` (single 6-digit code from your authenticator; expires quickly)
+- `BASE_API_URL` – Contentstack API host (e.g. `https://api.contentstack.io`)
+- `DEVELOPER_HUB_API` – Developer Hub API host (e.g. `https://api.contentstack.io`)
+- `CONTENTSTACK_ORGANIZATION_UID` – Organization UID
+- `APP_HOST_URL` – URL where the app is served (e.g. `http://localhost:4000`)
+- `STACK_API_KEY` – Stack API key for install and content type/entry creation
 
-- `<ConfigStateProvider>`: The ConfigStateProvider uses `ConfigStateContext` and handles local state management for ConfigScreen UI Location, accessed by sub-components.
-- `<ConfigStateProvider>`: The ConfigStateProvider uses `ConfigStateContext` and handles local state management for ConfigScreen UI Location, accessed by sub-components.
+**Optional:** `APP_BASE_URL`, `ENV_URL` (Contentstack app URL for entry edit), `BASIC_AUTH_USERNAME` / `BASIC_AUTH_PASSWORD`, `BRANDFOLDER_APP_NAME` (extension name for lookup), `INSTALL_VIA_MARKETPLACE`, `STACK_NAME`, `USE_GLOBAL_TEARDOWN`.
 
-- `<CustomFieldProvider>`: The CustomFieldProvider uses `CustomFieldContext` and consolidates the management of state and rendering data, distributing it to multiple child components. It is responsible for both retrieving and updating this data.
-- `<CustomFieldProvider>`: The CustomFieldProvider uses `CustomFieldContext` and consolidates the management of state and rendering data, distributing it to multiple child components. It is responsible for both retrieving and updating this data.
+**Run E2E:**
 
-## Hooks
+```bash
+# From repo root
+npm run test:chrome
+npm run test:firefox
+npm run test:safari
+npm run test:chrome-headed   # headed browser
+npm run show-report          # open last HTML report
+```
 
-- `useAppLocation`: The useAppLocation hook retrieves the location instance from the app-sdk by accessing the MarketplaceAppContext. It returns the location name (e.g., "CustomField") and the location instance.
-- `useAppLocation`: The useAppLocation hook retrieves the location instance from the app-sdk by accessing the MarketplaceAppContext. It returns the location name (e.g., "CustomField") and the location instance.
+Run global setup first (login and auth token); it runs automatically before the test suite. To enable remote cleanup (uninstall app, delete content type) after the run, set `USE_GLOBAL_TEARDOWN=true`.
 
-## Routes
+### Building for Production
 
-Each route corresponds to a specific UI location. Lazy loading route components are recommended to reduce the bundle size.
+```bash
+# Build and package (from repo root)
+bash build.sh
+# Output: to-deploy/ui.zip (contains ui/build/ and RTE build)
+```
 
-#### Existing Routes
+To build without the script:
 
-- ConfigScreen `(path = "/config")`
-- CustomField `(path = "/custom-field")`
-- SelectorPage `(path = "/selector-page")`
-- ConfigScreen `(path = "/config")`
-- CustomField `(path = "/custom-field")`
-- SelectorPage `(path = "/selector-page")`
+```bash
+cd ui
+npm run build
 
-#### Adding a New Route
+cd ui/rte
+npm run build
+```
 
-- Create a new Route component inside route. Use default export
-- Inside `ui/src/containers/App/index.tsx`, lazy load the route component. Example:
-  ```
-  const ConfigScreen = React.lazy(() => import("../ConfigScreen"));
-  ```
-- Add the route wrapped inside `Suspense`.
-  Example:
-  ```
-  <Route
-      path="/config"
-      element={
-        <Suspense fallback={<ConfigLoader />}>
-          <AppConfigProvider>
-            <ConfigScreen />
-          </AppConfigProvider>
-        </Suspense>
-      }
-    />
-  ```
+Upload contents of `ui/build/` (and RTE assets as required) to your static host (e.g. S3).
 
-## Styling
+## 🏗️ Project Structure
 
-- This setup uses basic SCSS for styling
-- This setup uses basic SCSS for styling
+```
+marketplace-brandfolder-app/
+├── ui/
+│   ├── src/
+│   │   ├── common/
+│   │   │   ├── contexts/          # React contexts (MarketplaceApp, AppConfig, ConfigState, CustomField)
+│   │   │   ├── providers/         # Context providers
+│   │   │   ├── utils/             # Utility functions
+│   │   │   └── constants/
+│   │   ├── components/            # Reusable components (ErrorBoundary, Loaders, etc.)
+│   │   ├── containers/
+│   │   │   ├── App/               # Main app router (HashRouter, routes)
+│   │   │   ├── ConfigScreen/      # App Configuration UI
+│   │   │   ├── CustomField/       # Custom Field (card/list)
+│   │   │   └── SelectorPage/      # Selector Page UI
+│   │   ├── root_config/           # Root config components for App Config & Custom Field
+│   │   ├── __tests__/             # Jest unit tests
+│   │   └── index.tsx              # Entry point
+│   ├── rte/                       # JSON RTE plugin (Webpack, separate build)
+│   │   └── src/
+│   │       └── plugin.tsx         # RTE plugin entry
+│   ├── index.html                 # HTML entry (Vite)
+│   ├── vite.config.ts             # Vite configuration
+│   ├── jest.config.js             # Jest configuration
+│   └── package.json
+├── build.sh                       # Builds ui + ui/rte, outputs to-deploy/ui.zip
+├── TEMPLATE.md                    # Detailed app configuration and DAM setup
+└── package.json                   # Root scripts and husky
+```
 
-## Creating an app in Developer Hub/Marketplace
+## 🔌 Providers (React Context)
 
-- Go to developer hub at [NA Region](https://app.contentstack.com/#!/developerhub), [EU Region](https://eu-app.contentstack.com/#!/developerhub), [AZURE-NA Region](https://azure-na-app.contentstack.com/#!/developerhub), [AZURE-EU Region](https://azure-eu-app.contentstack.com/#!/developerhub).
+- **MarketplaceAppProvider**: Initializes Contentstack App SDK and shares it via `MarketplaceAppContext`.
+- **AppConfigProvider**: Manages installation and config state from rootConfig via `AppConfigContext`.
+- **ConfigStateProvider**: Local state for Config Screen UI via `ConfigStateContext`.
+- **CustomFieldProvider**: State and data for Custom Field location via `CustomFieldContext`.
 
-- Create a new app by clicking `+ New App` button at top right and Select app type as `Stack App`, add Name and Description. The app will be initially private. To make an app public on Contentstack Marketplace, refer [App Submission and Approval Guide](https://www.contentstack.com/docs/developers/marketplace-platform-guides/app-submission-and-approval-guide).
+## 🪝 Hooks
 
-- After creating an app, you will be redirected to the Basic Information page. Add the icon for your app.
+- **useAppLocation**: Returns the location name and location instance from the app SDK (from `MarketplaceAppContext`).
 
-- Open the UI Locations tab and add the URL of your app.
-For e.g. : https://localhost:4000
+## 🛣️ Routes
 
-- From Available location(s) , add App Configuration, Custom Field and JSON RTE.
-- From Available location(s) , add App Configuration, Custom Field and JSON RTE.
+Routes map to UI locations; components are lazy-loaded.
 
-- For App Configuration, add path. The value of path is the route added for ConfigScreen in `<APP_DIRECTORY>/ui/src/containers/App/index.tsx`. Also we are using HashRouter for routing. So the value of path should be `/#/config`.
+| Path             | UI Location   | Source (container)     |
+|------------------|---------------|-------------------------|
+| `/config`        | Config Screen | `containers/ConfigScreen` |
+| `/custom-field`  | Custom Field  | `containers/CustomField`  |
+| `/selector-page` | Selector Page | `containers/SelectorPage` |
 
-- For Custom Field, add name and path. The value of path is the route added for CustomField in `<APP_DIRECTORY>/ui/src/containers/App/index.tsx` i.e. `/#/custom-field`. Select the Data Type as `JSON`.
+**Adding a route:** Create the container, lazy-import it in `ui/src/containers/App/index.tsx`, and add a `<Route>` inside `<Routes>` wrapped in `<Suspense>` and any required providers.
 
-- For JSON RTE, add the name and path. For this location, there won’t be a route path in `<APP_DIRECTORY>/ui/src/containers/App/index.tsx`. We are serving webpack build file. For localhost, webpack file will be served as `https://localhost:1268/[your app name].js`. So the path should be `/[your app name].js`. For production environments, path should be `/dist/[your app name].js`.
+## 🎨 Styling
 
-For all locations, Switch on the toggle for `Signed` if required. Switch on the toggle for `Enabled` to enable the location. Add the `Description` if required.
+The app uses **SCSS** for styling. Venus component styles are imported from `@contentstack/venus-components/build/main.css`.
 
-> Note :-
->
-> - When hosting your app locally, you can't include a JSON RTE within the same app on the Developer Hub because it uses a different port. To work around this, after completion of the UI of the Configscreen, Customfield and Selectorpage, change the `App URL` in your app and set it to "https://localhost:1268" and add the JSON RTE with the path "/[your app name].js."
-> - The App will now work on a different port but use the same configuration saved on configscreen. Here, the Configscreen and Customfield location will not be visible.
-
-- Now install the app by clicking the Install App button at top right. From the next window, select the stack in which you want to install the app.
-- Now install the app by clicking the Install App button at top right. From the next window, select the stack in which you want to install the app.
-
-> Note : Ensure the paths defined in `<APP_DIRECTORY>/ui/src/containers/App/index.tsx` match exactly with those set in the Developer Hub UI Location settings.
-
-## Source code file locations for various ui location
-
-After the app is installed, you can refer to the pages developed at various UI locations in the stack. Below are the various UI locations and their corresponding page in source code:
+## 📍 Source Code for UI Locations
 
 | UI Location   | Page Source                                              |
-| ------------- | -------------------------------------------------------- |
-| Config Screen | <APP_DIRECTORY>/ui/src/containers/ConfigScreen/index.tsx |
-| Custom Field  | <APP_DIRECTORY>/ui/src/containers/CustomField/index.tsx  |
-| RTE           | <APP_DIRECTORY>/ui/rte/src/plugin.tsx                    |
+|---------------|----------------------------------------------------------|
+| Config Screen | `ui/src/containers/ConfigScreen/index.tsx`               |
+| Custom Field  | `ui/src/containers/CustomField/index.tsx`                |
+| Selector Page | `ui/src/containers/SelectorPage/index.tsx`               |
+| RTE           | `ui/rte/src/plugin.tsx`                                  |
 
-## Create Build
+## 🌐 Creating an App in Developer Hub / Marketplace
 
-To create build for development, staging and production environments, we have added build.sh file at the location `<APP_DIRECTORY>/build.sh`
+1. Open [Developer Hub](https://app.contentstack.com/#!/developerhub) (or [EU](https://eu-app.contentstack.com/#!/developerhub), [Azure NA](https://azure-na-app.contentstack.com/#!/developerhub), [Azure EU](https://azure-eu-app.contentstack.com/#!/developerhub)).
+2. Click **+ New App** → choose **Stack App** → set name and description. See [App Submission and Approval Guide](https://www.contentstack.com/docs/developers/marketplace-platform-guides/app-submission-and-approval-guide) to make the app public.
+3. In **Basic Information**, add the app icon.
+4. In **UI Locations**, set the app URL (e.g. `https://localhost:4000` for local UI).
+5. Add locations and paths (use HashRouter paths):
+   - **App Configuration**: path `/#/config`
+   - **Custom Field**: path `/#/custom-field`, Data Type **JSON**
+   - **JSON RTE**: path `/[your-app-name].js` (localhost: `https://localhost:1268/[your-app-name].js`). For production, use your hosted RTE script path (e.g. `/dist/[your-app-name].js`).
+6. Enable **Signed** and **Enabled** where needed; add descriptions if desired.
+7. Click **Install App** and select the stack.
 
-Command to run the build script is
+> **Note:** Paths in `ui/src/containers/App/index.tsx` must match the paths set in Developer Hub.  
+> For local development, JSON RTE uses a different port (1268). You can temporarily set App URL to `https://localhost:1268` and use path `/[your-app-name].js` for RTE; in that case Config and Custom Field locations will not be available from that URL.
 
-````
+## 🛠️ Development
 
-bash build.sh <UI_URL>
+### Adding New Features
+
+1. Create a feature branch from `main`
+2. Implement changes
+3. Add or update tests
+4. Update documentation
+5. Submit a pull request
+
+### Code Style
+
+- **ESLint** for linting (Airbnb + Prettier)
+- **Prettier** for formatting
+- **Husky** for git hooks; **precommit** runs prettify and lint:fix in `ui/`
+
+### Commit Convention
+
+This project follows [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
-
-This command takes one argument, which is the UI URL of the app. We are taking this argument to rename the app URL as per the environment in the .env files of ui and ui/rte.
-
-After the execution of the build script, the build folder will get created inside the ui folder. Inside that build folder, there will be a dist folder which has the webpack output files for RTE location. Other folders and files from the build folder will be for Configuration and Custom Field locations.
-
-If you don’t want to use build script, then use below command
-
-- To create build for ui, navigate to ui
-- To create build for ui, navigate to ui
-
+feat: add Brandfolder asset filters
+fix: resolve custom field save issue
+docs: update README with env vars
+test: add ConfigScreen tests
+refactor: simplify CustomFieldProvider
 ```
 
-cd <APP_DIRECTORY>/ui
-npm run build
+## 📦 Deployment
 
+### Contentstack Marketplace
+
+1. Run `bash build.sh` (or build `ui/` and `ui/rte/` as above).
+2. Upload the built assets (e.g. from `to-deploy/ui.zip` or `ui/build/`) to your static host (e.g. AWS S3).
+3. Set the app URL and paths in Developer Hub to your deployed URLs.
+4. Install the app in your stack.
+
+### Local Development
+
+1. `npm install` (root and `ui/`, `ui/rte/` as needed).
+2. Configure `.env` in `ui/` and `ui/rte/`.
+3. Run `npm start` in `ui/` for the main app; run `npm start` in `ui/rte/` for the RTE.
+
+## 🤝 Contributing
+
+We welcome contributions.
+
+### How to Contribute
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Setup
+
+```bash
+npm install
+cd ui && npm install
+cd ui/rte && npm install
+# Set .env in ui/ and ui/rte/
+cd ../.. && cd ui && npm start
 ```
 
-- To create build for rte, navigate to rte
-- To create build for rte, navigate to rte
+## 📄 License
 
-```
+This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for details.
 
-cd <APP_DIRECTORY>/ui/rte
-npm run build
+## 🙏 Acknowledgments
 
-```
-
-You need to upload all the files from the build folder on AWS S3 or any static file hosting service of your preference.
-
-## Steps for Developing Marketplace Brandfolder App
-
-Refer to the [`TEMPLATE.md`](./TEMPLATE.md) file located at `<APP_DIRECTORY>/TEMPLATE.md`, for more details.
-
-## Reference to DAM boilerplate documentation
-
-We have used below boilerplate for developing this DAM app.
-
+- [Contentstack](https://www.contentstack.com/) for the marketplace platform
 - [Marketplace DAM App Boilerplate](https://www.contentstack.com/docs/developers/developer-hub/marketplace-dam-app-boilerplate)
-```
+- [Vite](https://vitejs.dev/) for the build tool
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/contentstack/marketplace-brandfolder-app/issues)
+- **Documentation**: [Contentstack Developer Hub](https://www.contentstack.com/docs/developers)
+- **Community**: [Contentstack Community](https://community.contentstack.com/)
+
+---
+
+Made with ❤️ by the Contentstack team

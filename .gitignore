@@ -34,3 +34,10 @@ ui/.env
 ui/.npmrc
 coverage/
 .talismanrc
+
+# Playwright E2E
+storageState.json
+data.json
+tests/e2e/.state.json
+playwright-report/
+test-results/

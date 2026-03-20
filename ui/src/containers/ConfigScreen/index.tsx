@@ -43,10 +43,9 @@ import {
 import "./styles.scss";
 
 const ConfigScreen: React.FC = function () {
-  const { env } = import.meta;
   // default limit for Multi-Config
   const MAX_MULTI_CONFIG_LIMIT = parseInt(
-    env.VITE_MULTI_CONFIG_LIMIT ?? "10",
+    import.meta.env.VITE_MULTI_CONFIG_LIMIT ?? "10",
     10
   );
   // failed state received from MarketplaceAppContext
