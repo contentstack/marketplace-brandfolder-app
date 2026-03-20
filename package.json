@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Contentstack Marketplace Brandfolder App",
   "scripts": {
+    "build": "cd ui && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "show-report": "npx playwright show-report",
     "test:chrome": "npx playwright test --config=playwright.config.ts --project=Chromium",
