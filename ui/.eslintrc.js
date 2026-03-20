@@ -47,5 +47,7 @@ module.exports = {
     "babel.config.js",
     "jest.*.js",
     "vite.config.ts",
+    "coverage/*",
+    "build/*",
   ],
 };
