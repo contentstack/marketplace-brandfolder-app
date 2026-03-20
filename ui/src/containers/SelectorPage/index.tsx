@@ -96,7 +96,7 @@ const SelectorPage: React.FC = function () {
   };
 
   const handleMessage = (event: MessageEvent) => {
-    const allowedOrigin = [process.env.REACT_APP_CUSTOM_FIELD_URL, url];
+    const allowedOrigin = [import.meta.env.VITE_CUSTOM_FIELD_URL, url];
     if (!allowedOrigin?.includes(event?.origin)) return;
     const { data } = event;
     if (data?.config) {
@@ -118,9 +118,9 @@ const SelectorPage: React.FC = function () {
         ?.split("?")?.[1]
         ?.split("&")?.[0]
         ?.split("=")?.[1];
-      let postMessageUrl: string = process.env.REACT_APP_CUSTOM_FIELD_URL ?? "";
+      let postMessageUrl: string = import.meta.env.VITE_CUSTOM_FIELD_URL ?? "";
       const regionMapping = JSON.parse(
-        process.env.REACT_APP_REGION_MAPPING ?? ""
+        import.meta.env.VITE_REGION_MAPPING ?? ""
       );
       const appRegion = Object.keys(regionMapping)?.find(
         (region) => queryString === region

@@ -1,24 +1,30 @@
+/* Used by Jest (babel-jest). Vite does not use this file. */
 module.exports = {
   presets: [
-    [
-      "@babel/preset-env",
-      {
-        targets: {
-          node: "current",
-        },
-      },
-      "@babel/preset-react",
-    ],
+    ["@babel/preset-env", { targets: { node: "current" } }],
+    "@babel/preset-typescript",
   ],
   plugins: [
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        regenerator: true,
-      },
-    ],
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-export-default-from",
-    ["@babel/plugin-transform-react-jsx", { pragma: "h" }],
+    ["@babel/plugin-transform-react-jsx", { runtime: "automatic" }],
+    function importMetaShim() {
+      const t = require("@babel/types");
+      return {
+        visitor: {
+          MetaProperty(path) {
+            if (
+              path.node.meta.name === "import" &&
+              path.node.property.name === "meta"
+            ) {
+              path.replaceWith(
+                t.memberExpression(
+                  t.identifier("globalThis"),
+                  t.identifier("__importMetaShim")
+                )
+              );
+            }
+          },
+        },
+      };
+    },
   ],
 };
