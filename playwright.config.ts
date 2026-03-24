@@ -1,6 +1,7 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 import dotenv from "dotenv";
+import { STORAGE_STATE_FILE } from "./tests/e2e/utils/paths";
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
   reporter: [["html", { open: "never" }]],
   use: {
-    storageState: "storageState.json",
+    storageState: STORAGE_STATE_FILE,
     actionTimeout: 0,
     screenshot: "off",
     video: "off",
