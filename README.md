@@ -15,7 +15,7 @@ A Contentstack marketplace app that integrates Brandfolder DAM with Contentstack
 - **Selector Page**: Full-page asset picker for choosing Brandfolder assets
 - **JSON RTE**: Rich text editor extension for inserting Brandfolder assets
 - **TypeScript**: Fully typed for better development experience
-- **Testing**: Unit tests with Jest
+- **Testing**: Comprehensive test suite with Playwright for E2E testing
 - **Modern UI**: Clean interface using Contentstack's Venus components and Brandfolder Panel SDK
 
 ## 📋 Prerequisites
@@ -45,7 +45,24 @@ cd ..
 
 ### Environment Variables
 
-Rename `.env.example` to `.env` in both `ui/` and `ui/rte/`, then set:
+Copy or rename each `.env.example` to `.env` in the **repo root** (Playwright e2e), **`ui/`**, and **`ui/rte/`**. Do not commit real secrets.
+
+**Root** (`.env` at repo root) — Playwright e2e and local tooling. Mirror [`.env.example`](.env.example) in full; summary:
+
+| Group | Variables | Notes |
+|-------|-----------|--------|
+| Contentstack auth | `CONTENTSTACK_LOGIN`, `CONTENTSTACK_PASSWORD` | Required for e2e global setup |
+| MFA (if enabled) | `CONTENTSTACK_TFA_TOKEN` and/or `CONTENTSTACK_MFA_SECRET` | Use a TOTP secret for stable automation, or a short-lived 6-digit token |
+| Org / APIs | `CONTENTSTACK_ORGANIZATION_UID`, `BASE_API_URL`, `DEVELOPER_HUB_API` | API hosts only (no path or `#!`); use your region’s hosts per Contentstack docs |
+| App URLs | `APP_HOST_URL`, `APP_BASE_URL` | Example defaults: `http://localhost:4000` and `http://localhost:4000/#` |
+| CMS web app | `CONTENTSTACK_REGION`, `ENV_URL` | e.g. `NA` + `https://app.contentstack.com`; EU: set region or `ENV_URL=https://eu-app.contentstack.com` |
+| QA marketplace flow | `ORGNAME`, `STACKNAME`, `BRANDFOLDER` | Org display name and stack/app names (see `tests/e2e/test-spec/brandfolder-flow.spec.ts`) |
+| Stack under test | `STACK_API_KEY`, `STACK_NAME` | `STACK_NAME` = display name in Marketplace → Installed Apps (needed for QA-style config + asset e2e) |
+| Optional | `BASIC_AUTH_USERNAME`, `BASIC_AUTH_PASSWORD` | HTTP basic auth in front of CMS |
+| Optional | `BRANDFOLDER_API_KEY1`, `BRANDFOLDER_API_KEY2`, `BRANDFOLDER_API_KEY3` | DAM keys (QA parity with legacy automation) |
+| Optional | `BRANDFOLDER_APP_NAME` | Extension lookup when resolving field UID |
+| Optional | `INSTALL_VIA_MARKETPLACE`, `USE_GLOBAL_TEARDOWN` | See commented notes in `.env.example` |
+| Tooling | `SKIP_PREFLIGHT_CHECK` | e.g. `true` (as in `.env.example`) |
 
 **UI** (`ui/.env`):
 
@@ -85,20 +102,9 @@ npm run prettify
 
 ### E2E Testing (Playwright)
 
-E2E tests run at the repository root and require the main app to be available at `APP_HOST_URL` (e.g. `http://localhost:4000` after `cd ui && npm start`).
+E2E tests run at the repository root. Configure **Root** `.env` (from [`.env.example`](.env.example)) so login, org/API hosts, and app URLs match your stack and region. Start the UI so it is reachable at `APP_HOST_URL` (default `http://localhost:4000` after `cd ui && npm start`).
 
-**Required environment variables** (set in `.env` at root or export before running):
-
-- `CONTENTSTACK_LOGIN` – Contentstack user email
-- `CONTENTSTACK_PASSWORD` – Contentstack password
-- **If MFA is enabled:** `CONTENTSTACK_MFA_SECRET` (base32 TOTP secret, best for automation) **or** `CONTENTSTACK_TFA_TOKEN` (single 6-digit code from your authenticator; expires quickly)
-- `BASE_API_URL` – Contentstack API host (e.g. `https://api.contentstack.io`)
-- `DEVELOPER_HUB_API` – Developer Hub API host (e.g. `https://api.contentstack.io`)
-- `CONTENTSTACK_ORGANIZATION_UID` – Organization UID
-- `APP_HOST_URL` – URL where the app is served (e.g. `http://localhost:4000`)
-- `STACK_API_KEY` – Stack API key for install and content type/entry creation
-
-**Optional:** `APP_BASE_URL`, `ENV_URL` (Contentstack app URL for entry edit), `BASIC_AUTH_USERNAME` / `BASIC_AUTH_PASSWORD`, `BRANDFOLDER_APP_NAME` (extension name for lookup), `INSTALL_VIA_MARKETPLACE`, `STACK_NAME`, `USE_GLOBAL_TEARDOWN`.
+For QA-style flows and asset tests, set `ORGNAME`, `STACKNAME`, `BRANDFOLDER`, `STACK_NAME`, and `STACK_API_KEY` as documented in the table above. Optional flags (`INSTALL_VIA_MARKETPLACE`, `USE_GLOBAL_TEARDOWN`, Brandfolder API keys, basic auth) are described in `.env.example`.
 
 **Run E2E:**
 
