@@ -77,6 +77,8 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|less|scss)$": "<rootDir>/jest.CSStub.js",
     "\\.(svg)$": "<rootDir>/jest.CSStub.js",
+    // Jest+jsdom resolves uuid to ESM browser build via "exports"; venus-components needs CJS.
+    "^uuid$": "<rootDir>/node_modules/uuid/dist/index.js",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -167,15 +169,11 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: [
-    // `/node_modules/(?!${esModules})`,
-    "node_modules",
-    "\\.pnp\\.[^\\/]+$",
-  ],
+  transformIgnorePatterns: ["/node_modules/", "\\.pnp\\.[^\\/]+$"],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
