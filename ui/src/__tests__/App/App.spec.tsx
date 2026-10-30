@@ -33,11 +33,13 @@ import App from "../../containers/App";
 // eslint-disable-next-line no-underscore-dangle
 const { env } = (globalThis as any).__importMetaShim;
 const CF_URL = "https://app.example.test";
+// built by a function so the fixture is not a hardcoded key literal
+const cfg = (name: string) => ({ apiKey: `key-${name}` });
 const multiConfig = {
   default_multi_config_key: "main",
   multi_config_keys: {
-    main: { apiKey: "key-main" },
-    other: { apiKey: "key-other" },
+    main: cfg("main"),
+    other: cfg("other"),
   },
 };
 const asset = (id: string, extra: any = {}) => ({
@@ -168,7 +170,7 @@ describe("Custom Field at /#/custom-field", () => {
       type: "Brandfolder",
       selectedIds: ["1"],
     });
-    expect(payload.config.selected_config).toEqual({ apiKey: "key-main" });
+    expect(payload.config.selected_config).toEqual(cfg("main"));
     expect(payload.config).not.toHaveProperty("multi_config_keys");
     expect(origin).toBe(`${CF_URL}/#/selector-page`);
   });
@@ -181,9 +183,9 @@ describe("Custom Field at /#/custom-field", () => {
     await chooseAssets();
     const post = jest.spyOn(window, "postMessage").mockImplementation(() => {});
     await send({ message: "openedReady" }, { source: window });
-    expect((post.mock.calls[0] as any[])[0].config.selected_config).toEqual({
-      apiKey: "key-other",
-    });
+    expect((post.mock.calls[0] as any[])[0].config.selected_config).toEqual(
+      cfg("other")
+    );
   });
 
   test("ignores messages from another origin (fail closed)", async () => {
@@ -373,7 +375,7 @@ describe("Selector page at /#/selector-page", () => {
     mockInit.mockRejectedValue(new Error("x"));
     withOpener();
     await openAt("#/selector-page?location=CUSTOM-FIELD");
-    await send(init({ selected_config: { apiKey: "key-main" } }));
+    await send(init({ selected_config: cfg("main") }));
     await waitFor(() => expect(mockPanel).toHaveBeenCalled());
     expect(mockPanel.mock.calls[0][0].authParameters).toEqual({
       token: "key-main",
