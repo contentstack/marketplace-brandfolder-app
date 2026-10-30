@@ -1,5 +1,6 @@
 import { Notification } from "@contentstack/venus-components";
 import ConfigScreenUtils from "../../common/utils/ConfigScreenUtils";
+import utils from "../../common/utils";
 import { Configurations } from "../../common/types";
 
 jest.mock("@contentstack/venus-components", () => ({
@@ -125,14 +126,12 @@ describe("mergeObjects", () => {
 });
 
 describe("toastMessage", () => {
-  it("should call Notification with correct params", () => {
+  it("should call Notification with the content, type and modal toast props", () => {
     const type = "success";
-    const text = "Test message";
-    ConfigScreenUtils.toastMessage({ type, text });
+    const content = { text: "Test message" };
+    utils.toastMessage({ type, content });
     expect(Notification).toHaveBeenCalledWith({
-      notificationContent: {
-        text,
-      },
+      notificationContent: content,
       notifyProps: {
         className: "modal_toast_message",
         hideProgressBar: true,
@@ -168,39 +167,28 @@ describe("getOptions", () => {
 });
 
 describe("configRootUtils", () => {
-  it("should return custom config from rootConfig", () => {
-    const expected = {
-      customJsonConfigObj: {
-        dam_keys: [
-          {
-            isDisabled: false,
-            label: "option 1",
-            value: "option 1",
-          },
-        ],
-        is_custom_json: false,
-      },
-      defaultFeilds: [
-        {
-          isDisabled: false,
-          label: "option 1",
-          value: "option 1",
-        },
-      ],
-      jsonOptions: [
-        {
-          isDisabled: true,
-          label: "option 1",
-          value: "option 1",
-        },
-        {
-          isDisabled: false,
-          label: "option 2",
-          value: "option 2",
-        },
-      ],
-    };
-    expect(ConfigScreenUtils.configRootUtils()).toEqual(expected);
+  it("turns the key lists into options; default keys start selected and cannot be unselected", () => {
+    const result = ConfigScreenUtils.configRootUtils({
+      customJsonOptions: ["a", "b"],
+      rootConfigDefaultOptions: ["a"],
+    });
+    expect(result.jsonOptions).toEqual([
+      { label: "a", value: "a", isDisabled: true },
+      { label: "b", value: "b", isDisabled: false },
+    ]);
+    expect(result.customJsonConfigObj).toEqual({
+      is_custom_json: false,
+      dam_keys: [{ label: "a", value: "a", isDisabled: true }],
+    });
+  });
+
+  it("returns no options when there are no default keys", () => {
+    const result = ConfigScreenUtils.configRootUtils({
+      customJsonOptions: ["a"],
+      rootConfigDefaultOptions: [],
+    });
+    expect(result.jsonOptions).toEqual([]);
+    expect(result.customJsonConfigObj).toEqual({});
   });
 });
 
@@ -231,19 +219,19 @@ describe("getSaveConfigOptions", () => {
       },
     };
     const expected = {
-      saveInConfig: {
-        field1: {
-          saveInConfig: true,
-        },
-      },
-      saveInServerConfig: {
-        field2: {
-          saveInServerConfig: true,
-        },
-      },
+      saveInConfig: { field1: configInputFields.field1 },
+      saveInServerConfig: { field2: configInputFields.field2 },
+      isLegacy: true,
     };
     const result = ConfigScreenUtils.getSaveConfigOptions(configInputFields);
     expect(result).toEqual(expected);
+  });
+
+  it("is not legacy when a field is a multi-config field", () => {
+    const result = ConfigScreenUtils.getSaveConfigOptions({
+      apiKey: { ...ConfigScreenObj.configField1, isMultiConfig: true },
+    });
+    expect(result.isLegacy).toBe(false);
   });
 });
 

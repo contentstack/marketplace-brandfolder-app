@@ -10,7 +10,6 @@ import {
   InstructionText,
   ToggleSwitch,
 } from "@contentstack/venus-components";
-import CustomComponent from "../CustomComponent";
 import WarningMessage from "../../components/WarningMessage";
 import {
   TypeErrorFn,
