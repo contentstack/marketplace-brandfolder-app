@@ -30,7 +30,8 @@ jest.mock("@brandfolder-panel/sdk", () => ({
 // eslint-disable-next-line import/first
 import App from "../../containers/App";
 
-const env = (globalThis as any).__importMetaShim.env;
+// eslint-disable-next-line no-underscore-dangle
+const { env } = (globalThis as any).__importMetaShim;
 const CF_URL = "https://app.example.test";
 const multiConfig = {
   default_multi_config_key: "main",
