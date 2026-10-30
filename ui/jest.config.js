@@ -79,6 +79,7 @@ module.exports = {
     "\\.(svg)$": "<rootDir>/jest.CSStub.js",
     // Jest+jsdom resolves uuid to ESM browser build via "exports"; venus-components needs CJS.
     "^uuid$": "<rootDir>/node_modules/uuid/dist/index.js",
+    "^@brandfolder-panel/sdk$": "<rootDir>/jest.panelStub.js",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

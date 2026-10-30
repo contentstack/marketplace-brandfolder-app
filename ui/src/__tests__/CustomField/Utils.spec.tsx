@@ -84,29 +84,31 @@ describe("uniqBy", () => {
     expect(result).toEqual(input);
   });
 
-  it("should remove duplicates based on the specified property", () => {
+  it("should keep one item per key, the latest pick", () => {
     const input = [
       { id: 1, name: "John" },
       { id: 2, name: "Jane" },
       { id: 1, name: "James" },
     ];
+    // a re-picked asset replaces the earlier copy and keeps the later position
     const expected = [
-      { id: 1, name: "John" },
       { id: 2, name: "Jane" },
+      { id: 1, name: "James" },
     ];
     const result = CustomFieldUtils.uniqBy(input, "id");
     expect(result).toEqual(expected);
   });
 
-  it("should handle cases where iteratee is a custom function", () => {
+  it("should keep the latest per key with a custom iteratee", () => {
     const input = [
       { id: 1, name: "John" },
       { id: 2, name: "Jane" },
       { id: 1, name: "James" },
     ];
+    // a re-picked asset replaces the earlier copy and keeps the later position
     const expected = [
-      { id: 1, name: "John" },
       { id: 2, name: "Jane" },
+      { id: 1, name: "James" },
     ];
     const customIteratee = (item: any) => item.id;
     const result = CustomFieldUtils.uniqBy(input, customIteratee);
