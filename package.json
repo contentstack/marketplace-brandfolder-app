@@ -39,7 +39,7 @@
     }
   },
   "validate-branch-name": {
-		"pattern": "^(feature|bugfix|hotfix)/ESI-[0-9]+-[a-z0-9-]{5,30}$",
+		"pattern": "^((feature|bugfix|hotfix)/(ESI|DX|MKT)-[0-9]+-[a-z0-9-]{5,40}|fix/snyk-[a-z0-9-]+)$",
 		"errorMsg": "Please add valid branch name!"
 	}
 }
