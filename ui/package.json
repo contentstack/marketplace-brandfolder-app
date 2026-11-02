@@ -60,5 +60,10 @@
     "ts-jest": "^29.1.1",
     "vite": "^6.2.1",
     "vite-plugin-svgr": "^4.3.0"
+  },
+  "overrides": {
+    "react-mentions": {
+      "@babel/runtime": "7.26.10"
+    }
   }
 }
