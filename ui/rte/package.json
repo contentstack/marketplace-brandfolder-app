@@ -58,5 +58,10 @@
     "boilerplate"
   ],
   "author": "Contentstack",
-  "license": "MIT"
+  "license": "MIT",
+  "overrides": {
+    "react-mentions": {
+      "@babel/runtime": "7.26.10"
+    }
+  }
 }
