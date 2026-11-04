@@ -26,6 +26,7 @@
     "start": "vite",
     "winStart": "vite",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "preview": "vite preview",
     "prettify": "prettier --write .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx . --ignore-pattern './node_modules/' --ignore-pattern './build/' --ignore-pattern './example/' --ignore-pattern './coverage/'",
