@@ -15,15 +15,29 @@ A Contentstack marketplace app that integrates Brandfolder DAM with Contentstack
 - **Selector Page**: Full-page asset picker for choosing Brandfolder assets
 - **JSON RTE**: Rich text editor extension for inserting Brandfolder assets
 - **TypeScript**: Fully typed for better development experience
-- **Testing**: Comprehensive test suite with Playwright for E2E testing
+- **Testing**: Jest unit tests in `ui/` and a Playwright e2e suite at the root (e2e needs real Contentstack and Brandfolder accounts; neither suite runs in CI today)
 - **Modern UI**: Clean interface using Contentstack's Venus components and Brandfolder Panel SDK
 
 ## 📋 Prerequisites
 
-- Node.js (v20 or higher)
+- Node.js (v20 or higher was stated earlier; the repo does not pin a version: no `.nvmrc`, no `engines`)
 - npm
 - [Contentstack Account](https://app.contentstack.com/#!/login)
 - Brandfolder account (for DAM integration)
+
+Epic: [MKT-19971](https://contentstack.atlassian.net/browse/MKT-19971). Production host: `brandfolder.contentstackmarket.com`. Tier 1 (UI only): the browser calls Brandfolder directly, there is no `api/` folder.
+
+## 🧰 Scripts
+
+| Where | Script | Command |
+|-------|--------|---------|
+| root | `npm run build` | `cd ui && npm install && npm run build` |
+| root | `npm run test:chrome`, `test:firefox`, `test:safari` (and `-headed`), `show-report` | Playwright e2e |
+| root | `npm test` | placeholder (`echo "Error: no test specified"`) |
+| `ui/` | `npm start` | `vite` (port 4000) |
+| `ui/` | `npm test` | `jest` |
+| `ui/` | `npm run build` | `npm run precommit && vite build` (runs prettier and eslint fix first) |
+| `ui/rte/` | `npm start`, `npm run build` | webpack dev server (port 1268), webpack production build into `ui/build/dist` |
 
 ## 🚀 Quick Start
 
